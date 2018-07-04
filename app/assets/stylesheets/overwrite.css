@@ -960,9 +960,22 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
     }
 
+    .notes-section {
+        padding: 2%;
+    }
+
+    .contact-list {
+        padding: 3%;
+    }
+
     .btn-spec {
         background-color: #e21717;
         color: white;
+    }
+
+    .admin-options {
+        margin: 0;
+        padding: 0;
     }
 
     .modal-body textarea {
