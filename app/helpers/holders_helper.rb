@@ -2,12 +2,12 @@ module HoldersHelper
 	def send_to_holder(holder,text)
     account_sid = ENV['TWILIO_ACCOUNT_SID']
     auth_token = ENV['TWILIO_AUTH_TOKEN']
-    number = holder.user.phone
-    raise "No Phone number provided for user #{holder.user.name}" if number.nil?
+    num = holder.user.phone
+    raise "No Phone number provided for user #{holder.user.name}" if num.nil?
 
-    number =  number.gsub(/-/, '').gsub(/\)/, '').gsub(/\(/, '').gsub(/ /, '')
+    number = num.gsub(/[^0-9,.]/, "")
 
-    if number.length > 11
+    if number.length < 11
       number = "1" + number 
     end
 
