@@ -26,6 +26,7 @@
 
 <div class="create-form create-invite-form">  
   <h3>Invite by Email</h3>
+  <p>(To invite multiple emails, seperate each e-mail by a comma(','))</p>
   <form id="create-new-invite" action='<%= create_invite_admins_path %>' method='POST'>
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="form-group">

@@ -22,7 +22,7 @@ export default class LineDay extends React.Component {
 				</a>
           { this.props.is_admin ? 
             <div>
-              <div className="admin_box_line_day">
+              <div className="admin_box_line_day" style={{'display':'none'}}>
                 <div className="btn btn-warning btn-lg">edit</div>
                 <div className="btn btn-danger btn-lg">delete</div>
               </div>

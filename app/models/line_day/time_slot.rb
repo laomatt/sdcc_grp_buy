@@ -15,6 +15,10 @@ class LineDay::TimeSlot < ApplicationRecord
 			end
 		end
 
+		def total_people_signed_up
+			line_day
+		end
+
 		def present_people(current_user_id)
 			people = []
 			@has_current = false

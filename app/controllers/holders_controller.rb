@@ -72,7 +72,7 @@ class HoldersController < ApplicationController
         format.html { redirect_to :back, notice: 'You were successfully assigned.' }
         format.json { render :show, status: :created, location: @holder }
       else
-        format.html { redirect_to :back, notice: 'Could not assign you to this group again.' }
+        format.html { redirect_to :back, notice: @holder.errors.full_messages.join('. ') }
       end
     end
   end

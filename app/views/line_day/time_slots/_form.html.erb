@@ -23,13 +23,13 @@
 
   <div class="field form-group">
     <%= f.label :time, :value => 'Start' %>
-    <%= f.time_select :time, :class => "form-control", :default => '5:00'.to_time %>
+    <%= f.time_select :time, {:ampm => true, minute_step: 15, :prompt => true},{ :class => "form-control"} %>
   </div>
 
   
   <div class="field form-group">
-    <%= f.label :time, :value => 'End' %>
-    <%= f.time_select :end_time, :class => "form-control", include_blank: true, :default => '' %>
+    <%= f.label :end_time, :value => 'End' %>
+    <%= f.time_select :end_time, {:ampm => true,minute_step: 15, :prompt => true},{ :class => "form-control"} %>
   </div>
 
 

@@ -467,13 +467,21 @@ class AdminsController < ApplicationController
 
 	# Invites
 	def create_invite
-		invite = Invite.new(invite_params)
-		invite.user_id = current_user.id
-		if invite.save
-			flash[:update] = 'invite created'
-		else
-			flash[:error] = invite.errors.full_messages.join(',')
+		messages = []
+		errors = []
+		invite_params[:email].split(',').each do |email|
+			invite = Invite.new({:email => email})
+			invite.user_id = current_user.id
+			if invite.save
+				messages << "#{email} invited to app. "
+			else
+				errors << invite.errors.full_messages.join(',')
+			end
 		end
+
+		flash[:update] = messages.join('<br>')
+		flash[:errors] = errors.join('<br>')
+
 
 		redirect_to :back
 	end

@@ -1,10 +1,14 @@
 <% invites.each do |list_item| %>
 	<div class="code_container row <%= list_item.accepted ? 'admin_item' : '' %>" id='invite_parent_<%= list_item.id %>'>
-		<div class="list_item col-lg-2" id='validation_code_<%= list_item.id %>'>
-			<%= list_item.email %>
+		<div class="list_item col-lg-7" id='validation_code_<%= list_item.id %>'>
+			
+			<b>
+				<%= list_item.email %> 
+			</b> 
+			invited by <%= list_item.user.try(:name) %>
 		</div>
 
-		<div class="code col-lg-8" id='validation_code_<%= list_item.id %>'>
+		<div class="code col-lg-3" id='validation_code_<%= list_item.id %>'>
 			<%= list_item.accepted? ? 'accepted' : 'pending' %>
 		</div>
 
