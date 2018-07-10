@@ -30,3 +30,11 @@ bundle exec rails webpacker:install:react
 rails g react:component TimeSlot
 rails g react:component PersonContact
 ```
+
+
+If the rails generator hangs run:
+
+```
+spring stop	
+
+```

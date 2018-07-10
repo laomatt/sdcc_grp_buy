@@ -18,6 +18,7 @@ config.webpacker.check_yarn_integrity = true
   # Show full error reports.
   config.consider_all_requests_local = true
   config.action_mailer.perform_deliveries = true
+  config.autoload_paths += %W(#{config.root}/controllers)
   # Enable/disable caching. By default caching is disabled.
   if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true

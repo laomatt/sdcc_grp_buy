@@ -5,6 +5,7 @@ class MembersController < ApplicationController
 	before_action :user_owns, :only => [:edit, :update]
 
 	include SecurityHelper
+	include BroadcastsHelper
 	
 	def index
 		if params[:page]

@@ -43,7 +43,7 @@ export default class TimeSlot extends React.Component {
 				     {time.time}:  
 					</b>
 					<span className="ppl_list">
-					   __({time.people})__{time.count}/5
+					   __({time.people})__{time.count}/<span className="user_slot_limit">{time.total_limit}</span>
 					</span>
 				</a>
 
@@ -98,9 +98,9 @@ export default class TimeSlot extends React.Component {
 					</div>
 
 					<div>
-					<a href="#" data-id={time.id} end-pt={"/line_day/time_slots/" + time.id} data-toggle="modal" data-target="#timeSlotEdit" className='modal-pop edit-slot btn-wide centered btn btn-lg btn-warning' style={{'background-color': 'transparent' }}>Edit Description</a>
+					<a href="#" data-id={time.id} end-pt={"/line_day/time_slots/" + time.id} data-toggle="modal" data-target="#timeSlotEdit" className='modal-pop edit-slot btn-wide centered btn btn-lg btn-warning' style={{'backgroundColor': 'transparent' }}>Edit Description</a>
 					{ this.props.is_admin ? 
-							<a href={"/line_day/time_slots/" + time.id} style={{'background-color': 'red' }} data-id={time.id} className='modal-pop btn-wide delete-slot centered btn btn-lg btn-danger'>Delete</a>
+							<a href={"/line_day/time_slots/" + time.id} style={{'backgroundColor': 'red' }} data-id={time.id} className='modal-pop btn-wide delete-slot centered btn btn-lg btn-danger'>Delete</a>
 						:
 						<div></div>
 					}

@@ -8,4 +8,5 @@
 class LineDay < ApplicationRecord
 	has_many :users, through: :line_day_time_slots
 	has_many :time_slots
+
 end

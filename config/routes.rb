@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :broadcasts
+
   namespace :line_day do
     resources :time_slots do
       collection do 

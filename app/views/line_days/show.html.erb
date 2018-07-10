@@ -21,6 +21,7 @@
 			day: @line_day.id, 
 			time_slots: time_slots_infos,
 			is_admin: current_user.is_admin?,
+			limit: @line_day.user_limit,
 			user_id: current_user.id
 		}) %>
 </div>
@@ -29,11 +30,43 @@
 	<div class="container">
 		<%= render :partial => 'line_day/time_slots/form' %>
 	</div>
+
+	<div class="container">
+		<div class="form-group">
+			<label for="user_limit">Group Limit</label>
+			<input type="integer" value='<%= @line_day.user_limit %>' id='user_limit_spec' name='user_limit' class='form-control'>
+		</div>
+
+		<div class="form-group">
+			<a id='update-user-limit' class='btn btn-primary btn-md'>Update Limit </a>
+		</div>
+
+		<div class='error'></div>
+		<div class='success'></div>
+	</div>
 <% end %>
 
 
 <script>
+$('body').on('click', "#update-user-limit", function(event) {
+	event.preventDefault();
+	var that = this;
+	$.ajax({
+		url: '/line_days/<%= @line_day.id%>',
+		type: 'PUT',
+		data: {'line_day': {user_limit: $('#user_limit_spec').val()}}
+	})
+	.done(function(data) {
+		if (data.status == 200) {
+			$('.success').text(data.message);
+			$('.user_slot_limit').text(data.limit)
+		} else {
+			$('.error').text(data.message);
 
+		}
+	})
+	
+});
 
 // pop up modal
 $('body').on('click', '.broadcast-message', function(event) {

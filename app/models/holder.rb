@@ -11,7 +11,7 @@ class Holder < ApplicationRecord
   def should_only_have_a_few
   	# should only be able to add to max number of people
   	slot = LineDay::TimeSlot.find(line_day_time_slot_id)
-  	if slot.holders.length >= 5
+  	if slot.holders.length >= slot.line_day.user_limit
       errors.add(:user,'This shift is full, please sign up for another one.')
     end
 

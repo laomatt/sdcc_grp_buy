@@ -45,15 +45,11 @@ class LineDaysController < ApplicationController
   # PATCH/PUT /line_days/1
   # PATCH/PUT /line_days/1.json
   def update
-    respond_to do |format|
       if @line_day.update(line_day_params)
-        format.html { redirect_to @line_day, notice: 'Line day was successfully updated.' }
-        format.json { render :show, status: :ok, location: @line_day }
+        render :json => {:status => 200, :message => 'updated', :limit => @line_day.user_limit}
       else
-        format.html { render :edit }
-        format.json { render json: @line_day.errors, status: :unprocessable_entity }
+        render :json => {:status => 400, :message => 'not updated'}
       end
-    end
   end
 
   # DELETE /line_days/1
@@ -74,6 +70,6 @@ class LineDaysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def line_day_params
-      params.require(:line_day).permit(:day, :description)
+      params.require(:line_day).permit(:day, :description, :user_limit)
     end
 end
