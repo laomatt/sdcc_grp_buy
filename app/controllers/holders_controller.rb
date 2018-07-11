@@ -25,7 +25,13 @@ class HoldersController < ApplicationController
   def send_text
     contact_id = contact_holder_params[:contact_id]
     slot_id = contact_holder_params[:slot_id]
-    holder = Holder.where({:user_id => contact_id, :line_day_time_slot_id => slot_id}).first
+
+    if contact_holder_params[:contact_type] == 'total_list'
+      holder = Holder.where({:user_id => contact_id}).first
+    else
+      holder = Holder.where({:user_id => contact_id, :line_day_time_slot_id => slot_id}).first
+    end
+
     text = "MESSAGE FROM LINE WAIT GROUP:  " + contact_holder_params[:body]
     begin
       send_to_holder(holder,text)
@@ -112,7 +118,7 @@ class HoldersController < ApplicationController
     end
 
     def contact_holder_params
-      params.require(:holder_contact).permit(:contact_id,:body,:slot_id)
+      params.require(:holder_contact).permit(:contact_id,:body,:slot_id,:contact_type)
     end
 
 end

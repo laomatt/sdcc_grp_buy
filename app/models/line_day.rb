@@ -6,7 +6,11 @@
 
 
 class LineDay < ApplicationRecord
-	has_many :users, through: :line_day_time_slots
+	has_many :users, through: :time_slots
+	has_many :holders, through: :time_slots
 	has_many :time_slots
 
+	def holders
+		time_slots.map(&:holders).flatten
+	end
 end

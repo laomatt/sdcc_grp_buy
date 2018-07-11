@@ -23,10 +23,20 @@ class LineDay::TimeSlotsController < ApplicationController
     account_sid = ENV['TWILIO_ACCOUNT_SID']
     auth_token = ENV['TWILIO_AUTH_TOKEN']
 
-    @slot = LineDay::TimeSlot.find(contact_holder_params[:contact_id])
-    text = "MESSAGE FROM LINE WAIT GROUP (#{@slot.day}):  " + contact_holder_params[:body]
     messages = []
-    @slot.holders.each do |holder|
+
+    if contact_holder_params[:contact_type] == 'total_list'
+      day = LineDay.find(contact_holder_params[:contact_id])
+      text = "MESSAGE FROM LINE WAIT GROUP (#{day.day}):  " + contact_holder_params[:body]
+      send_list = day.holders
+    else
+      @slot = LineDay::TimeSlot.find(contact_holder_params[:contact_id])
+      text = "MESSAGE FROM LINE WAIT GROUP (#{@slot.day}):  " + contact_holder_params[:body]
+      send_list = @slot.holders
+    end
+
+
+    send_list.each do |holder|
       begin
         send_to_holder(holder,text)
         # messages << "message sent to #{holder.user.name}"
@@ -96,7 +106,7 @@ class LineDay::TimeSlotsController < ApplicationController
     end
 
     def contact_holder_params
-      params.require(:holder_contact).permit(:contact_id,:body,:slot_id)
+      params.require(:holder_contact).permit(:contact_id,:body,:slot_id,:contact_type)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -57,16 +57,16 @@ export default class TimeSlot extends React.Component {
 						<div className="verbose_list">
 							<div>
 								{time.people_hash.map(function(elem, idx) {
-										const timeSlotId = time.id
+										const timeSlotId = time.id;
 										return (
 												<div key={"contact_" + idx}>
-													<PersonContact user_id={elem.id} name={elem.name} slot_id={timeSlotId}/>
+													<PersonContact user_id={elem.id} name={elem.name} slot_id={timeSlotId} type={time.type}/>
 									    	</div>
 											)
 								})}
 							</div>
 
-							<a href="#" className='broadcast-message btn-wide btn btn-lg btn-primary btn-contact-grp' data-slot-id={time.id} data-id={time.id} end-pt='/line_day/time_slots/broadcast_to_slot' data-identifier={"Wait shift: " + time.time} data-toggle="modal" data-target="#timeSlotContactModal">Broadcast a message to this group</a>
+							<a href="#" className='broadcast-message btn-wide btn btn-lg btn-primary btn-contact-grp' data-slot-id={time.id} data-id={time.id} end-pt='/line_day/time_slots/broadcast_to_slot' data-type={this.props.type} data-identifier={"Wait shift: " + time.time} data-toggle="modal" data-target="#timeSlotContactModal">Broadcast a message to this group</a>
 						</div>
 						{time.has_current ? 
 								<form className="new_holder" id="new_holder" action="/holders/erase" acceptCharset="UTF-8"><input name="utf8" type="hidden" value="✓" /><input type="hidden" name="authenticity_token" value={time.authenticity_token} />

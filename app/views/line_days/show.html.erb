@@ -16,15 +16,33 @@
     end
 %>
 
+	<%
+		all_ppl = Set.new
+		@has_current = false
+		@line_day.users.each { |e| 
+			if e.id == current_user.id
+				@has_current = true
+			end
+			all_ppl.add e.attributes.slice("name","id")
+		}
+	%>
+
 <div class="centered">
-	<%= react_component("LineDaySchedule", { 
+	<%= 
+		react_component("LineDaySchedule", { 
 			day: @line_day.id, 
 			time_slots: time_slots_infos,
 			is_admin: current_user.is_admin?,
 			limit: @line_day.user_limit,
-			user_id: current_user.id
-		}) %>
+			all_hash: all_ppl,
+			authenticity_token: form_authenticity_token,
+			user_id: current_user.id,
+			day_id: @line_day.id
+		}) 
+
+	%>
 </div>
+
 
 <% if current_user.is_admin? %>
 	<div class="container">
@@ -73,8 +91,10 @@ $('body').on('click', '.broadcast-message', function(event) {
 	event.preventDefault();
 	$("#modal_contact_id").val($(this).attr('data-id'));
 	$("#time_slot_id").val($(this).attr('data-slot-id'));
+	$("#contact_type").val($(this).attr('data-type'));
 	$("#contact_indentifier").text($(this).attr('data-identifier'));
 	$("#broadcast_to_contact").attr('action', $(this).attr('end-pt'));
+	// $("#type_to_contact").attr('action', $(this).attr('end-pt'));
 	$('.time-slot-modal-body').fadeIn(500, function() {});
 });
 
@@ -144,6 +164,7 @@ $('body').on('click', '.update_notes', function(event) {
       		<input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>' />
       		<input type="hidden" name="holder_contact[contact_id]" id="modal_contact_id">
       		<input type="hidden" name="holder_contact[slot_id]" id="time_slot_id">
+      		<input type="hidden" name="holder_contact[contact_type]" id="contact_type">
 		      <textarea name="holder_contact[body]" cols="50" rows="20"></textarea>
       	</form>
       </div>

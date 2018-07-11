@@ -1,5 +1,6 @@
 class LineDay::TimeSlot < ApplicationRecord
 		has_many :holders, :foreign_key => :line_day_time_slot_id, :dependent => :destroy
+		has_many :users, :through => :holders
 		belongs_to :line_day
 		default_scope { order(:time => :asc) }
 		before_save :cover_end_time
