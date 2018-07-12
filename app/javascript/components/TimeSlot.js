@@ -60,7 +60,7 @@ export default class TimeSlot extends React.Component {
 										const timeSlotId = time.id;
 										return (
 												<div key={"contact_" + idx}>
-													<PersonContact user_id={elem.id} name={elem.name} slot_id={timeSlotId} type={time.type}/>
+													<PersonContact user_id={elem.id} avatar_url={elem.avatar_url} name={elem.name} slot_id={timeSlotId} type={time.type}/>
 									    	</div>
 											)
 								})}

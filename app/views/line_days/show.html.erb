@@ -23,7 +23,7 @@
 			if e.id == current_user.id
 				@has_current = true
 			end
-			all_ppl.add e.attributes.slice("name","id")
+			all_ppl.add e.attributes.slice("name","id","avatar_url")
 		}
 	%>
 

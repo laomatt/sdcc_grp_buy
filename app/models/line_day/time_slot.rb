@@ -27,7 +27,7 @@ class LineDay::TimeSlot < ApplicationRecord
 				if e.user_id == current_user_id
 					@has_current = true
 				end
-				people << e.user.attributes.slice("name","id")
+				people << e.user.attributes.slice("name","id","avatar_url")
 			}
 			people
 		end
