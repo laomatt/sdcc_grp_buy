@@ -505,7 +505,7 @@ class AdminsController < ApplicationController
 
 			obj = {
 				email: email, 
-				message: "your validation code is: #{encrypt_code(val_code.code)}"
+				message: "You have been invited to sign up for https://sdcctickets.herokuapp.com and your validation code is: #{encrypt_code(val_code.code)} , please go to the website and sign up for an account and validate yourself with the provided validation code."
 			}
 			send_email_to_email(obj)
 			# send the invite and the validation_code to the email

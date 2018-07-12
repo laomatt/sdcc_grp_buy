@@ -2,7 +2,7 @@
 
 <div class="row profile-container-edit">
   <div class="col-lg-2">
-    <img src="<%= current_user.avatar_url %>" class="img-fluid" alt="User Image" style='max-height: 200px' />
+    <img src="<%= current_user.avatar_url %>" class="img-fluid user-image-prev" alt="User Image" style='max-height: 200px' />
     
   </div>
   <div class="col-lg-10">
@@ -35,6 +35,20 @@
           <label for="update[avatar_url]">Avatar URL(optional)</label>
           <input type="text" class="form-control" value="<%= @user.avatar_url %>" name='update[avatar_url]' id="signup_avatar" aria-describedby="emailHelp" placeholder="Enter url of yourself...if you want">
         </div>
+
+
+        <h4>You may select any of the pre made avatars here:</h4>
+        <ul>
+          
+        <% @avatars.each do |avatar| %>
+          <li class='avatar_select'>
+            <a href="#" data-link='<%= @bucket + avatar %>' class='av-link' style='    border-style: none;'>
+              <img src="<%= @bucket + avatar %>" class="img-circle" alt="User Image" />
+            </a>
+          </li>
+          
+        <% end %>
+        </ul>
 
         <input type="submit" value='Update Info' class='btn btn-lg btn-primary sign_log_in'>
     </form>
@@ -96,3 +110,28 @@
   </ul>
  <% end %>
 
+
+
+<style>
+  li.avatar_select {
+        list-style: none;
+    display: inline-block;
+  }
+
+  .av-link {
+
+  }
+</style>
+
+
+<script>
+  $('body').on('click', '.av-link', function(event) {
+    event.preventDefault();
+    var link = $(this).attr('data-link');
+
+
+    $('.user-image-prev').attr('src', link);
+    $('input[name="update[avatar_url]"]').val(link);
+
+  });
+</script>
