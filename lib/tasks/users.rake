@@ -11,9 +11,7 @@ namespace :users do
 
     avatars.shift
 		User.all.each do |user|
-			if user.avatar_url == 'https://robohash.org/my-own-slug.png?size=50x50&set=set1'
-					user.update({:avatar_url => avatars.sample})	
-			end		
+				user.update({:avatar_url => avatars.sample})	
 		end
 	end
 end
