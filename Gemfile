@@ -10,6 +10,7 @@ source 'https://rubygems.org'
 gem 'rails', '~> 5.0.4'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
+       # ruby '2.3.4'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
@@ -64,6 +65,10 @@ gem 'websocket-rails', '~> 0.7.0'
 
 # gem 'aws-sdk', '~> 2'
 # gem 'aws-sdk-rails'
+# gem 'aws-sdk', '~> 3'
+gem 'aws-sdk', '< 3.0'
+# gem 'aws-sdk', '2.10.47'
+gem 'aws-sdk-s3'
 # gem 'csv'
 
 group :development, :test do

@@ -20,8 +20,19 @@ class UsersController < ApplicationController
 
   def manual_create
     user = User.new(user_params)
+
+    s3 = AWS::S3.new(
+      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+      region: ENV['S3_REGION']
+    )
+    bucket = s3.buckets['matt-lao-s3-development']
+    @avatars = bucket.objects.with_prefix('uploads/avatars/').map{|e| e.public_url.to_s}
+
+    @avatars.shift
+
     if (user_params['avatar_url'].nil?) || (user_params['avatar_url'] == '')
-      user.avatar_url = Faker::Avatar.image("my-own-slug", "50x50")
+      user.avatar_url = @avatars.sample
     end
 
     if user.valid?
@@ -103,33 +114,15 @@ class UsersController < ApplicationController
   end
 
   def side_menu
-    s3 = AWS::S3.new
-    bucket = s3.buckets['bucket-name']
-    @avatars = s3_bucket.objects.with_prefix('folder_name').collect(&:key)
-    # @avatars = [
-    #   "calimari.png",
-    #   "constipated.png",
-    #   "notouchy.png",
-    #   "oneeye.png",
-    #   "sheet+copy+2.png",
-    #   "sheet+copy+3.png",
-    #   "sheet+copy+4.png",
-    #   "sheet+copy+5.png",
-    #   "sheet+copy+6.png",
-    #   "sheet+copy+7.png",
-    #   "sheet+copy+8.png",
-    #   "sheet+copy+9.png",
-    #   "sheet+copy.png",
-    #   "shortbus.png",
-    #   "sponge-bob+copy.png",
-    #   "archer-ending-season-10+copy.png",
-    #   "Patrick_Star+copy.png",
-    #   "Archer_2.png",
-    #   "24-archer",
-    #   "23-arch"
-    # ]
+    s3 = AWS::S3.new(
+      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+      region: ENV['S3_REGION']
+    )
+    bucket = s3.buckets['matt-lao-s3-development']
+    @avatars = bucket.objects.with_prefix('uploads/avatars/').map{|e| e.public_url.to_s}
 
-    @bucket = "https://s3-us-west-1.amazonaws.com/matt-lao-s3-development/uploads/avatars/"
+    @avatars.shift
 
     @user = current_user
     @members = current_user.members
