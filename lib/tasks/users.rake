@@ -1,6 +1,3 @@
-require 'faker'
-require 'byebug'
-
 namespace :users do
 	desc "randomize user images"
 	task :randomize_images => :environment  do
