@@ -76,9 +76,12 @@ export default class TimeSlot extends React.Component {
 								  </div>
 
 								  <div className="actions">
+									{time.type == 'indiv_list' ?
 
 								    <input type="submit" name="commit" value="Unassign youself" className="btn btn-md btn-wide btn-spec btn-primary" data-disable-with="un assigning You" />
-
+								    :
+								    <div></div>
+									}
 								  </div>
 								</form> 
 							: 
@@ -89,8 +92,13 @@ export default class TimeSlot extends React.Component {
 							  </div>
 
 							  <div className="actions">
+									{time.type == 'indiv_list' ?
 
-							    <input type="submit" name="commit" value="Sign up for this wait shift" className="btn btn-md btn-wide btn-spec btn-primary" data-disable-with="Assigning You" />
+								    <input type="submit" name="commit" value="Sign up for this wait shift" className="btn btn-md btn-wide btn-spec btn-primary" data-disable-with="Assigning You" />
+									:
+
+									<div></div>
+									}
 
 							  </div>
 							</form>
@@ -98,12 +106,20 @@ export default class TimeSlot extends React.Component {
 					</div>
 
 					<div>
-					<a href="#" data-id={time.id} end-pt={"/line_day/time_slots/" + time.id} data-toggle="modal" data-target="#timeSlotEdit" className='modal-pop edit-slot btn-wide centered btn btn-lg btn-warning' style={{'backgroundColor': 'transparent' }}>Edit Description</a>
-					{ this.props.is_admin ? 
-							<a href={"/line_day/time_slots/" + time.id} style={{'backgroundColor': 'red' }} data-id={time.id} className='modal-pop btn-wide delete-slot centered btn btn-lg btn-danger'>Delete</a>
-						:
+					{this.props.type == 'indiv_list' ? 
+						<a href="#" data-id={time.id} end-pt={"/line_day/time_slots/" + time.id} data-toggle="modal" data-target="#timeSlotEdit" className='modal-pop edit-slot btn-wide centered btn btn-lg btn-warning' style={{'backgroundColor': 'transparent' }}>Edit Description</a>
+
+					:
 						<div></div>
 					}
+
+
+					{ 
+							this.props.is_admin && this.props.type == 'indiv_list' ? 
+								<a href={"/line_day/time_slots/" + time.id} style={{'backgroundColor': 'red' }} data-id={time.id} className='modal-pop btn-wide delete-slot centered btn btn-lg btn-danger'>Delete</a>
+							:
+							<div></div>
+						}
 					</div>
 				
 
