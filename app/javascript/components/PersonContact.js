@@ -15,7 +15,7 @@ export default class PersonContact extends React.Component {
 
   render () {
     return (
-	    	<a href="#" data-id={this.state.id} data-toggle="modal" data-identifier={this.state.name} data-target="#timeSlotContactModal" data-type={this.props.type} data-slot-id={this.state.slot_id} className='btn btn-md btn-person btn-primary broadcast-message' end-pt='/holders/send_text'><img src={this.props.avatar_url} class="img-circle" alt="User Image" /> {this.state.name}</a>
+	    	<a href="#" data-id={this.state.id} data-toggle="modal" data-identifier={this.state.name} data-target="#timeSlotContactModal" data-type={this.props.type} data-slot-id={this.state.slot_id} className='btn btn-md btn-person btn-primary broadcast-message' end-pt='/holders/send_text'><img src={this.props.avatar_url} className="img-circle" alt="User Image" /> {this.state.name}</a>
     );
   }
 }

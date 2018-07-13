@@ -28,7 +28,7 @@ class Group < ApplicationRecord
 	end
 
 	def message_list
-		ChatMessage.where("group_id=?", id).includes(:user).limit(100).order('created_at DESC').map { |e| 
+		ChatMessage.where("group_id=?", id).includes(:user).limit(30).order('created_at DESC').map { |e| 
 				{ 
 					:user => e.user ? e.user.attributes.slice('avatar_url', 'id','name') : {},
 					:id => e.id,

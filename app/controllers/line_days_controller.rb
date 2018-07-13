@@ -13,7 +13,8 @@ class LineDaysController < ApplicationController
   def show
     @time_slots = @line_day.time_slots
     @line_day_time_slot = LineDay::TimeSlot.new
-    @grp_id = @line_day.id
+    # @grp_id = @line_day.id
+    @grp = Group.find_by_name(@line_day.day)
 
   end
 

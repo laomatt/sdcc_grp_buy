@@ -96,9 +96,9 @@ class GroupsController < ApplicationController
 		type = params[:type]
 
 		if mess.save
-			render :json => { :success => true, :message => mess.id, :user_id => current_user.id, :type => type }
+			render :json => { :success => true, :message => mess.id, :user_id => current_user.id, :type => type, :group_id => mess.group_id }
 		else 
-			render :json => { :success => false, :message => mess.errors.full_messages, :type => type }
+			render :json => { :success => false, :message => mess.errors.full_messages, :type => type, :group_id => mess.group_id }
 		end		
 	end
 
