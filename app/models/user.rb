@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :purchases, :dependent => :delete_all
   has_many :text_message_records, :dependent => :delete_all
   has_many :groups, :dependent => :delete_all
+  has_many :chat_messages, :dependent => :delete_all
   has_many :followed_groups, :dependent => :delete_all
   has_many :direct_messages, :dependent => :delete_all
   validates_uniqueness_of :name, :email

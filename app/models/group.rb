@@ -27,6 +27,19 @@ class Group < ApplicationRecord
 		output		
 	end
 
+	def message_list
+		ChatMessage.where("group_id=?", id).includes(:user).limit(100).order('created_at DESC').map { |e| 
+				{ 
+					:user => e.user ? e.user.attributes.slice('avatar_url', 'id','name') : {},
+					:id => e.id,
+					:message => e.message,
+					:created_at => e.created_at.strftime("%l:%M %P %D"),
+					:global_scope => e.global_scope 
+				} 
+			}
+		
+	end
+
 	def count_string
 		"#{number_covered}/#{member_groups.count}"
 	end
