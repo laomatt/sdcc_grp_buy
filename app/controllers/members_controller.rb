@@ -1,18 +1,24 @@
 class MembersController < ApplicationController
 	before_action :authenticate_user!
 	before_action :validate, :only => [:register_member,:register_member_to_group,:remove_member,:cover_member, :present_confirmation_partial, :find_member_name, :find_me]
+	before_action :validate_user, :only => [:register_member,:register_member_to_group,:remove_member,:cover_member, :present_confirmation_partial, :find_member_name, :find_me]
 
 	before_action :user_owns, :only => [:edit, :update]
 
 	include SecurityHelper
 	include BroadcastsHelper
-	
+	include WebsocketRails
+		
 	def index
 		if params[:page]
 			@members = Member.paginate(:page => params[:page], :per_page => 10)		
 		else
 			@members = Member.paginate(:page => 1, :per_page => 10)		
 		end
+	end
+
+	def validate_user
+		return if !current_user.is_valid?
 	end
 
 	def edit

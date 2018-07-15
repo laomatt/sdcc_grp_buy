@@ -1,6 +1,7 @@
 class Group < ApplicationRecord
 	belongs_to :user
 	has_many :member_groups
+	has_many :members, :through => :member_groups
 	has_many :chat_messages
 
 	validates_uniqueness_of :name
@@ -37,7 +38,41 @@ class Group < ApplicationRecord
 					:global_scope => e.global_scope 
 				} 
 			}
-		
+	end
+
+
+	def members_list(current_user)
+		map = {
+			'wensday' => ' WEN ',
+			'thursday' => ' TH ',
+			'friday' => ' FRI ',
+			'saturday' => ' SAT ',
+			'sunday' => ' SUN '
+		}
+		members.includes(:purchases,:member_groups,:user).map do |e| 
+			h = e.attributes 
+			needed_string = ""
+			wanted_string = ""
+			['wensday','thursday','friday','saturday','sunday'].each do |day|
+				needed_string += map[day] if h[day]
+				wanted_string += map[day] if h['min_'+day]
+			end
+			h[:days_needed] = needed_string
+			h[:days_wanted] = wanted_string
+
+			h[:current_user_buying_for_member] = current_user.is_buying_for?(e)
+			h[:full_covered] = e.full_covered
+			h[:checked_in] = e.checked_in
+			h[:active] = e.active
+			h[:covered] = e.covered
+			h[:display_last] = e.display_last
+			h[:has_purchase] = e.has_purchase
+			h[:days_left] = e.days_left
+			h[:is_part_of] = e.is_part_of(id)
+			h[:mem_grp] = member_groups.find_by_group_id(id).attributes
+
+			h
+		end
 	end
 
 	def count_string

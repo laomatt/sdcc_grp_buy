@@ -90,6 +90,32 @@
 
 .member-item-container {
     list-style: none;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    margin-top: 1%;
+    padding-left: 1%;
+}
+
+.actions-container {
+    /*display: none;*/
+    border: solid;
+    padding: 1%;
+    border-width: 1px;
+    margin: 7px;
+}
+
+.days_container_rightr {
+    float: right;
+}
+
+.covered-member {
+    background-color: #cfff6f;
+
+}
+
+.uncovered-member {
+    background-color: #ff6f6f;
+    font-weight: bold;
 }
 
 .smaller_member_item {
@@ -624,7 +650,7 @@
     }
 
 .web_socket_loading {
-    display: none;
+    display: block;
 }
 
 .loading {

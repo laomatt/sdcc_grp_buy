@@ -1,16 +1,18 @@
 import React from "react"
 import PropTypes from "prop-types"
 import ChatMessage from './ChatMessage'
+import LoadingMessage from './LoadingMessage'
+
 class ChatBox extends React.Component {
 	expandChatLogGroup(event) {
 			event.preventDefault()
 			event.target.style.backgroundColor = '#efeacc';
 			event.target.style.color = 'black';
 
-			document.getElementsByClassName('expand-chat-log-global')[0].style.backgroundColor = 'rgb(193, 188, 158)';
-			document.getElementsByClassName('expand-chat-log-global')[0].style.color = 'white';
-			document.getElementsByClassName('chat-box-global')[0].style.display = 'none';
-			document.getElementsByClassName('chat-box-group')[0].style.display = 'block';
+			document.getElementById('expand-chat-log-global-' + event.target.attributes.group_id).style.backgroundColor = 'rgb(193, 188, 158)';
+			document.getElementById('expand-chat-log-global-' + event.target.attributes.group_id).style.color = 'white';
+			document.getElementById('chat-box-global-' + event.target.attributes.group_id).style.display = 'none';
+			document.getElementById('chat-box-group-' + event.target.attributes.group_id).style.display = 'block';
 	}
 
 	expandChatLogGlobal(event) {
@@ -18,17 +20,17 @@ class ChatBox extends React.Component {
 			event.target.style.backgroundColor = '#efeacc';
 			event.target.style.color = 'black';
 	
-			document.getElementsByClassName('expand-chat-log-group')[0].style.backgroundColor = 'rgb(193, 188, 158)';
-			document.getElementsByClassName('expand-chat-log-group')[0].style.color = 'white';
+			document.getElementById('expand-chat-log-group-' + event.target.attributes.group_id).style.backgroundColor = 'rgb(193, 188, 158)';
+			document.getElementById('expand-chat-log-group-' + event.target.attributes.group_id).style.color = 'white';
 
-			document.getElementsByClassName('chat-box-group')[0].style.display = 'none';
-			document.getElementsByClassName('chat-box-global')[0].style.display = 'block';
+			document.getElementById('chat-box-group-' + event.target.attributes.group_id).style.display = 'none';
+			document.getElementById('chat-box-global-' + event.target.attributes.group_id).style.display = 'block';
 	}
 
 	someoneTyping () {
-  	document.getElementsByClassName('someone_typing')[0].style.display = 'block';
+  	document.getElementsByClassName('someone_typing'+this.props.group_id)[0].style.display = 'block';
   	setTimeout(function(){
-	  	document.getElementsByClassName('someone_typing')[0].style.display = 'none';
+	  	document.getElementsByClassName('someone_typing'+this.props.group_id)[0].style.display = 'none';
   	},2000);
   }
 
@@ -269,74 +271,67 @@ class ChatBox extends React.Component {
 						<center>
 							<h3>{this.props.title}</h3>
 						</center>
-						<div className="info_top">
-						  <img src="/assets/danger.gif" alt="Danger"/>
-						    Your live connection was interrupted, please refresh your browser to continue getting live updates  
-						    <img src="/assets/danger.gif" alt="Danger"/>
-						</div>
-						<div className="loading">
-							<img src="/assets/bar.gif" alt="Bar" />
-							<br />
-							  websocket loading, please wait... (if this takes more than 5 seconds then refresh your browser)
-						</div>
-			    	<div className='web_socket_loading' id='site-chat-box'>
-							<div className="file-folder row">
-								<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-group' style={{'backgroundColor': '#efeacc'}} onClick={this.expandChatLogGroup}>Group chat</a>
-								{
-									this.props.is_admin ? 
-										<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-global' onClick={this.expandChatLogGlobal} style={{'backgroundColor': 'rgb(193, 188, 158)'}}>Admin chat</a>
-									:
-										<div></div>
-								}
-							</div>
-								{
-									this.props.is_admin ?
-										<div className="chat-box chat-box-global room-box-global">
-											<div id="chat_container-global">
-												<div className="chat-form-global">
-													<form id='chat-dialog-global'>
-														<h4>Admin Chat Room</h4>
-														<input type="text" name="" className='chat-input-dialog chat-message-input-global chat-message-input' onKeyDown={(event) => this.processMessage(this,'global',event)} parent_element={this} scope='global' placeholder="SAy sumthin'....." />
-													</form>
-													<span className="someone_typing_global"></span>
-												</div>
-												<div className="chat-log-global" id='chat_log_global'>
-													{that.global_chat_messages.map(function(message, idx) {
-														return (
-															<div key={'global_message_'+idx}>
-																<ChatMessage type='global' message={message} user={message.user} current_user={that.current_user} created_at={message.created_at} from='todom' global_scope={message.global_scope} />
-															</div>
-														)
-													})}
+						<LoadingMessage />
+						<div className="web_socket_loading">
+				    	<div className='web_socket_loading' id='site-chat-box'>
+								<div className="file-folder row">
+									<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-group' id={'expand-chat-log-group-' + this.props.group_id} style={{'backgroundColor': '#efeacc'}} group_id={this.props.group_id} onClick={this.expandChatLogGroup}>Group chat</a>
+									{
+										this.props.is_admin ? 
+											<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-global' id={'expand-chat-log-global-' + this.props.group_id} group_id={this.props.group_id} onClick={this.expandChatLogGlobal} style={{'backgroundColor': 'rgb(193, 188, 158)'}}>Admin chat</a>
+										:
+											<div></div>
+									}
+								</div>
+									{
+										this.props.is_admin ?
+											<div className="chat-box room-box-global chat-box-global" id={'chat-box-global-' + this.props.group_id}>
+												<div id="chat_container-global">
+													<div className="chat-form-global">
+														<form id='chat-dialog-global'>
+															<h4>Admin Chat Room</h4>
+															<input type="text" name="" className='chat-input-dialog chat-message-input-global chat-message-input' onKeyDown={(event) => this.processMessage(this,'global',event)} parent_element={this} scope='global' placeholder="SAy sumthin'....." />
+														</form>
+														<span className="someone_typing_global"></span>
+													</div>
+													<div className="chat-log-global" id='chat_log_global'>
+														{that.global_chat_messages.map(function(message, idx) {
+															return (
+																<div key={'global_message_'+idx}>
+																	<ChatMessage type='global' message={message} user={message.user} current_user={that.current_user} created_at={message.created_at} from='todom' global_scope={message.global_scope} />
+																</div>
+															)
+														})}
+													</div>
 												</div>
 											</div>
-										</div>
-									:
-										<div></div>
-								}
+										:
+											<div></div>
+									}
 
-							<div className="chat-box room-box chat-box-group">
-								<div id="chat_container">
-									<div className="chat-form">
-										<form id='chat-dialog-group'>
-											<h4>Group Chat Room</h4>
-											<input type="text" name="" className='chat-input-dialog chat-message-input-group chat-message-input' onKeyDown={(event) => this.processMessage(this,'group',event)} parent_element={this} scope='group' placeholder="SAy sumthin'....." />
-										</form>
-										<span className="someone_typing">Someone is typing a message.....</span>
-									</div>
-									<div className="chat-log" id='chat_log'>
-										{that.chat_messages.map(function(message, idx) {
-											return (
-												<div key={'group_message_'+idx}>
-													<ChatMessage type='group' message={message} user={message.user} current_user={that.current_user} created_at={message.created_at} from='group' global_scope={message.global_scope} />
-												</div>
-											)
-										})}
+								<div className="chat-box room-box chat-box-group" id={'chat-box-group-' + this.props.group_id}>
+									<div id="chat_container">
+										<div className="chat-form">
+											<form id='chat-dialog-group'>
+												<h4>Group Chat Room</h4>
+												<input type="text" name="" className='chat-input-dialog chat-message-input-group chat-message-input' onKeyDown={(event) => this.processMessage(this,'group',event)} parent_element={this} scope='group' placeholder="SAy sumthin'....." />
+											</form>
+											<span className={"someone_typing someone_typing" + this.props.group_id}>Someone is typing a message.....</span>
+										</div>
+										<div className="chat-log" id='chat_log'>
+											{that.chat_messages.map(function(message, idx) {
+												return (
+													<div key={'group_message_'+idx}>
+														<ChatMessage type='group' message={message} user={message.user} current_user={that.current_user} created_at={message.created_at} from='group' global_scope={message.global_scope} />
+													</div>
+												)
+											})}
+										</div>
 									</div>
 								</div>
 							</div>
+			      
 						</div>
-		      
 					</div>
         );
   }

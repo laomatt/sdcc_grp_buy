@@ -241,11 +241,11 @@
   var current_user_id = <%= current_user.try(:id) %>;
   var activeDispatcher = false;
   <% if (@grp.try(:id)) %>
-    // var group_id = <%= @grp.try(:id) %>;
+   var group_id = <%= @grp.try(:id) %>;
   <% elsif @page == 'master_tab' %>
-    // var group_id = 'master_tab';
+    var group_id = 'master_tab';
   <% else %>
-    // var group_id = 'undefined';
+    var group_id = 'undefined';
   <% end %>
 
   <% if !Rails.env.development? %>
