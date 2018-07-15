@@ -4,6 +4,16 @@ import ChatMessage from './ChatMessage'
 import LoadingMessage from './LoadingMessage'
 
 class ChatBox extends React.Component {
+	constructor (props) {
+		super(props);
+		const dispatcher = new WebSocketRails(server_location + "/" + "websocket")
+		this.state = {
+			dispatcher: dispatcher,
+			socket_loaded: false
+		}
+		this.startDispatch(dispatcher);
+  }
+
 	expandChatLogGroup(event) {
 			event.preventDefault()
 			event.target.style.backgroundColor = '#efeacc';
@@ -27,10 +37,10 @@ class ChatBox extends React.Component {
 			document.getElementById('chat-box-global-' + event.target.attributes.group_id).style.display = 'block';
 	}
 
-	someoneTyping () {
-  	document.getElementsByClassName('someone_typing'+this.props.group_id)[0].style.display = 'block';
+	someoneTyping (element) {
+  	document.getElementsByClassName('someone_typing'+element.props.group_id)[0].style.display = 'block';
   	setTimeout(function(){
-	  	document.getElementsByClassName('someone_typing'+this.props.group_id)[0].style.display = 'none';
+	  	document.getElementsByClassName('someone_typing'+element.props.group_id)[0].style.display = 'none';
   	},2000);
   }
 
@@ -97,14 +107,9 @@ class ChatBox extends React.Component {
 	    var elem = $('#chat_log_global');
 	    elem.scrollTop = 0;
 	    console.log('just received new message: ' + message);
+		  // }
 	  }
 
-
-	takeOffline(){
-				$('.info_top').fadeIn(500, function() {
-						$(".web_socket_loading").fadeOut(500, function() {});
-				});
-	  }
 
 	shakeLastMessageGrp(type){
 	  	if (type == 'group') {
@@ -164,30 +169,23 @@ class ChatBox extends React.Component {
 	  }
 
 	takeOnline(){
-		var loads = document.getElementsByClassName('loading');
-		var socketLoads = document.getElementsByClassName('web_socket_loading');
-
-		for (var i = loads.length - 1; i >= 0; i--) {
-			loads[i].style.display = 'none';
-		}
-
-		for (var i = socketLoads.length - 1; i >= 0; i--) {
-			socketLoads[i].style.display = 'block';
-		}
+		this.setState({socket_loaded: true});
 
 	}
 
+	takeOffline(){
+			this.setState({socket_loaded: false});
+			clearInterval(this.state.interval);
+  }
 
 
-	startDispatch(){
-	  // dispatcher = new WebSocketRails(server_location + "/" + "websocket");
-	  this.setState({
-	  	  	dispatcher: new WebSocketRails(server_location + "/" + "websocket")
-	  })
 
-	  var element = this;
 
-	  this.state.dispatcher.on_open = function(data) {
+	startDispatch(dispatcher){
+		console.log('starting dispatch...')
+	  const element = this;
+
+	  dispatcher.on_open = function(data) {
 
 			var dispatcher = this;
 	  	element.takeOnline();
@@ -207,7 +205,7 @@ class ChatBox extends React.Component {
 		    )
 
 		    // BINDING EVENTS
-			  setInterval(function(){
+			  element.state.interval = setInterval(function(){
 			  	if (dispatcher.state != 'connected') {
 			  		element.takeOffline();
 			  	}
@@ -243,7 +241,7 @@ class ChatBox extends React.Component {
 
 		    // someone_typing
 		    element.state.channel.bind('someone_typing', function(message) {
-		    	element.someoneTyping();
+		    	element.someoneTyping(element);
 		    });
 
 		    element.state.dispatcher.bind('connection_closed', function() {
@@ -261,24 +259,19 @@ class ChatBox extends React.Component {
 
   	var element = this;
 
-  	setTimeout(function(){
-		  element.startDispatch();
-		}, 500);
-
     const that = this.props;
     return (
 					<div>
-						<center>
-							<h3>{this.props.title}</h3>
-						</center>
-						<LoadingMessage />
-						<div className="web_socket_loading">
+						<div style={element.state.socket_loaded ? {display: 'none'} : {display:'block'}}>
+							<LoadingMessage />
+						</div>
+						<div className="web_socket_loading" style={element.state.socket_loaded ? {display: 'block'} : {display:'none'}}>
 				    	<div className='web_socket_loading' id='site-chat-box'>
 								<div className="file-folder row">
-									<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-group' id={'expand-chat-log-group-' + this.props.group_id} style={{'backgroundColor': '#efeacc'}} group_id={this.props.group_id} onClick={this.expandChatLogGroup}>Group chat</a>
+									<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-group' id={'expand-chat-log-group-' + this.props.group_id} style={{'backgroundColor': 'rgb(34, 45, 50)'}} group_id={this.props.group_id} onClick={this.expandChatLogGroup}><h5 style={{color: 'white'}}>{this.props.title}: Group chat</h5></a>
 									{
 										this.props.is_admin ? 
-											<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-global' id={'expand-chat-log-global-' + this.props.group_id} group_id={this.props.group_id} onClick={this.expandChatLogGlobal} style={{'backgroundColor': 'rgb(193, 188, 158)'}}>Admin chat</a>
+											<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-global' id={'expand-chat-log-global-' + this.props.group_id} group_id={this.props.group_id} onClick={this.expandChatLogGlobal} style={{'backgroundColor': 'rgb(193, 188, 158)'}}><h5 style={{color: 'white'}}>Admin chat</h5></a>
 										:
 											<div></div>
 									}
@@ -289,7 +282,6 @@ class ChatBox extends React.Component {
 												<div id="chat_container-global">
 													<div className="chat-form-global">
 														<form id='chat-dialog-global'>
-															<h4>Admin Chat Room</h4>
 															<input type="text" name="" className='chat-input-dialog chat-message-input-global chat-message-input' onKeyDown={(event) => this.processMessage(this,'global',event)} parent_element={this} scope='global' placeholder="SAy sumthin'....." />
 														</form>
 														<span className="someone_typing_global"></span>
@@ -313,7 +305,6 @@ class ChatBox extends React.Component {
 									<div id="chat_container">
 										<div className="chat-form">
 											<form id='chat-dialog-group'>
-												<h4>Group Chat Room</h4>
 												<input type="text" name="" className='chat-input-dialog chat-message-input-group chat-message-input' onKeyDown={(event) => this.processMessage(this,'group',event)} parent_element={this} scope='group' placeholder="SAy sumthin'....." />
 											</form>
 											<span className={"someone_typing someone_typing" + this.props.group_id}>Someone is typing a message.....</span>

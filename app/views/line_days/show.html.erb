@@ -28,10 +28,18 @@
 	%>
 
 <div class="centered">
-	<div class="row top-row" style="background-color: transparent;">
+	<div class="row file-folder top-row" style="background-color: transparent;">
 
-		<a href="#" tab='schedule_container' class='top-tab col-md-6 expand-schedule btn-sm selected-tab' style="">Schedule</a>
-		<a href="#" tab='chat_room_container' class='top-tab col-md-6 expand-chat btn-sm'>Expand Chat Room</a>
+		<a href="#" tab='schedule_container' class='top-tab col-md-6 expand-schedule btn-lg selected-tab' style="">
+			<h4>
+				Schedule
+			</h4>
+	</a>
+		<a href="#" tab='chat_room_container' class='top-tab col-md-6 expand-chat btn-lg'>
+			<h4>
+				Expand Chat Room
+			</h4>
+		</a>
 
 	</div>
 
@@ -72,7 +80,7 @@
 	</div>
 
 
-	<div id="chat_room_container" class='keeper' style='padding: 4%; display: none;'>
+	<div id="chat_room_container" class='keeper' style='padding: 0%; display: none;'>
 		
 		<%= 
 			
@@ -122,13 +130,27 @@
 
 	.top-tab {
 		width:50%;
-		background-color: transparent;
-		color: black;
-		border: white;
+		background-color: #222d32;
+		/*color: black;*/
+		/*border: white;*/
+    border-color: transparent;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    /* border-top-right-radius: 10px; */
+    border-top-right-radius: 50px;
+	}
+
+	.bottom-tab {
+		background-color: #222d32;
+
+	}
+
+	.middle-tab {
+		background-color: #372a4c;
 	}
 
 	.selected-tab {
-		background-color: #3c8dbc; 
+		background-color: #222d32; 
 		color: white;
 	}
 
