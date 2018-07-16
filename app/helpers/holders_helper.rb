@@ -11,7 +11,7 @@ module HoldersHelper
       number = "1" + number 
     end
 
-    number = "+" + number
+    number = "+" + number if number[0] != '+'
     # twilio API
     @client = Twilio::REST::Client.new account_sid, auth_token
 
