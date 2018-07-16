@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
   	end
   end
 
+  def under_construction
+    
+  end
+
 end

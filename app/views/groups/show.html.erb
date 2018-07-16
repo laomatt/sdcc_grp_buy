@@ -9,13 +9,24 @@
 <div class="row" style="width: 90%;">
 	<div class="col-md-6">
 				<%= 
+					if Rails.env.development?
+
 						react_component("BuyGroup", { 
 							is_admin: current_user.is_admin?,
 							user_owns: @grp.user_id == current_user.id,
 							member_count: @grp.member_groups.count,
 							members: @grp.members_list(current_user),
+							group_id: @grp.id,
 							current_user_valid: current_user.is_valid?
 						}) 
+
+
+					else
+
+						"THIS IS CURRENTLY UNDERGOING CONSTRUCTION..."
+
+					end
+
 
 				%>
 

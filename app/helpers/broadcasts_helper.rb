@@ -6,7 +6,10 @@ module BroadcastsHelper
 		member_id = message[:member_id]
 		grp = Group.find(room)
 		number = grp.member_groups.count
-		WebsocketRails["group_#{room}"].trigger('member_registered', {room: room, member_group_id: member_group_id, member_id: member_id, connection_id: connection, :num_of_ppl => number})
+
+		member = Member.find(member_id).attributes
+		
+		WebsocketRails["group_#{room}"].trigger('member_registered', {room: room, member_group_id: member_group_id, member_id: member_id, connection_id: connection, :num_of_ppl => number, member: member})
 	end
 
 	def check_in_member

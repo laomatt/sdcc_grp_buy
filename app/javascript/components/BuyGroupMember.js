@@ -68,7 +68,7 @@ class BuyGroupMember extends React.Component {
 
 
 
-				<div className="actions-container" style={ this.state.expanded ? {display: "block"} : {display: "none"} }>
+				<div className="actions-container"  style={ this.state.expanded ? {display: "block"} : {display: "none"} }>
 					{ !(member.full_covered) && this.props.current_user_valid ?
 						<div>
 						{ member.active && member.current_user_buying_for_member ?

@@ -110,9 +110,9 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'users#login'
+  get '/under_construction', to: 'application#under_construction'
 
-
- #  match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
+  # match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
 	# match 'auth/failure', to: redirect('/'), via: [:get, :post]
 	# match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
 

@@ -9,6 +9,7 @@ class ChatBox extends React.Component {
 		const dispatcher = new WebSocketRails(server_location + "/" + "websocket")
 		this.state = {
 			dispatcher: dispatcher,
+			activeDispatcher: false,
 			socket_loaded: false
 		}
 		this.startDispatch(dispatcher);
@@ -179,8 +180,6 @@ class ChatBox extends React.Component {
   }
 
 
-
-
 	startDispatch(dispatcher){
 		console.log('starting dispatch...')
 	  const element = this;
@@ -192,7 +191,7 @@ class ChatBox extends React.Component {
 
 	  	if (!element.state.activeDispatcher) {
 		    console.log('Connection has been established: ', data);
-		    var group_room_conn = 'group_'+ element.props.group_id;
+		    var group_room_conn = 'chat_box_'+ element.props.group_id;
 		    var room_create_success = group_room_conn + '_created';
 
 		    element.setState(
