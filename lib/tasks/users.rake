@@ -21,7 +21,7 @@ namespace :users do
 	task :clean_holders => :environment do
 		Holder.all.each do |holder|
 			if holder.user.nil?
-					holder.destroy
+					# holder.destroy
 			end
 		end
 	end
