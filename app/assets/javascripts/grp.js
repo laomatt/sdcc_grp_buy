@@ -489,20 +489,20 @@ $(document).ready(function() {
 	//   }
 	// }
 
-	setTimeout(function(){
-	  startDispatch();
-	}, 500);
+	// setTimeout(function(){
+	//   startDispatch();
+	// }, 500);
 
 
 	// This will restart to dispatcher everytime you switch back on
 
-  var someoneTyping = function(){
-  	$('.someone_typing').css('display', 'block');
-  	$('.someone_typing').fadeOut(2000, function() {
+  // var someoneTyping = function(){
+  // 	$('.someone_typing').css('display', 'block');
+  // 	$('.someone_typing').fadeOut(2000, function() {
   		
-  	});
+  // 	});
 
-  }
+  // }
 
 // drag and drop
 function initiateDragDrop(){

@@ -13,8 +13,7 @@ class LineDaysController < ApplicationController
   def show
     @time_slots = @line_day.time_slots
     @line_day_time_slot = LineDay::TimeSlot.new
-    # @grp_id = @line_day.id
-    @grp = Group.find_by_name(@line_day.day)
+    @grp = Group.last{|e| e.line_group_id == @line_day.id}
 
   end
 
@@ -47,7 +46,7 @@ class LineDaysController < ApplicationController
   # PATCH/PUT /line_days/1.json
   def update
       if @line_day.update(line_day_params)
-        render :json => {:status => 200, :message => 'updated', :limit => @line_day.user_limit}
+        render :json => {:status => 200, :message => 'updated', :limit => @line_day.user_limit, :day => @line_day.day, :description => @line_day.description}
       else
         render :json => {:status => 400, :message => 'not updated'}
       end

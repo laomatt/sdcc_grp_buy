@@ -13,5 +13,17 @@ namespace :users do
 		User.all.each do |user|
 				user.update({:avatar_url => avatars.sample})	
 		end
+
 	end
+
+
+	desc 'clear ended holders'
+	task :clean_holders => :environment do
+		Holder.all.each do |holder|
+			if holder.user.nil?
+					holder.destroy
+			end
+		end
+	end
+
 end

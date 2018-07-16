@@ -77,7 +77,7 @@ module BroadcastsHelper
 	def someone_typing
 		room = message[:room]
 		connection = message[:connection]
-		WebsocketRails["group_#{room}"].trigger('someone_typing', {room: room, connection_id: connection})
+		WebsocketRails["chat_box_#{room}"].trigger('someone_typing', {room: room, connection_id: connection})
 	end
 
 	def deactivate_member
@@ -115,7 +115,7 @@ module BroadcastsHelper
 		user_id = current_user.id
 		connection = message[:connection]
 		if type == 'group'
-			WebsocketRails["group_#{room}"].trigger('add_room_message', {room: room, message_id: message_id, user_id: message[:user_id], connection_id: connection})
+			WebsocketRails["chat_box_#{room}"].trigger('add_room_message', {room: room, message_id: message_id, user_id: message[:user_id], connection_id: connection})
 		else
 			WebsocketRails["global"].trigger('add_global_message', {message_id: message_id, user_id: message[:user_id], connection_id: connection})
 		end

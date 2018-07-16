@@ -47,84 +47,114 @@ export default class TimeSlot extends React.Component {
 					</span>
 				</a>
 
-				<div className="list-grp-detail" style={ this.state.expanded ? {display: "block"} : {display: "none"} } id={"info-" + time.id}>
-					<div className="contact-list">
-						<span className='notes-section' id={"notes_for" + time.id}>
-							{ time.notes }
-						</span>
+				<div className="list-grp-detail border-color" style={ this.state.expanded ? {display: "block"} : {display: "none"} } id={"info-" + time.id}>
 
-						<h3>Contact List (click a name to send a message)</h3>
-						<div className="verbose_list">
-							<div>
-								{time.people_hash.map(function(elem, idx) {
-										const timeSlotId = time.id;
-										return (
-												<div key={"contact_" + idx}>
-													<PersonContact user_id={elem.id} avatar_url={elem.avatar_url} name={elem.name} slot_id={timeSlotId} type={time.type}/>
-									    	</div>
-											)
-								})}
+				<div className="row">
+
+
+					<div className="col-lg-10">
+
+
+						<div className="contact-list">
+							<span className='notes-section' id={"notes_for" + time.id}>
+								{ time.notes }
+							</span>
+
+							<h3>Contact List (click a name to send a message)</h3>
+							<div className="verbose_list">
+								<div>
+									{time.people_hash.map(function(elem, idx) {
+											const timeSlotId = time.id;
+											return (
+													<div key={"contact_" + idx}>
+														<PersonContact user_id={elem.id} avatar_url={elem.avatar_url} name={elem.name} slot_id={timeSlotId} type={time.type}/>
+										    	</div>
+												)
+									})}
+								</div>
+
+								<a href="#" className='broadcast-message btn-wide btn btn-lg btn-primary btn-contact-grp' data-slot-id={time.id} data-id={time.id} end-pt='/line_day/time_slots/broadcast_to_slot' data-type={this.props.type} data-identifier={"Wait shift: " + time.time} data-toggle="modal" data-target="#timeSlotContactModal">Broadcast a message to this group</a>
 							</div>
-
-							<a href="#" className='broadcast-message btn-wide btn btn-lg btn-primary btn-contact-grp' data-slot-id={time.id} data-id={time.id} end-pt='/line_day/time_slots/broadcast_to_slot' data-type={this.props.type} data-identifier={"Wait shift: " + time.time} data-toggle="modal" data-target="#timeSlotContactModal">Broadcast a message to this group</a>
 						</div>
-						{time.has_current ? 
-								<form className="new_holder" id="new_holder" action="/holders/erase" acceptCharset="UTF-8"><input name="utf8" type="hidden" value="✓" /><input type="hidden" name="authenticity_token" value={time.authenticity_token} />
+
+
+					</div>
+
+
+					<div className="col-lg-2">
+
+						  <div className="btn-actions border-color">
+							{time.has_current ? 
+									<form className="new_holder" id="new_holder" action="/holders/erase" acceptCharset="UTF-8"><input name="utf8" type="hidden" value="✓" /><input type="hidden" name="authenticity_token" value={time.authenticity_token} />
+
+									  <div className="field form-group">
+									    <input value={time.id} type="hidden" name="holder[line_day_time_slot_id]" id="holder_line_day_time_slot_id" />
+									  </div>
+
+										{time.type == 'indiv_list' ?
+
+									    <div>
+												<div>
+										    <input type="submit" name="commit" value="leave" className="btn btn-md btn-wide btn-spec assign-btn btn-primary border-color" data-disable-with="leaving..." />
+												<a href="#" data-id={time.id} end-pt={"/line_day/time_slots/" + time.id} data-toggle="modal" data-target="#timeSlotEdit" className='modal-pop edit-slot btn-wide centered btn btn-spec edit-desc btn-lg btn-warning border-color' style={{'backgroundColor': 'transparent' }}>Edit Description</a>
+												</div>
+												{ 
+													this.props.is_admin ? 
+														<div>
+																<a href={"/line_day/time_slots/" + time.id} style={{'backgroundColor': 'red' }} data-id={time.id} className='modal-pop btn-wide delete-slot btn-spec centered btn btn-lg btn-danger border-color'>Delete</a>
+														</div>
+													:
+														<div></div>
+												}
+											</div>
+									    :
+									    <div></div>
+										}
+									</form> 
+								: 
+								<form className="new_holder" id="new_holder" action="/holders" acceptCharset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓" /><input type="hidden" name="authenticity_token" value={time.authenticity_token} />
 
 								  <div className="field form-group">
 								    <input value={time.id} type="hidden" name="holder[line_day_time_slot_id]" id="holder_line_day_time_slot_id" />
 								  </div>
 
-								  <div className="actions">
-									{time.type == 'indiv_list' ?
 
-								    <input type="submit" name="commit" value="Unassign youself" className="btn btn-md btn-wide btn-spec btn-primary" data-disable-with="un assigning You" />
-								    :
-								    <div></div>
-									}
-								  </div>
-								</form> 
-							: 
-							<form className="new_holder" id="new_holder" action="/holders" acceptCharset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓" /><input type="hidden" name="authenticity_token" value={time.authenticity_token} />
+										{ time.type == 'indiv_list' ?
+											<div>
+												<div>
+													
+											    <input type="submit" name="commit" value="Join" className="btn btn-md btn-wide border-color assign-btn btn-spec btn-primary border-color" data-disable-with="joining" /><br/>
+													<a href="#" data-id={time.id} end-pt={"/line_day/time_slots/" + time.id} data-toggle="modal" data-target="#timeSlotEdit" className='modal-pop edit-slot btn-wide centered btn btn-spec edit-desc btn-lg btn-warning border-color' style={{'backgroundColor': 'transparent' }}>Edit</a>
+												</div>
+												{ 
+													this.props.is_admin ? 
+														<div>
+																<a href={"/line_day/time_slots/" + time.id} style={{'backgroundColor': 'red' }} data-id={time.id} className='modal-pop btn-wide delete-slot btn-spec centered btn btn-lg btn-danger border-color'>Delete</a>
+														</div>
+													:
+														<div></div>
+												}
+											</div>
+										:
+										<div></div>
+										}
 
-							  <div className="field form-group">
-							    <input value={time.id} type="hidden" name="holder[line_day_time_slot_id]" id="holder_line_day_time_slot_id" />
-							  </div>
+								</form>
+							}
+						  </div>
 
-							  <div className="actions">
-									{time.type == 'indiv_list' ?
-
-								    <input type="submit" name="commit" value="Sign up for this wait shift" className="btn btn-md btn-wide btn-spec btn-primary" data-disable-with="Assigning You" />
-									:
-
-									<div></div>
-									}
-
-							  </div>
-							</form>
-						}
 					</div>
 
-					<div>
-					{this.props.type == 'indiv_list' ? 
-						<a href="#" data-id={time.id} end-pt={"/line_day/time_slots/" + time.id} data-toggle="modal" data-target="#timeSlotEdit" className='modal-pop edit-slot btn-wide centered btn btn-lg btn-warning' style={{'backgroundColor': 'transparent' }}>Edit Description</a>
 
-					:
-						<div></div>
-					}
+				</div>
+
+					
 
 
-					{ 
-							this.props.is_admin && this.props.type == 'indiv_list' ? 
-								<a href={"/line_day/time_slots/" + time.id} style={{'backgroundColor': 'red' }} data-id={time.id} className='modal-pop btn-wide delete-slot centered btn btn-lg btn-danger'>Delete</a>
-							:
-							<div></div>
-						}
 					</div>
 				
 
 				</div>
-    	</div>
     );
   }
 }

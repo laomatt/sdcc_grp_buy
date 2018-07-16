@@ -1,11 +1,10 @@
 <p id="notice"><%= notice %></p>
-<p>
-  <strong>Day:</strong>
-  <%= @line_day.day %>
-</p>
+<h2 class='day_name'>
+	<%= @line_day.day %>
+	
+</h2>  
 
-<p>
-  <strong>Description:</strong>
+<p class='description'>
   <%= @line_day.description %>
 </p>
 
@@ -58,25 +57,46 @@
 
 		%>
 
+
+
+
 		<% if current_user.is_admin? %>
-			<div class="container">
-				<%= render :partial => 'line_day/time_slots/form' %>
+		<div class="row" style="padding: 1%">
+			<div class="col-lg-6" style=" padding: 1%;
+																    background-color: #372a4c;
+																    color: white;
+																}">
+																<h3>Add another time slot</h3>
+					<%= render :partial => 'line_day/time_slots/form' %>
 			</div>
 
-			<div class="container">
-				<div class="form-group">
-					<label for="user_limit">Group Limit</label>
-					<input type="integer" value='<%= @line_day.user_limit %>' id='user_limit_spec' name='user_limit' class='form-control'>
-				</div>
+			<div class="col-lg-6">
+				<h3>Edit this schedule</h3>
+					<div class="form-group">
+						<label for="user_limit">Group Limit</label>
+						<input type="integer" value='<%= @line_day.user_limit %>' id='user_limit_spec' name='user_limit' class='form-control'>
+					</div>
 
-				<div class="form-group">
-					<a id='update-user-limit' class='btn btn-primary btn-md'>Update Limit </a>
-				</div>
+					<div class="form-group">
+						<label for="day">Title</label>
+						<input type="text" value='<%= @line_day.day %>' id='day_spec' name='day' class='form-control'>
+					</div>
 
-				<div class='error'></div>
-				<div class='success'></div>
+					<div class="form-group">
+						<label for="description">Description</label>
+						<input type="text" value='<%= @line_day.description %>' id='description_spec' name='description' class='form-control'>
+					</div>
+
+					<div class="form-group">
+						<a id='update-user-limit' class='btn btn-primary btn-md'>Update</a>
+					</div>
+
+					<div class='error'></div>
+					<div class='success'></div>
 			</div>
+		</div>
 		<% end %>
+
 	</div>
 
 
@@ -103,6 +123,8 @@
 	</div>
 </div>
 
+
+		
 <script>
 	$('body').on('click', '.top-tab', function(event) {
 		event.preventDefault();
@@ -158,6 +180,22 @@
 		background-color: transparent;
 		color: black;
 	}
+
+	    .file-folder .btn-primary{
+            border-top-right-radius: 0px;
+            border-top-left-radius: 0px;
+    }
+
+}
+
+
+@media (max-width: 960px) {
+    
+	.middle-tab {
+		background-color: #372a4c;
+    text-align: left;
+	}
+
 }
 </style>
 
@@ -170,12 +208,14 @@ $('body').on('click', "#update-user-limit", function(event) {
 	$.ajax({
 		url: '/line_days/<%= @line_day.id%>',
 		type: 'PUT',
-		data: {'line_day': {user_limit: $('#user_limit_spec').val()}}
+		data: {'line_day': {user_limit: $('#user_limit_spec').val(), day: $('#day_spec').val(), description: $('#description_spec').val()}}
 	})
 	.done(function(data) {
 		if (data.status == 200) {
 			$('.success').text(data.message);
 			$('.user_slot_limit').text(data.limit)
+			$('.day_name').text(data.day)
+			$('.description').text(data.description)
 		} else {
 			$('.error').text(data.message);
 

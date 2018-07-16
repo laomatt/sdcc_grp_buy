@@ -15,27 +15,28 @@ class ChatBox extends React.Component {
 		this.startDispatch(dispatcher);
   }
 
-	expandChatLogGroup(event) {
+	expandChatLogGroup(event,group_id) {
 			event.preventDefault()
-			event.target.style.backgroundColor = '#efeacc';
-			event.target.style.color = 'black';
+			document.getElementById('expand-chat-log-group-' + group_id).style.backgroundColor = '#242e33';
+			document.getElementById('expand-chat-log-group-' + group_id).style.color = 'white';
 
-			document.getElementById('expand-chat-log-global-' + event.target.attributes.group_id).style.backgroundColor = 'rgb(193, 188, 158)';
-			document.getElementById('expand-chat-log-global-' + event.target.attributes.group_id).style.color = 'white';
-			document.getElementById('chat-box-global-' + event.target.attributes.group_id).style.display = 'none';
-			document.getElementById('chat-box-group-' + event.target.attributes.group_id).style.display = 'block';
+			document.getElementById('expand-chat-log-global-' + group_id).style.backgroundColor = 'transparent';
+			document.getElementById('expand-chat-log-global-' + group_id).style.color = 'black';
+
+			document.getElementById('chat-box-global-' + group_id).style.display = 'none';
+			document.getElementById('chat-box-group-' + group_id).style.display = 'block';
 	}
 
-	expandChatLogGlobal(event) {
+	expandChatLogGlobal(event,group_id) {
 			event.preventDefault()
-			event.target.style.backgroundColor = '#efeacc';
-			event.target.style.color = 'black';
-	
-			document.getElementById('expand-chat-log-group-' + event.target.attributes.group_id).style.backgroundColor = 'rgb(193, 188, 158)';
-			document.getElementById('expand-chat-log-group-' + event.target.attributes.group_id).style.color = 'white';
+			document.getElementById('expand-chat-log-group-' + group_id).style.backgroundColor = 'transparent';
+			document.getElementById('expand-chat-log-group-' + group_id).style.color = 'black';
 
-			document.getElementById('chat-box-group-' + event.target.attributes.group_id).style.display = 'none';
-			document.getElementById('chat-box-global-' + event.target.attributes.group_id).style.display = 'block';
+			document.getElementById('expand-chat-log-global-' + group_id).style.backgroundColor = '#242e33';
+			document.getElementById('expand-chat-log-global-' + group_id).style.color = 'white';
+
+			document.getElementById('chat-box-group-' + group_id).style.display = 'none';
+			document.getElementById('chat-box-global-' + group_id).style.display = 'block';
 	}
 
 	someoneTyping (element) {
@@ -94,6 +95,7 @@ class ChatBox extends React.Component {
 
 
 	addCommentToDomGlobal(message) {
+			var that = this;
 	  	var message_id = message.message_id;
 	    // if (message.connection_id == connectionID) {
 	    	$.ajax({
@@ -102,7 +104,7 @@ class ChatBox extends React.Component {
 	    	})
 	    	.done(function(data) {
 			      $("#chat_log_global").prepend(data);
-			      shakeLastMessageGrp('global');
+			      that.shakeLastMessageGrp('global');
 	    	})
 	    	
 	    var elem = $('#chat_log_global');
@@ -226,6 +228,7 @@ class ChatBox extends React.Component {
 		    });
 
 		    element.state.channel.bind('add_room_message', function(message) {
+		    	console.log('dsf');
 		    	if (document.getElementsByClassName('chat-box-group')[0].style.display == 'none') {
 			    	var globes = document.getElementsByClassName('expand-chat-log-group');
 			    	for (var i = globes.length - 1; i >= 0; i--) {
@@ -234,6 +237,7 @@ class ChatBox extends React.Component {
 		    	}
 
 		    	if (typeof message.connection_id != 'undefined' ) {
+		    		console.log('dsfiii');
 			    	element.addCommentToDom(message);
 		    	}
 		    });
@@ -267,10 +271,10 @@ class ChatBox extends React.Component {
 						<div className="web_socket_loading" style={element.state.socket_loaded ? {display: 'block'} : {display:'none'}}>
 				    	<div className='web_socket_loading' id='site-chat-box'>
 								<div className="file-folder row">
-									<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-group' id={'expand-chat-log-group-' + this.props.group_id} style={{'backgroundColor': 'rgb(34, 45, 50)'}} group_id={this.props.group_id} onClick={this.expandChatLogGroup}><h5 style={{color: 'white'}}>{this.props.title}: Group chat</h5></a>
+									<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-group' id={'expand-chat-log-group-' + this.props.group_id} style={{backgroundColor: 'rgb(34, 45, 50)', color: 'white'}} group_id={this.props.group_id} onClick={(event) => this.expandChatLogGroup(event, that.group_id)}><h5 group_id={this.props.group_id}>{this.props.title}: Group chat</h5></a>
 									{
 										this.props.is_admin ? 
-											<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-global' id={'expand-chat-log-global-' + this.props.group_id} group_id={this.props.group_id} onClick={this.expandChatLogGlobal} style={{'backgroundColor': 'rgb(193, 188, 158)'}}><h5 style={{color: 'white'}}>Admin chat</h5></a>
+											<a href="#" className='col-md-6 btn-sm btn-primary expand-chat-log expand-chat-log-global' id={'expand-chat-log-global-' + this.props.group_id} group_id={this.props.group_id} onClick={(event) => this.expandChatLogGlobal(event, that.group_id)} style={{backgroundColor: 'transparent', color: 'black'}}><h5 group_id={this.props.group_id}>Admin chat</h5></a>
 										:
 											<div></div>
 									}
@@ -283,7 +287,7 @@ class ChatBox extends React.Component {
 														<form id='chat-dialog-global'>
 															<input type="text" name="" className='chat-input-dialog chat-message-input-global chat-message-input' onKeyDown={(event) => this.processMessage(this,'global',event)} parent_element={this} scope='global' placeholder="SAy sumthin'....." />
 														</form>
-														<span className="someone_typing_global"></span>
+														<span className="someone_typing someone_typing_global"></span>
 													</div>
 													<div className="chat-log-global" id='chat_log_global'>
 														{that.global_chat_messages.map(function(message, idx) {
