@@ -1003,7 +1003,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     }
 
     .contact-list {
-        background-color: #4b3a66;
+        background-color: transparent;
         color: white;
     }
 
@@ -1021,6 +1021,13 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
     .notes-section {
         padding: 2%;
+        font-size: 25px;
+        background-color: red;
+        margin: 3px;
+        position: relative;
+        border-color: white;
+        border-style: solid;
+        border-radius: 10px;
     }
 
     .contact-list {
@@ -1059,7 +1066,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
     .btn-actions {
         float: right;
-        background-color: #4b3b65;
+        /*background-color: #4b3b65;*/
+        background-color: transparent;
         padding: 4%;
         border-radius: 100%;
         height: 350px;
@@ -1088,17 +1096,70 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     }
 
 
+    .top-tab {
+        width:50%;
+        background-color: #222d32;
+        /*color: black;*/
+        /*border: white;*/
+    border-color: transparent;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    /* border-top-right-radius: 10px; */
+    border-top-right-radius: 50px;
+    }
+
+    .bottom-tab {
+        background-color: #222d32;
+
+    }
+
+    .expand-slot:hover {
+        background-color: #3ebb54;
+        color: white;
+        border-color: white;
+        border-color: #ecf0f5;
+        border-style: solid;
+        border-width: 4px;
+        position: relative;
+        top: -5px;
+        left: -5px;
+        border-top-right-radius: 15px;
+    }
+
+    .middle-tab {
+        background-color: #372a4c;
+    }
+
+    .selected-tab {
+        background-color: #222d32; 
+        color: white;
+        border-color: white;
+    }
+
     .selected_group {
         background-color: #edf0f6;
         border-radius: 0;
     }
 
     .selected-time-slot {
-        background-color: #8d6262;
+        background-color: #3ebb54;
+        color: white;
+        border-color: white;
+        border-color: #ecf0f5;
+        border-style: solid;
+        border-width: 4px;
     }
+
     .selected-time-slot:hover {
-        background-color: #8d6262;
+        background-color: #3ebb54;
+        color: white;
+        border-color: white;
+        border-color: #ecf0f5;
+        border-style: solid;
+        border-width: 4px;
     }
+
+
 
 
 .modal-body {
@@ -1241,7 +1302,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
     .list-grp-detail {
         display: none; padding: 3px;
-        background-color: #4b3a66;
+        background-color: #3ebb54;
         color: white;
     }
 
