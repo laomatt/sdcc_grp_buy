@@ -676,10 +676,10 @@
     color: black;
     padding-left: 2px;
     background-color: #ecf0f5;
-    color: white;
     font-size: 17px;
     border-radius: 10px;
     border-color: transparent;
+    
 
     }
 
@@ -990,6 +990,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
     .btn-person {
         background-color: #44b458;
+        /*background-color: #90eea1;*/
         font-size: 20px;
         border-color: #edf0f6;
         border-width: 4px;

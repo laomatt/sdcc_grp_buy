@@ -56,9 +56,14 @@ export default class TimeSlot extends React.Component {
 
 
 						<div className="contact-list">
+						{
+							time.notes ? 
 							<div className='notes-section' id={"notes_for" + time.id}>
 								{ time.notes }
 							</div>
+							:
+							<div></div>
+						}
 
 							<h3>Contact List (click a name to send a message)</h3>
 							<div className="verbose_list">
