@@ -11,10 +11,16 @@ class ApplicationController < ActionController::Base
 
   # private
 
-  def validate
-  	if !current_user.is_valid?
-  		flash[:error] = 'You must validate your code, or request a code'
+  def authorize
+    if !current_user
   		redirect_to root_path
+    end
+  end
+
+  def validate
+    if !current_user.is_valid?
+      flash[:error] = 'You must validate your code, or request a code'
+      redirect_to root_path
   	end
   end
 

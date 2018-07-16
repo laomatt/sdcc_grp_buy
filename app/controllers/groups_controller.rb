@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+	before_action :authorize
 	before_action :authenticate_user!
 	before_action :validate, :only => [:create_new_group]
 	

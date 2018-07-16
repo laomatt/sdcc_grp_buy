@@ -19,7 +19,7 @@ class User < ApplicationRecord
   # validate :filter_whitelist
   after_create :transfer_member_self
 
-
+# reset_password(new_password, new_password_confirmation)
 
 	def self.from_omniauth(auth)
     if User.exists?(:email => auth.info.email)
@@ -73,7 +73,7 @@ class User < ApplicationRecord
 
   def contact_info(viewing_user)
     if viewing_user.is_valid?
-      "#{name} / #{email}"
+      "#{name} / #{email} / #{phone}"
     else
       "---protected---"
     end

@@ -1,4 +1,5 @@
 class LineDaysController < ApplicationController
+  before_action :authorize
   before_action :authenticate_user!
   before_action :set_line_day, only: [:show, :edit, :update, :destroy]
 

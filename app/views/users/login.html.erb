@@ -7,6 +7,10 @@
 			<form id="manual-login-form" method="POST" action='/users/manual_login'>
 				<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 				<h3>Login</h3>
+				<div class="success" style="color:green">
+					<%= flash[:notice] if flash[:notice] %>
+				</div>
+
 				<div class="form-group">
 					<input type="hidden" name="type" value='manual'>
 			    <label for="login_email">Email address</label>
@@ -17,6 +21,9 @@
 				<div class="form-group">
 			    <label for="password">Password</label>
 			    <input type="password" class="form-control" name='login[password]' id="password" aria-describedby="emailHelp" placeholder="Enter Password">
+			    <div id="reset-container">
+				    <a href="#" class='login-link reset_pw_conf'>Forgot your password?</a>
+			    </div>
 			  </div>
 			  
 				<input type="submit" name="Login" value="Login" class='btn btn-lg btn-primary sign_log_in'>
@@ -119,3 +126,34 @@
 		</p>
 		</div>
 </div>
+
+
+<style>
+	.login-link {
+		border-color: transparent;
+    width: 20%;
+    color: blue;
+    overflow: auto;
+	}
+
+	.note-message {
+		padding: 2%;
+	}
+</style>
+
+<script>
+	$('body').on('click', '.reset_pw_conf', function(event) {
+		event.preventDefault();
+		$('#reset-container').text('sending reset link...')
+		$.ajax({
+			url: '/users/reset_password',
+			data: {email: $("#login_email").val()}
+		})
+		.done(function() {
+			console.log("success");
+
+			$('#manual-login-form').html("<p class='note-message'>Validation has been sent to your e-mail.  Please find it and follow the instructions.</p>")
+		})
+		
+	});
+</script>

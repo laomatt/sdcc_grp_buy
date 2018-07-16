@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 	# before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:login, :manual_create,:manual_login,:confirm_create]
-  before_action :validate, except: [:login, :update, :manual_create,:manual_login, :side_menu, :confirm_create, :update_user]
+  before_action :authenticate_user!, except: [:login, :manual_create,:manual_login,:confirm_create, :reset_password, :reset_password_view, :reset_password_work]
+  before_action :validate, except: [:login, :update, :manual_create,:manual_login, :side_menu, :confirm_create, :update_user, :reset_password, :reset_password_view, :reset_password_work]
   include SecurityHelper
 
   def login
@@ -87,6 +87,56 @@ class UsersController < ApplicationController
     end
   end
 
+  def reset_password_view
+
+  end
+
+
+  def reset_password 
+    email = params[:email]
+    user = User.find_by_email(email)
+    temp = Temp.new(:email => user.email)
+    code = gen_code
+    en_code = encrypt_code(code)
+    temp.val_code = code
+    temp.save
+
+    obj = {
+      email: email, 
+      request: request,
+      temp: temp,
+      en_code: en_code
+    }
+
+    MyMailer.reset_link(obj, 'Your PASSWORD RESET link from SDCC tickets').deliver
+
+  end
+
+  def reset_password_work
+    id = new_password_params[:id]
+    reset_user = Temp.find(id)
+    val_code = decrypt_code(new_password_params[:val_code])
+    new_password = new_password_params[:new_password]
+    new_password_confirmation = new_password_params[:new_password_confirmation]
+    email = new_password_params[:email]
+# byebug
+    if val_code != reset_user.val_code || email != reset_user.email
+      flash[:error] = 'reset not successful, bad validation.';
+      redirect_to :back 
+    end
+
+
+    user = User.find_by_email(email)
+
+    if user.reset_password(new_password, new_password_confirmation)
+      flash[:notice] = 'reset successful';
+      redirect_to :root 
+    else
+      flash[:error] = user.errors.full_messages.join(', ');
+      redirect_to :back 
+    end
+  end
+
   def dashboard
   	
   end
@@ -155,5 +205,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:signup).permit(:name,:email,:avatar_url,:password,:password_confirmation, :phone)
+  end
+
+  def new_password_params
+    params.require(:reset).permit(:new_password, :new_password_confirmation, :val_code, :email, :id)
+
   end
 end

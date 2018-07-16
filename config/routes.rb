@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get 'reset_password'
+      post 'reset_password_work'
+      get 'reset_password_view'
       post 'update_user'
       post 'manual_create'
       post 'manual_login'

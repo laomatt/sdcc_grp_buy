@@ -1,5 +1,6 @@
 class MyMailer < ApplicationMailer
 	include ActionView::Helpers::NumberHelper
+  
 	def send_email(options={},subject="Your Validation code for SDCCTICKETS")
     @name = options[:name]
     @email = options[:email]
@@ -28,11 +29,19 @@ class MyMailer < ApplicationMailer
     mail(:to => @email, :subject => subject)
   end
 
-  def val_link(options, subject='Please validate you email')
+  def val_link(options, subject='SDCC Tickets: Please validate your email')
     @email = options[:email]
   	@request = options[:request]
   	@temp = options[:temp]
   	@en_code = options[:en_code]
+    mail(:to => @email, :subject => subject)
+  end
+
+  def reset_link(options, subject='SDCC Tickets: Please validate your email')
+    @email = options[:email]
+    @request = options[:request]
+    @temp = options[:temp]
+    @en_code = options[:en_code]
     mail(:to => @email, :subject => subject)
   end
 end

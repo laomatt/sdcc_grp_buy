@@ -1,4 +1,5 @@
 class MembersController < ApplicationController
+	before_action :authorize
 	before_action :authenticate_user!
 	before_action :validate, :only => [:register_member,:register_member_to_group,:remove_member,:cover_member, :present_confirmation_partial, :find_member_name, :find_me]
 	before_action :validate_user, :only => [:register_member,:register_member_to_group,:remove_member,:cover_member, :present_confirmation_partial, :find_member_name, :find_me]
