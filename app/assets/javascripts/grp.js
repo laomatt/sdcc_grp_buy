@@ -581,26 +581,26 @@ $('body').on('click', '.check-out', function(event) {
 
 
 
-  var addCommentToDomGlobal = function(message) {
-  	var message_id = message.message_id;
-    // if (message.connection_id == connectionID) {
-    	$.ajax({
-    		url: '/groups/add_comment',
-    		data: {message_id: message_id, from: 'dom'},
-    	})
-    	.done(function(data) {
-		      $("#chat_log_global").prepend(data);
-		      shakeLastMessageGrp('global');
-    	})
+  // var addCommentToDomGlobal = function(message) {
+  // 	var message_id = message.message_id;
+  //   // if (message.connection_id == connectionID) {
+  //   	$.ajax({
+  //   		url: '/groups/add_comment',
+  //   		data: {message_id: message_id, from: 'dom'},
+  //   	})
+  //   	.done(function(data) {
+		//       $("#chat_log_global").prepend(data);
+		//       shakeLastMessageGrp('global');
+  //   	})
     	
-    var elem = $('#chat_log_global');
-    elem.scrollTop = 0;
-    console.log('just received new message: ' + message);
-  }
+  //   var elem = $('#chat_log_global');
+  //   elem.scrollTop = 0;
+  //   console.log('just received new message: ' + message);
+  // }
 
-  var checkInMember = function(message) {
-  	// "check-in-button-for" + message.member_id
-  }
+  // var checkInMember = function(message) {
+  // 	// "check-in-button-for" + message.member_id
+  // }
 
 
   var takeOffline = function(){
