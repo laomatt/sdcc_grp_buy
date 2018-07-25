@@ -27,8 +27,24 @@
         </div>
 
         <div class="form-group">
-          <label for="phone">Contact Number</label>
-          <input type="text" class="form-control" name='update[phone]' id="phone" value='<%= @user.phone %>'></input>
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="phone">Contact Number</label>
+              <input type="text" class="form-control" name='update[phone]' id="phone" value='<%= @user.phone %>'></input>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="active_phone" class='form-check-label'>Receive Text Messages?</label>
+              <input type="hidden" class="form-check-input" name='update[active_phone]' id="active_phone" value='<%= @user.active_phone ? '1' : '0' %>'>
+                
+                <i class="fas fa-toggle-<%= @user.active_phone ? 'on' : 'off' %>" width='30px'></i>
+              </input>
+              
+
+
+            </div>
+
+          </div>
         </div>
 
         <div class="form-group">

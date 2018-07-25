@@ -60,7 +60,7 @@ class PurchasesController < ApplicationController
       }
 
       # begin
-	      MyMailer.send_confirmation(obj, "CONGRATULATIONS!  #{purchasing_member_first_name} has covered you for SDCC 2018!!").deliver
+	      MyMailer.send_confirmation(obj, "CONGRATULATIONS!  #{purchasing_member_first_name} has covered you for SDCC 2019!!").deliver
 				# render out
 				render :json => { :success => true, :member_group_id => mem_grp.id, :groups => member.member_groups.map { |e| e.group_id }.join('-'), :group_id => params[:group_id], :member_id => member.id, :message => 'purchased!' }
     #   rescue Exception => e
@@ -97,7 +97,7 @@ class PurchasesController < ApplicationController
         add_notes: ""
       }
 
-		MyMailer.send_confirmation(obj, "CONGRATULATIONS!  #{purchasing_member_first_name} has covered you for SDCC 2018!!").deliver
+		MyMailer.send_confirmation(obj, "CONGRATULATIONS!  #{purchasing_member_first_name} has covered you for SDCC 2019!!").deliver
 		render :json => { :success => true, :purchase_id => purchase.id }
 	end
 

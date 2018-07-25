@@ -72,7 +72,7 @@ class Purchase < ApplicationRecord
       }
 
 
-		MyMailer.send_confirmation(obj, "CONGRATULATIONS!  #{purchasing_member_first_name} has covered you for SDCC 2018!!").deliver
+		MyMailer.send_confirmation(obj, "CONGRATULATIONS!  #{purchasing_member_first_name} has covered you for SDCC 2019!!").deliver
 	end
 
 end
