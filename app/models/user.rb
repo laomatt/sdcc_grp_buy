@@ -12,7 +12,9 @@ class User < ApplicationRecord
   has_many :text_message_records, :dependent => :delete_all
   has_many :groups, :dependent => :delete_all
   has_many :chat_messages, :dependent => :delete_all
+
   has_many :holders, :dependent => :delete_all
+  # has_many :line_day, :through => :holders
   has_many :followed_groups, :dependent => :delete_all
   has_many :direct_messages, :dependent => :delete_all
   validates_uniqueness_of :name, :email
@@ -77,6 +79,16 @@ class User < ApplicationRecord
     else
       "---protected---"
     end
+  end
+
+  def active_line_days
+    # gather all holders
+    # find the linedays for these holders that is active
+    # line_days.select {|e| e.active? }
+    # holders.includes(:line_day_time_slot).select {|e| e.line_day_time_slot.active? }
+    # line_day
+    LineDay.joins(:holders).where("holders.user_id=?",id).uniq
+    
   end
 
   def is_admin?

@@ -5,6 +5,9 @@ class LineDaysController < ApplicationController
 
   # GET /line_days
   # GET /line_days.json
+
+  include LineDay::TimeSlotsHelper
+  
   def index
     @line_days = LineDay.all
   end
@@ -48,6 +51,8 @@ class LineDaysController < ApplicationController
   # PATCH/PUT /line_days/1.json
   def update
       if @line_day.update(line_day_params)
+        @line_day.start = line_day_params['start'].to_datetime
+        @line_day.save
         render :json => {:status => 200, :message => 'updated', :limit => @line_day.user_limit, :day => @line_day.day, :description => @line_day.description}
       else
         render :json => {:status => 400, :message => 'not updated'}
@@ -72,6 +77,6 @@ class LineDaysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def line_day_params
-      params.require(:line_day).permit(:day, :description, :user_limit)
+      params.require(:line_day).permit(:day, :description, :user_limit, :start)
     end
 end

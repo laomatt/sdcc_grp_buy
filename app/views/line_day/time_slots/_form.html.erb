@@ -26,7 +26,8 @@
     <div class="col-md-6">
       <div class="field form-group">
         <%= f.label :time, :value => 'Start' %>
-        <%= f.time_select :time, {:ampm => true, minute_step: 15, :prompt => true},{ :class => "form-control"} %>
+
+        <%= f.text_field :time, { :class => "form-control datepicker"} %>
       </div>
     </div>
 
@@ -34,7 +35,7 @@
     <div class="col-md-6">
       <div class="field form-group">
         <%= f.label :end_time, :value => 'End' %>
-        <%= f.time_select :end_time, {:ampm => true,minute_step: 15, :prompt => true},{ :class => "form-control"} %>
+        <%= f.text_field :end_time, { :class => "form-control datepicker"} %>
       </div>
     </div>
 

@@ -1,8 +1,11 @@
 <p id="notice"><%= notice %></p>
 <h2 class='day_name'>
 	<%= @line_day.day %>
-	
 </h2>  
+
+<p class='start'>
+	Starts @ <b><%= @line_day.start.try(:strftime,'%I:%M %p at %a %B %e, %Y') %></b> 
+</p>
 
 <p class='description'>
   <%= @line_day.description %>
@@ -63,8 +66,8 @@
 		<% if current_user.is_admin? %>
 		<div class="row" style="padding: 1%">
 			<div class="col-lg-6" style=" padding: 1%;
-																    background-color: #372a4c;
-																    color: white;
+																    background-color: transparent;
+																    color: black;
 																}">
 																<h3>Add another time slot</h3>
 					<%= render :partial => 'line_day/time_slots/form' %>
@@ -85,6 +88,11 @@
 					<div class="form-group">
 						<label for="description">Description</label>
 						<input type="text" value='<%= @line_day.description %>' id='description_spec' name='description' class='form-control'>
+					</div>
+
+					<div class="form-group">
+						<label for="start">start</label>
+						<input type="text" class='datepicker' value='<%= @line_day.start %>' id='start_spec' name='start' class='form-control'>
 					</div>
 
 					<div class="form-group">
@@ -186,7 +194,7 @@ $('body').on('click', "#update-user-limit", function(event) {
 	$.ajax({
 		url: '/line_days/<%= @line_day.id%>',
 		type: 'PUT',
-		data: {'line_day': {user_limit: $('#user_limit_spec').val(), day: $('#day_spec').val(), description: $('#description_spec').val()}}
+		data: {'line_day': {user_limit: $('#user_limit_spec').val(), day: $('#day_spec').val(), description: $('#description_spec').val(), start: $('#start_spec').val()}}
 	})
 	.done(function(data) {
 		if (data.status == 200) {
@@ -194,6 +202,7 @@ $('body').on('click', "#update-user-limit", function(event) {
 			$('.user_slot_limit').text(data.limit)
 			$('.day_name').text(data.day)
 			$('.description').text(data.description)
+			$('.start').text(data.start)
 		} else {
 			$('.error').text(data.message);
 
@@ -230,7 +239,10 @@ $('body').on('click', '.edit-slot', function(event) {
 	event.preventDefault();
 	$("#edit_time_slot").attr('action', $(this).attr('end-pt'));
 	var text = $('#notes_for' + $(this).attr('data-id')).text();
+	// var st = $('#notes_for' + $(this).attr('data-id')).val();
 	$("#time_slot_textarea").text(text);
+	// $("#line_day_time_slot_time").val(st);
+	// $("#line_day_time_slot_end_time").val(en);
 	$('.time-slot-modal-body').fadeIn(500, function() {});
 });
 
@@ -303,6 +315,29 @@ $('body').on('click', '.update_notes', function(event) {
       	<form action="#" class='edit_time_slot' id='edit_time_slot' method='PUT'>
       		<input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>' />
 		      <textarea name="line_day_time_slot[description]" id="time_slot_textarea" value="" cols="50" rows="20"></textarea>
+		      <% if current_user.is_admin? %>
+							TODO: EDIT TIMES
+		       <!-- <div class="row">
+    
+				    <div class="col-md-6">
+				      <div class="field form-group">
+				        <label for="line_day_time_slot_time_start">Start</label>
+
+				        <input class="form-control datepicker" type="text" name="line_day_time_slot[time]" id="line_day_time_slot_time">
+				      </div>
+				    </div>
+
+				    
+				    <div class="col-md-6">
+				      <div class="field form-group">
+				        <label for="line_day_time_slot_end_time_end">End</label>
+				        <input class="form-control datepicker" type="text" name="line_day_time_slot[end_time]" id="line_day_time_slot_end_time">
+				      </div>
+				    </div>
+
+				  </div> -->
+
+		      <% end %>
       	</form>
       </div>
       <div class="modal-footer">

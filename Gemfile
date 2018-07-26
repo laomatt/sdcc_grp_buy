@@ -71,6 +71,10 @@ gem 'aws-sdk', '< 3.0'
 gem 'aws-sdk-s3'
 # gem 'csv'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-datetimepicker'
+end
+
 group :development, :test do
   gem 'sqlite3'
   gem 'byebug'

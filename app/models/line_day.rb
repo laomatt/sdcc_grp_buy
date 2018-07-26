@@ -13,4 +13,8 @@ class LineDay < ApplicationRecord
 	def holders
 		time_slots.map(&:holders).flatten
 	end
+
+	def active?
+		true
+	end
 end
