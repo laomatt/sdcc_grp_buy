@@ -75,7 +75,13 @@ class LineDay::TimeSlotsController < ApplicationController
   def update
     # respond_to do |format|
     if @line_day_time_slot.update(line_day_time_slot_params)
-      render :json => @line_day_time_slot
+      send_back = @line_day_time_slot.attributes
+
+      send_back['start_for'] = @line_day_time_slot.present_time
+      send_back['date_for'] = @line_day_time_slot.present_date
+
+      render :json => send_back
+
     else
       render :json => {}
     end

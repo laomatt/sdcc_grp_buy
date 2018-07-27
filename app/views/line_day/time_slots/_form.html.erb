@@ -27,7 +27,7 @@
       <div class="field form-group">
         <%= f.label :time, :value => 'Start' %>
 
-        <%= f.text_field :time, { :class => "form-control datepicker"} %>
+        <%= f.text_field :time, {:autocomplete => 'off', :class => "form-control datepicker"} %>
       </div>
     </div>
 
@@ -35,7 +35,7 @@
     <div class="col-md-6">
       <div class="field form-group">
         <%= f.label :end_time, :value => 'End' %>
-        <%= f.text_field :end_time, { :class => "form-control datepicker"} %>
+        <%= f.text_field :end_time, {:autocomplete => 'off', :class => "form-control datepicker"} %>
       </div>
     </div>
 

@@ -10,7 +10,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :line_days
+  resources :line_days do
+    collection do 
+      get 'my_schedule'
+    end
+  end
 
   resources :holders do 
     collection do 

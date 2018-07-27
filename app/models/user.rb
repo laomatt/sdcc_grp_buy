@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :chat_messages, :dependent => :delete_all
 
   has_many :holders, :dependent => :delete_all
+  has_many :line_day_time_slot, :through => :holders
   # has_many :line_day, :through => :holders
   has_many :followed_groups, :dependent => :delete_all
   has_many :direct_messages, :dependent => :delete_all
@@ -82,12 +83,7 @@ class User < ApplicationRecord
   end
 
   def active_line_days
-    # gather all holders
-    # find the linedays for these holders that is active
-    # line_days.select {|e| e.active? }
-    # holders.includes(:line_day_time_slot).select {|e| e.line_day_time_slot.active? }
-    # line_day
-    LineDay.joins(:holders).where("holders.user_id=?",id).uniq
+    LineDay.joins(:holders).where("holders.user_id=? and start > ?",id, DateTime.now).uniq
     
   end
 
@@ -109,6 +105,53 @@ class User < ApplicationRecord
       return true
     end
     false
+  end
+
+  def day_hash
+    # grab all the time slots for the user in the next 5 days and past 2 days
+    slots = line_day_time_slot
+    # display them in a grid pattern
+    days = [
+      Date.today,
+      Date.today + 1.day,
+      Date.today + 2.day,
+      Date.today + 3.day,
+      Date.today + 4.day,
+      Date.today + 5.day,
+    ]
+
+    times = []
+    taken = {}
+
+    line_day_time_slot.includes('line_day').each do |ts|
+      start_hour = ts.time
+      end_hour = ts.end_time
+
+      while start_hour.hour <= end_hour.hour
+        taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"] = ts
+        start_hour = start_hour + 1.hour
+      end
+    end
+
+    start_time = Time.new(0)
+    0.upto 24 do |i|
+      times << start_time + i.hour
+    end
+
+    hsh = []
+
+    days.each do |day|
+      day_time_hash = {}
+      times.each do |t|
+        obj = taken["#{day.month}-#{day.day}-#{t.hour}"].try(:attributes)
+        # obj['day'] =
+        day_time_hash[t.strftime('%l:%M %p')] = obj
+      end
+      day_time_hash[:day_str] = day.strftime('%a %m/%e')
+      hsh << day_time_hash
+    end
+
+    hsh
   end
 
   def my_groups

@@ -27,8 +27,11 @@ class TimeSlot2 extends React.Component {
 			</div>
 
 
-    	<div className='btn btn-lg'>
-	    	{time.time} 
+    	<div className='btn btn-lg time-sched-container'>
+	    	<span id={"date_for"+time.id}></span>{time.date}
+	    	<b id={"start_for_dis"+time.id}>
+		    	{time.time} 
+	    	</b> 
     	</div>
 				{time.people_hash.map(function(elem, idx) {
 						const timeSlotId = time.id;
@@ -41,7 +44,11 @@ class TimeSlot2 extends React.Component {
 
 			
 			<div className='btn-person-container'>
-					<form className="new_holder" id="new_holder" action={ time.has_current ? "/holders/erase" : "/holders"} method={ time.has_current ? "GET" : "POST"} acceptCharset="UTF-8"><input name="utf8" type="hidden" value="✓" /><input type="hidden" name="authenticity_token" value={time.authenticity_token} />
+					<form className="new_holder" id="new_holder" action={ time.has_current ? "/holders/erase" : "/holders"} method={ time.has_current ? "GET" : "POST"} acceptCharset="UTF-8"><input name="utf8" type="hidden" value="✓" />
+						<input type="hidden" name="authenticity_token" value={time.authenticity_token} />
+						<input type="hidden" name="holder[time]" id={"start_for" + time.id} value={time.start_time} />
+						<input type="hidden" name="holder[end_time]" id={"end_for" + time.id} value={time.end_time} />
+						
 						<input value={time.id} type="hidden" name="holder[line_day_time_slot_id]" id="holder_line_day_time_slot_id" />
 					{time.has_current ? 
 							<input type="submit" name="commit" value="leave" className="btn btn-lg  btn-spec assign-btn btn-primary border-color" style={{backgroundColor: 'red'}} data-disable-with="leaving..." />
@@ -72,7 +79,7 @@ class TimeSlot2 extends React.Component {
 								{ time.notes }
 							</div>
 							:
-							<div></div>
+							<div id={"notes_for" + time.id}></div>
 						}
 
 			</div>

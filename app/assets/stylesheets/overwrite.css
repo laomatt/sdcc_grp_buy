@@ -1363,12 +1363,46 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 
 
+    .time_list {
+        list-style: none;
+        padding: 3%;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .time_header {
+            background-color: #3c8dbc;
+            color: white;
+            font-size: 20px;
+    }
+
+    .time_col {
+        margin: 0;
+            padding: 0;
+            margin: 0;
+    }
+    .occupied {
+        background-color: red;
+        color: white;
+        font-weight: bold;
+    }
+
+    .free {
+        background-color: transparent;
+    }
+
     .timerow {
         background-color: transparent;
     }
 
     .time_slot {
         width: 100%;
+    }
+
+    .time-sched-container {
+            /* padding-right: 2%; */
+    justify-content: left;
+    width: 15%;
     }
     
     .centered {

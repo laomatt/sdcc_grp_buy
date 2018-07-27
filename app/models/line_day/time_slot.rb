@@ -10,6 +10,10 @@ class LineDay::TimeSlot < ApplicationRecord
 			"#{time.strftime("%l:%M %p")} - #{end_time.try('strftime',"%l:%M %p")}"			
 		end
 
+		def present_date
+			"(#{time.strftime("%m/%e")})"
+		end
+
 		def cover_end_time
 			if end_time.nil? || end_time == ''
 				end_time = time + 1.hour
@@ -18,6 +22,10 @@ class LineDay::TimeSlot < ApplicationRecord
 
 		def total_people_signed_up
 			line_day
+		end
+
+		def over_laps(start,finish)
+				(time < finish && time >= start) || (end_time < finish && end_time >= start)
 		end
 
 		def present_people(current_user_id)
@@ -38,6 +46,9 @@ class LineDay::TimeSlot < ApplicationRecord
 
 			{
 				time: present_time,
+				start_time: time,
+				date: present_date,
+				end_time: end_time,
 				people: people,
 				people_hash: people_array,
 				notes: description,

@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+,<p id="notice"><%= notice %></p>
 <h2 class='day_name'>
 	<%= @line_day.day %>
 </h2>  
@@ -239,10 +239,12 @@ $('body').on('click', '.edit-slot', function(event) {
 	event.preventDefault();
 	$("#edit_time_slot").attr('action', $(this).attr('end-pt'));
 	var text = $('#notes_for' + $(this).attr('data-id')).text();
-	// var st = $('#notes_for' + $(this).attr('data-id')).val();
+	var st = $('#start_for' + $(this).attr('data-id')).val();
+	var en = $('#end_for' + $(this).attr('data-id')).val();
 	$("#time_slot_textarea").text(text);
-	// $("#line_day_time_slot_time").val(st);
-	// $("#line_day_time_slot_end_time").val(en);
+	// debugger
+	$("#line_day_time_slot_time").datepicker({setDate: new Date(st)});
+	$("#line_day_time_slot_end_time").datepicker({setDate: new Date(en)})
 	$('.time-slot-modal-body').fadeIn(500, function() {});
 });
 
@@ -263,6 +265,8 @@ $('body').on('click', '.update_notes', function(event) {
 	})
 	.done(function(data) {
 		$("#notes_for" + data.id).text(data.description);
+		$("#start_for_dis" + data.id).text(data.start_for);
+		$("#date_for" + data.id).text(data.date_for);
 	})
 	
 });
@@ -316,14 +320,14 @@ $('body').on('click', '.update_notes', function(event) {
       		<input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>' />
 		      <textarea name="line_day_time_slot[description]" id="time_slot_textarea" value="" cols="50" rows="20"></textarea>
 		      <% if current_user.is_admin? %>
-							TODO: EDIT TIMES
-		       <!-- <div class="row">
+							ADMIN: EDIT TIMES
+		       <div class="row">
     
 				    <div class="col-md-6">
 				      <div class="field form-group">
-				        <label for="line_day_time_slot_time_start">Start</label>
+				        <label for="line_day_time_slot_time">Start</label>
 
-				        <input class="form-control datepicker" type="text" name="line_day_time_slot[time]" id="line_day_time_slot_time">
+				        <input class="form-control" type="text" autocomplete='off' name="line_day_time_slot[time]" id="line_day_time_slot_time">
 				      </div>
 				    </div>
 
@@ -331,11 +335,11 @@ $('body').on('click', '.update_notes', function(event) {
 				    <div class="col-md-6">
 				      <div class="field form-group">
 				        <label for="line_day_time_slot_end_time_end">End</label>
-				        <input class="form-control datepicker" type="text" name="line_day_time_slot[end_time]" id="line_day_time_slot_end_time">
+				        <input class="form-control" type="text" autocomplete='off' name="line_day_time_slot[end_time]" id="line_day_time_slot_end_time">
 				      </div>
 				    </div>
 
-				  </div> -->
+				  </div>
 
 		      <% end %>
       	</form>

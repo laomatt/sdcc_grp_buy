@@ -31,6 +31,12 @@ class LineDaysController < ApplicationController
   def edit
   end
 
+  def my_schedule
+    # grab all the time slots for the user in the next 5 days and past 2 days
+    # display them in a grid pattern
+    
+  end
+
   # POST /line_days
   # POST /line_days.json
   def create
@@ -77,6 +83,11 @@ class LineDaysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def line_day_params
-      params.require(:line_day).permit(:day, :description, :user_limit, :start)
+      if current_user.is_admin?
+        params.require(:line_day).permit(:day, :description, :user_limit, :start)
+      else
+        params.require(:line_day).permit(:description)
+        
+      end
     end
 end
