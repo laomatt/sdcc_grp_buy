@@ -36,11 +36,11 @@ class HoldersController < ApplicationController
     begin
       send_to_holder(holder,text)
       respond_to do |format|
-          format.html { redirect_to :back, notice: "Message sent to #{holder.user.name}." }
+          format.html { redirect_to :back, notice: { status: 200, message: "Message sent to #{holder.user.name}." }}
         end
     rescue Exception => e
       respond_to do |format|
-        format.html { redirect_to :back, notice: e.message }
+        format.html { redirect_to :back, notice: { status: 500, message: e.message }}
       end
     end
   end
@@ -57,11 +57,11 @@ class HoldersController < ApplicationController
     begin
       holder.destroy
       respond_to do |format|
-        format.html { redirect_to :back, notice: 'you were successfully unassigned from group.' }
+        format.html { redirect_to :back, notice: { status: 200, message: 'you were successfully unassigned from shift.' }}
       end    
     rescue Exception => e
       respond_to do |format|
-        format.html { redirect_to :back, notice: e.message }
+        format.html { redirect_to :back, notice: { status: 400, message: e.message }}
       end
     end
   end
@@ -75,10 +75,10 @@ class HoldersController < ApplicationController
     @holder.number = current_user.phone
     respond_to do |format|
       if @holder.save
-        format.html { redirect_to :back, notice: 'You were successfully assigned.' }
+        format.html { redirect_to :back, notice: { status: 200, message: 'You were successfully assigned.' }}
         format.json { render :show, status: :created, location: @holder }
       else
-        format.html { redirect_to :back, notice: @holder.errors.full_messages.join('. ') }
+        format.html { redirect_to :back, notice: { status: 400, message: @holder.errors.full_messages.join('. ') }}
       end
     end
   end
@@ -88,7 +88,7 @@ class HoldersController < ApplicationController
   def update
     respond_to do |format|
       if @holder.update(holder_params)
-        format.html { redirect_to @holder, notice: 'Holder was successfully updated.' }
+        format.html { redirect_to @holder, notice: { status: 200, message: 'Holder was successfully updated.' }}
         format.json { render :show, status: :ok, location: @holder }
       else
         format.html { render :edit }
@@ -102,7 +102,7 @@ class HoldersController < ApplicationController
   def destroy
     @holder.destroy
     respond_to do |format|
-      format.html { redirect_to :back, notice: 'Holder was successfully destroyed.' }
+      format.html { redirect_to :back, notice: { status: 200, message: 'Holder was successfully destroyed.' }}
     end
   end
 

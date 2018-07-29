@@ -1401,8 +1401,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
     .time-sched-container {
             /* padding-right: 2%; */
-    justify-content: left;
-    width: 15%;
+        justify-content: left;
+        width: 20%;
     }
     
     .centered {

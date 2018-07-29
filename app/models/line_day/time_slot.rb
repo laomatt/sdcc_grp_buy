@@ -7,11 +7,11 @@ class LineDay::TimeSlot < ApplicationRecord
 
 
 		def present_time
-			"#{time.strftime("%l:%M %p")} - #{end_time.try('strftime',"%l:%M %p")}"			
+			"#{time.try(:strftime,"%l:%M %p")} - #{end_time.try('strftime',"%l:%M %p")}"			
 		end
 
 		def present_date
-			"(#{time.strftime("%m/%e")})"
+			"(#{time.try(:strftime,"%m/%e")})"
 		end
 
 		def cover_end_time

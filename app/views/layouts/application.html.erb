@@ -351,16 +351,27 @@
   });
 
   $( function() {
-    $( ".datepicker, #line_day_time_slot_time, #line_day_time_slot_end_time" ).datetimepicker({
+    $( ".datepicker" ).datetimepicker({
       ampm: true, 
       showPeriod: true,
       formatTime:"h:i a",
-      setDate: Date.now(),
       stepping: 15, 
       showWeekDays: true,
       prompt: true
     });
 
+  } );
+
+
+  $( function() {
+    $( "#line_day_time_slot_time, #line_day_time_slot_end_time" ).datetimepicker({
+      ampm: true, 
+      showPeriod: true,
+      formatTime:"h a",
+      stepping: 15, 
+      showWeekDays: true,
+      prompt: false
+    });
   } );
 
 </script>

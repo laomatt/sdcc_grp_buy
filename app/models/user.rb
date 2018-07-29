@@ -83,8 +83,8 @@ class User < ApplicationRecord
   end
 
   def active_line_days
-    LineDay.joins(:holders).where("holders.user_id=? and start > ?",id, DateTime.now).uniq
-    
+    # LineDay.joins(:holders).where("holders.user_id=? and start > ?",id, DateTime.now).uniq
+    LineDay.joins(:holders).where("holders.user_id=? and active = ?",id, true).uniq
   end
 
   def is_admin?
@@ -128,10 +128,12 @@ class User < ApplicationRecord
       end_hour = ts.end_time
 
       while start_hour.hour <= end_hour.hour
-        taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"] = ts
+        taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"] = ts.try(:attributes).slice('day')
         start_hour = start_hour + 1.hour
       end
     end
+
+
 
     start_time = Time.new(0)
     0.upto 24 do |i|
@@ -143,15 +145,14 @@ class User < ApplicationRecord
     days.each do |day|
       day_time_hash = {}
       times.each do |t|
-        obj = taken["#{day.month}-#{day.day}-#{t.hour}"].try(:attributes)
-        # obj['day'] =
-        day_time_hash[t.strftime('%l:%M %p')] = obj
+        day_time_hash[t.strftime('%l:%M %p')] = taken["#{day.month}-#{day.day}-#{t.hour}"]
       end
       day_time_hash[:day_str] = day.strftime('%a %m/%e')
       hsh << day_time_hash
     end
 
     hsh
+    # taken
   end
 
   def my_groups

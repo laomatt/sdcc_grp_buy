@@ -1,7 +1,7 @@
 class LineDaysController < ApplicationController
   before_action :authorize
   before_action :authenticate_user!
-  before_action :set_line_day, only: [:show, :edit, :update, :destroy]
+  before_action :set_line_day, only: [:show, :edit, :update, :destroy, :update_location]
 
   # GET /line_days
   # GET /line_days.json
@@ -75,7 +75,20 @@ class LineDaysController < ApplicationController
     end
   end
 
+  def update_location
+      if @line_day.update(line_day_location)
+        flash['notice'] = 'Location updated'
+      else
+        flash['error'] = 'Location not updated'
+      end
+      redirect_to :back
+  end
+
   private
+    def line_day_location
+        params.require(:line_day).permit(:latitude, :longitude)
+      
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_line_day
       @line_day = LineDay.find(params[:id])

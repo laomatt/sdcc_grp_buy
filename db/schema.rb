@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180726185657) do
+ActiveRecord::Schema.define(version: 20180729041429) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.string   "message"
@@ -89,10 +89,25 @@ ActiveRecord::Schema.define(version: 20180726185657) do
   create_table "line_days", force: :cascade do |t|
     t.string   "day"
     t.text     "description"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.integer  "user_limit",  default: 5
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "user_limit",       default: 5
     t.datetime "start"
+    t.string   "latitude"
+    t.string   "longitude"
+    t.boolean  "active",           default: true
+    t.integer  "line_up_event_id"
+  end
+
+  create_table "line_up_events", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.text     "description"
+    t.date     "start_date"
+    t.boolean  "active",      default: true
+    t.string   "location"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "member_group_petitions", force: :cascade do |t|

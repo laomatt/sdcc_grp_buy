@@ -1,4 +1,34 @@
-,<p id="notice"><%= notice %></p>
+
+
+
+<% if notice %>
+	<!-- Modal -->
+	<div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Notice</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	<p style='font-size: 25px; padding: 2%;line-height: 115%;color: <%= notice[:status] == 200 ? "green" : "red" %>'>
+		      	<%= notice[:message] %>
+	      	</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+		<script>
+			$("#noticeModal").modal('show');
+		</script>
+<% end %>
+
+<p id="notice"><%= notice %></p>
 <h2 class='day_name'>
 	<%= @line_day.day %>
 </h2>  
@@ -61,6 +91,10 @@
 		%>
 
 
+<% if (@line_day.longitude && @line_day.latitude) %>
+	<script>
+	</script>
+<% end %>
 
 
 		<% if current_user.is_admin? %>
@@ -131,8 +165,19 @@
 	</div>
 </div>
 
+<div id="map_location" style="display: <%= (@line_day.longitude && @line_day.latitude) ? 'block' : 'none' %>;">
+	this is a map
 
-		
+	<div id="map" style="overflow: auto;">
+		<!-- TODO: must upload a new picture of the google map -->
+		<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @line_day.latitude %>,<%= @line_day.longitude %>&zoom=17&size=600x200&maptype=hybrid&scale=1&markers=color:red%7Clabel:LC%7C<%= @line_day.latitude %>,<%= @line_day.longitude %>&key=<%= ENV['GOOGLE_API_KEY']%>" alt="" style="width: 100%">
+	</div>
+</div>
+		<form action="/line_days/<%= @line_day.id%>/update_location" id='map_mark'>
+			<input type="hidden" id='line_day_latitude' name="line_day[latitude]">
+			<input type="hidden" id='line_day_longitude' name="line_day[longitude]">
+			<input type="submit" value='Mark Location' class='btn btn-lg btn-primary' id='map_mark_btn'>
+		</form>
 <script>
 	$('body').on('click', '.top-tab', function(event) {
 		event.preventDefault();
@@ -240,11 +285,24 @@ $('body').on('click', '.edit-slot', function(event) {
 	$("#edit_time_slot").attr('action', $(this).attr('end-pt'));
 	var text = $('#notes_for' + $(this).attr('data-id')).text();
 	var st = $('#start_for' + $(this).attr('data-id')).val();
+	var st_str = $('#start_for' + $(this).attr('data-id')).val();
 	var en = $('#end_for' + $(this).attr('data-id')).val();
+	var en_str = $('#end_for' + $(this).attr('data-id')).val();
 	$("#time_slot_textarea").text(text);
+
+	var start = new Date(st);
+	var end = new Date(en);
+
+
 	// debugger
-	$("#line_day_time_slot_time").datepicker({setDate: new Date(st)});
-	$("#line_day_time_slot_end_time").datepicker({setDate: new Date(en)})
+	// $("#line_day_time_slot_time").datepicker({setDate: new Date(st)});
+	// $("#line_day_time_slot_time").val(st);
+	// $("#line_day_time_slot_end_time").val(en);
+	// $("#line_day_time_slot_end_time").datepicker({setDate: new Date(en)})
+	// $("#line_day_time_slot_time").datepicker('setDate',start);
+	// $("#line_day_time_slot_end_time").datepicker('setDate',end);
+	$("#line_day_time_slot_time_span").text(st_str);
+	$("#line_day_time_slot_end_time_span").text(en_str);
 	$('.time-slot-modal-body').fadeIn(500, function() {});
 });
 
@@ -325,17 +383,16 @@ $('body').on('click', '.update_notes', function(event) {
     
 				    <div class="col-md-6">
 				      <div class="field form-group">
-				        <label for="line_day_time_slot_time">Start</label>
-
-				        <input class="form-control" type="text" autocomplete='off' name="line_day_time_slot[time]" id="line_day_time_slot_time">
+				        <label for="line_day_time_slot_time">Start: <span id="line_day_time_slot_time_span"></span> </label>
+				        <input class="form-control" type="text" autocomplete='off' name="line_day_time_slot[time]" value='' id="line_day_time_slot_time">
 				      </div>
 				    </div>
 
 				    
 				    <div class="col-md-6">
 				      <div class="field form-group">
-				        <label for="line_day_time_slot_end_time_end">End</label>
-				        <input class="form-control" type="text" autocomplete='off' name="line_day_time_slot[end_time]" id="line_day_time_slot_end_time">
+				        <label for="line_day_time_slot_end_time_end">End: <span id=line_day_time_slot_end_time_span""></span></label>
+				        <input class="form-control" type="text" autocomplete='off' name="line_day_time_slot[end_time]" value='' id="line_day_time_slot_end_time">
 				      </div>
 				    </div>
 
@@ -352,6 +409,39 @@ $('body').on('click', '.update_notes', function(event) {
   </div>
 </div>
 
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+		$('.map_message').html('working...');
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+		$("#line_day_longitude").val(position.coords.longitude);
+		$("#line_day_latitude").val(position.coords.latitude);
+		$("#map_mark").trigger('submit');
+}
+
+
+$("body").on('click', '#map_mark_btn', function(event) {
+	event.preventDefault();
+	$("#map_mark_btn").val('working...');
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(showPosition);
+	} else {
+		alert("Geolocation is not supported by this browser.");
+		$("#map_mark_btn").val('Geolocation is not supported by this browser');
+	}
+
+
+});
+
+</script>
 
 <style>
 	.hidden-block {

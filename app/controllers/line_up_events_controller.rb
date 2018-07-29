@@ -1,0 +1,2 @@
+class LineUpEventsController < ApplicationController
+end
