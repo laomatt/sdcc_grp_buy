@@ -135,8 +135,7 @@ class User < ApplicationRecord
       start_day + 1.day,
       start_day + 2.day,
       start_day + 3.day,
-      start_day + 4.day,
-      start_day + 5.day,
+      start_day + 4.day
     ]
 
     times = []

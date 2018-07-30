@@ -73,26 +73,30 @@ class LineDay::TimeSlotsController < ApplicationController
   # PATCH/PUT /line_day/time_slots/1
   # PATCH/PUT /line_day/time_slots/1.json
   def update
-    # respond_to do |format|
+    # byebug
+
+    line_day_time_slot_params = params.require(:line_day_time_slot).permit(:day, :description, :time, :line_day_id, :end_time) if line_day_time_slot_params.nil?
+
+    if line_day_time_slot_params[:end_time].blank?
+      line_day_time_slot_params = line_day_time_slot_params.except(:end_time)
+    end
+
+    if line_day_time_slot_params[:time].blank?
+      line_day_time_slot_params  = line_day_time_slot_params.except(:time)
+    end
+
     if @line_day_time_slot.update(line_day_time_slot_params)
       send_back = @line_day_time_slot.attributes
 
       send_back['start_for'] = @line_day_time_slot.present_time
       send_back['date_for'] = @line_day_time_slot.present_date
-
-      render :json => send_back
+      send_back['status'] = 200
 
     else
-      render :json => {}
+      send_back = { :status => 400, :message => @line_day_time_slot.errors.full_messages.join(', ')}
     end
-      # if @line_day_time_slot.update(line_day_time_slot_params)
-      #   # format.html { redirect_to :back, notice: 'Time slot was successfully updated.' }
-      #   # format.json { render @line_day_time_slot, status: :ok }
-      # else
-      #   format.html { render :edit }
-      #   format.json { render json: @line_day_time_slot.errors, status: :unprocessable_entity }
-      # end
-    # end
+
+    render :json => send_back
   end
 
   # DELETE /line_day/time_slots/1

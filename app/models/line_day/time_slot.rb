@@ -5,13 +5,20 @@ class LineDay::TimeSlot < ApplicationRecord
 		default_scope { order(:time => :asc) }
 		before_save :cover_end_time
 
+		validate :time_in_order
+
+		def time_in_order
+			if time >= end_time
+				errors.add(:time, 'The start time is later than or equal to end time.')
+			end
+		end
 
 		def present_time
 			"#{time.try(:strftime,"%l:%M %p")} - #{end_time.try('strftime',"%l:%M %p")}"			
 		end
 
 		def present_date
-			"(#{time.try(:strftime,"%m/%e")})"
+			"(#{time.try(:strftime,"%b/%e")})"
 		end
 
 		def cover_end_time
@@ -46,9 +53,9 @@ class LineDay::TimeSlot < ApplicationRecord
 
 			{
 				time: present_time,
-				start_time: time,
 				date: present_date,
-				end_time: end_time,
+				start_time: time.strftime('%l:%M %P @ %b/%e'),
+				end_time: end_time.strftime('%l:%M %P @ %b/%e'),
 				people: people,
 				people_hash: people_array,
 				notes: description,

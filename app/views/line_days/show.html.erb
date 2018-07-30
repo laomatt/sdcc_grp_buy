@@ -269,19 +269,13 @@ $('body').on('click', '.edit-slot', function(event) {
 
 	var start = new Date(st);
 	var end = new Date(en);
-
-
-	// debugger
-	// $("#line_day_time_slot_time").datepicker({setDate: new Date(st)});
-	// $("#line_day_time_slot_time").val(st);
-	// $("#line_day_time_slot_end_time").val(en);
-	// $("#line_day_time_slot_end_time").datepicker({setDate: new Date(en)})
-	// $("#line_day_time_slot_time").datepicker('setDate',start);
-	// $("#line_day_time_slot_end_time").datepicker('setDate',end);
 	$("#line_day_time_slot_time_span").text(st_str);
 	$("#line_day_time_slot_end_time_span").text(en_str);
 	$('.time-slot-modal-body').fadeIn(500, function() {});
 });
+
+
+
 
 
 //sign up
@@ -292,16 +286,22 @@ $('body').on('click', '.send_text', function(event) {
 
 $('body').on('click', '.update_notes', function(event) {
 	event.preventDefault();
-	// $('#edit_time_slot').trigger('submit');
 	$.ajax({
 		url: $('#edit_time_slot').attr('action'),
 		type: 'PATCH',
 		data: $('#edit_time_slot').serialize(),
 	})
 	.done(function(data) {
-		$("#notes_for" + data.id).text(data.description);
-		$("#start_for_dis" + data.id).text(data.start_for);
-		$("#date_for" + data.id).text(data.date_for);
+		if (data.status == 200) {
+			$("#notes_for" + data.id).text(data.description);
+			$("#start_for_dis" + data.id).text(data.start_for);
+			$("#date_for" + data.id).text(data.date_for);
+			
+		} else {
+			$("#notice_message").css('color', 'red');
+			$("#notice_message").text(data.message);
+			$("#noticeModal").modal('show');
+		}
 	})
 	
 });
@@ -359,17 +359,22 @@ $('body').on('click', '.update_notes', function(event) {
 		       <div class="row">
     
 				    <div class="col-md-6">
-				      <div class="field form-group">
-				        <label for="line_day_time_slot_time">Start: <span id="line_day_time_slot_time_span"></span> </label>
-				        <input class="form-control" type="text" autocomplete='off' name="line_day_time_slot[time]" value='' id="line_day_time_slot_time">
+			        <div class="line_day_time_slot_start">START TIME</div>
+				      <div class="field form-group btn btn-primary btn-lg time-slot-edit-container" id='line_day_time_slot_time'>
+				        <input class="form-control" type="hidden" autocomplete='off' name="line_day_time_slot[time]" value=''>
+				        <span class='date-picker-face' id="line_day_time_slot_time_span">
+				        </span>
 				      </div>
 				    </div>
 
 				    
 				    <div class="col-md-6">
-				      <div class="field form-group">
-				        <label for="line_day_time_slot_end_time_end">End: <span id=line_day_time_slot_end_time_span""></span></label>
-				        <input class="form-control" type="text" autocomplete='off' name="line_day_time_slot[end_time]" value='' id="line_day_time_slot_end_time">
+			        <div class="line_day_time_slot_end">END TIME</div>
+				      <div class="field form-group btn btn-primary btn-lg time-slot-edit-container" id='line_day_time_slot_end_time'>
+				        <input class="form-control" type="hidden" autocomplete='off' name="line_day_time_slot[end_time]" value=''>
+				        <span class='date-picker-face' id="line_day_time_slot_end_time_span">
+				        	
+				        </span>
 				      </div>
 				    </div>
 
@@ -389,14 +394,14 @@ $('body').on('click', '.update_notes', function(event) {
 <script>
 var x = document.getElementById("demo");
 
-function getLocation() {
-		$('.map_message').html('working...');
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-    	$('.map_container').html("Geolocation is not supported by this browser.");
-    }
-}
+// function getLocation() {
+// 		$('.map_message').html('working...');
+//     if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(showPosition);
+//     } else { 
+//     	$('.map_container').html("Geolocation is not supported by this browser.");
+//     }
+// }
 
 function showPosition(position) {
 		$("#line_day_longitude").val(position.coords.longitude);
