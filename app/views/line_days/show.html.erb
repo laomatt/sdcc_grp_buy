@@ -1,6 +1,5 @@
 
 
-
 <h2 class='day_name'>
 	<%= @line_day.day %>
 </h2>  
@@ -160,6 +159,19 @@
 		<!-- TODO: must upload a new picture of the google map -->
 		<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @line_day.latitude %>,<%= @line_day.longitude %>&zoom=20&size=900x500&maptype=hybrid&scale=1&markers=color:red%7Clabel:LC%7C<%= @line_day.latitude %>,<%= @line_day.longitude %>&key=<%= ENV['GOOGLE_API_KEY']%>" alt="" style="width: 100%">
 	</div>
+</div>
+
+
+
+
+<div class="responsive-top-menu">
+	        <div style='overflow-y: scroll;'>
+          <ul id="" class='line_search_aside line_search_top' style='padding: 0%;'>
+            <%= render :partial => 'line_days/line_day_list', :locals => { :group => @grp_id } %>
+
+            <li><a href="/line_days/my_schedule" style="" class='btn btn-lg btn-primar ln-wait-grp'>My Schedule</a></li>
+          </ul>
+        </div>
 </div>
 
 <script>
