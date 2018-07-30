@@ -125,17 +125,17 @@ class User < ApplicationRecord
     taken
   end
 
-  def day_hash
+  def day_hash(start_day=Date.today)
     # grab all the time slots for the user in the next 5 days and past 2 days
     slots = line_day_time_slot
     # display them in a grid pattern
     days = [
-      Date.today,
-      Date.today + 1.day,
-      Date.today + 2.day,
-      Date.today + 3.day,
-      Date.today + 4.day,
-      Date.today + 5.day,
+      start_day,
+      start_day + 1.day,
+      start_day + 2.day,
+      start_day + 3.day,
+      start_day + 4.day,
+      start_day + 5.day,
     ]
 
     times = []

@@ -34,6 +34,12 @@ class LineDaysController < ApplicationController
   def my_schedule
     # grab all the time slots for the user in the next 5 days and past 2 days
     # display them in a grid pattern
+    # byebug
+    if params[:date]
+      @date = params[:date].to_date
+    else
+      @date = Date.today
+    end
     
   end
 
