@@ -44,7 +44,7 @@ class LineDaysController < ApplicationController
 
     respond_to do |format|
       if @line_day.save
-        format.html { redirect_to @line_day, notice: 'Line day was successfully created.' }
+        format.html { redirect_to :back, notice: { status: 200 ,message: 'Line day was successfully created.'} }
         format.json { render :show, status: :created, location: @line_day }
       else
         format.html { render :new }
@@ -70,18 +70,20 @@ class LineDaysController < ApplicationController
   def destroy
     @line_day.destroy
     respond_to do |format|
-      format.html { redirect_to line_days_url, notice: 'Line day was successfully destroyed.' }
+      format.html { redirect_to line_days_url, notice: { status: 200 ,message: 'Line day was successfully destroyed.'} }
       format.json { head :no_content }
     end
   end
 
   def update_location
+      respond_to do |format|
       if @line_day.update(line_day_location)
-        flash['notice'] = 'Location updated'
+        format.html { redirect_to :back, notice: { status: 200, message: 'Location Updated.' }}
+        format.json { render :show, status: :created, location: @holder }
       else
-        flash['error'] = 'Location not updated'
+        format.html { redirect_to :back, notice: { status: 400, message: 'location not updated :( ' }}
       end
-      redirect_to :back
+    end
   end
 
   private
@@ -97,7 +99,7 @@ class LineDaysController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def line_day_params
       if current_user.is_admin?
-        params.require(:line_day).permit(:day, :description, :user_limit, :start)
+        params.require(:line_day).permit(:day, :description, :user_limit, :start, :line_up_event_id)
       else
         params.require(:line_day).permit(:description)
         

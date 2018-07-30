@@ -1,37 +1,11 @@
 
 
 
-<% if notice %>
-	<!-- Modal -->
-	<div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Notice</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	      	<p style='font-size: 25px; padding: 2%;line-height: 115%;color: <%= notice[:status] == 200 ? "green" : "red" %>'>
-		      	<%= notice[:message] %>
-	      	</p>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-		<script>
-			$("#noticeModal").modal('show');
-		</script>
-<% end %>
-
-<p id="notice"><%= notice %></p>
 <h2 class='day_name'>
 	<%= @line_day.day %>
 </h2>  
+
+<a href="/line_up_events/<%= @line_day.line_up_event.id %>" class='btn btn-lg btn-primary'>Back to <%= @line_day.line_up_event.name %></a>
 
 <p class='start'>
 	Starts @ <b><%= @line_day.start.try(:strftime,'%I:%M %p at %a %B %e, %Y') %></b> 

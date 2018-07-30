@@ -12,6 +12,7 @@
         day: line_day.day, 
         description: line_day.description,
         link: "/line_days/#{line_day.id}", 
+        owner: line_day.user.attributes.slice('avatar_url, name'),
         is_admin: current_user.is_admin?,
         user_id: current_user.id
       }) 
@@ -27,15 +28,58 @@
 
     <% if current_user.is_admin %>
 
-      <%=
-        react_component("LineDay", { 
-            day: 'New Line Day', 
-            description: '(Admin only)',
-            link: new_line_day_path, 
-            is_admin: current_user.is_admin?,
-            user_id: current_user.id
-          }) 
-      %>
+            
+      <h1>Create a Line Up Group.</h1>
+
+      <form action='/line_days' method="POST">
+        <input name="utf8" type="hidden" value="✓" /><input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+        <div class="row">
+          <div class="col-lg-6">
+            
+            <div class="form-group new-event-form">
+              <label for="line_up_event_name">Title</label>
+              <input type="text" class="form-control" id="line_up_event_name" aria-describedby="emailHelp" placeholder="Enter Event Name" name="line_day[day]">
+            </div>
+
+            <div class="form-group new-event-form">
+              <label for="line_up_event_start_date">Event Start Date</label>
+              <input type="date" class="form-control" id="line_up_event_start_date" aria-describedby="emailHelp" placeholder="Enter Event Start Date" name="line_day[start]">
+            </div>
+
+
+            <div class="form-group new-event-form">
+              <label for="description">Description</label>
+              <textarea class="form-control" id="description" name="line_day[description]" rows="10"></textarea>
+            </div>
+
+
+            <div class="row">
+            
+              <div class="col-lg-6">
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group new-event-form">
+                  <input type="submit" value='Create Event' class="btn btn-primary" style="float: right;width: 100%;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+          </div>
+        </div>
+      </form>
+
+      <script>
+        $('body').on('click', '.form-check-input', function(event) {
+          if ($(this).is(':checked')) {
+            $(this).val('1');
+          } else {
+            $(this).val('0');
+
+          }
+        });
+      </script>
+
 
     <% end %>
   </div>

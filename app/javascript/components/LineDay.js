@@ -9,16 +9,29 @@ export default class LineDay extends React.Component {
     	description: props.description,
     	link: props.link
     }
+
+    this.props = props;
   }
 
 
   render () {
+    const that = this;
     return (
     	<div>
 				<a href={this.state.link} className='btn line-day btn-primary'>
-					{this.state.day}
-					<br/>
-					{this.state.description}
+        
+        {this.state.day}
+				<br/>
+        { that.props.owner ? 
+          <img src={that.props.owner.avatar_url} className='chat-avatar img-circle' alt={that.props.owner.name} style={{float:'right'}}/> 
+          :
+          <div></div>
+        }
+
+
+        {this.state.description}
+
+
 				</a>
           { this.props.is_admin ? 
             <div>

@@ -1,0 +1,182 @@
+<h1>Line Days for <%= @event.name %> @ <%= @event.location %></h1>
+<div class="centered">
+
+  <% 
+  @line_days.each do |line_day|
+  %>
+
+  <%=
+    react_component("LineDay", { 
+        day: line_day.day, 
+        description: line_day.description,
+        link: "/line_days/#{line_day.id}", 
+        owner: line_day.user.attributes.slice('avatar_url, name'),
+        is_admin: current_user.is_admin?,
+        user_id: current_user.id
+      }) 
+  %>
+
+
+  <%
+    end
+  %>
+
+    <br>
+	<div class="row">
+		<div class="col-lg-6">
+
+    <% if current_user.id == @event.user_id %>
+
+			<h1>Update this Event</h1>
+
+				<form action='/line_up_events/<%= @event.id %>' id='update_event_form' method="PATCH">
+					<input name="utf8" type="hidden" value="✓" /><input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+					<div class="row">
+						<div class="col-lg-12">
+							
+							<div class="form-group new-event-form">
+								<label for="line_up_event_name">Event Name</label>
+								<input type="text" class="form-control" id="line_up_event_name" aria-describedby="emailHelp" placeholder="Enter Event Name" value="<%= @event.name %>" name="event[name]">
+							</div>
+
+							<div class="form-group new-event-form">
+								<label for="line_up_event_location">Event Location</label>
+								<input type="text" class="form-control" id="line_up_event_location" aria-describedby="emailHelp" placeholder="Enter Event Location" value="<%= @event.location %>" name="event[location]">
+							</div>
+
+
+							<div class="form-group new-event-form">
+								<label for="description">Description</label>
+								<textarea class="form-control" id="description" name="event[description]" rows="10"><%= @event.description %></textarea>
+							</div>
+
+
+							<div class="row">
+							
+								<div class="col-lg-6">
+									<div class="form-check">
+										<label class="form-check-label" for="exampleCheck1">Active?</label>
+										<input type="checkbox" class="form-check-input" name="event[active]" value='1' id="exampleCheck1" checked>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group new-event-form">
+										<input type="submit" value='Update Event' class="btn btn-primary" style="float: right;width: 100%;">
+									</div>
+								</div>
+							</div>
+						</div>
+						</div>
+				</form>
+
+				<script>
+					$('body').on('click', '.form-check-input', function(event) {
+						if ($(this).is(':checked')) {
+							$(this).val('1');
+						} else {
+							$(this).val('0');
+
+						}
+					});
+				</script>
+
+    <% end %>
+
+		</div>
+    <div class="col-lg-6">
+    <% if current_user.is_admin %>
+
+            
+      <h1>Create a Line Up Group</h1>
+
+      <form action='/line_days' method="POST">
+        <input name="utf8" type="hidden" value="✓" /><input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+        <input type="hidden" name='line_day[line_up_event_id]' value='<%= @event.id %>'>
+        <div class="row">
+          <div class="col-lg-12">
+            
+            <div class="form-group new-event-form">
+              <label for="line_up_event_name">Title</label>
+              <input type="text" class="form-control" id="line_up_event_name" aria-describedby="emailHelp" placeholder="Enter Event Name" name="line_day[day]">
+            </div>
+
+            <div class="form-group new-event-form">
+              <label for="line_up_event_start_date">Event Start Date</label>
+              <input type="date" class="form-control" id="line_up_event_start_date" aria-describedby="emailHelp" placeholder="Enter Event Start Date" name="line_day[start]">
+            </div>
+
+            <div class="form-group new-event-form">
+              <label for="description">Description</label>
+              <textarea class="form-control" id="description" name="line_day[description]" rows="10"></textarea>
+            </div>
+
+
+            <div class="row">
+            
+              <div class="col-lg-6">
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group new-event-form">
+                  <input type="submit" value='Create' class="btn btn-primary" style="float: right;width: 100%;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+          </div>
+        </div>
+      </form>
+
+      <script>
+        $('body').on('click', '.form-check-input', function(event) {
+          if ($(this).is(':checked')) {
+            $(this).val('1');
+          } else {
+            $(this).val('0');
+
+          }
+        });
+      </script>
+
+
+    <% end %>
+  </div>
+  </div>
+</div>
+
+
+<style>
+  
+    .line-day {
+        width: 90%;
+        padding: 2%;
+        margin: 1%;
+        font-size: 20px;
+        font-weight: bold;
+        background-color: #775b5b;
+        color: white;
+    }
+  
+    a:visited {
+      color: white;
+    }
+
+</style>
+
+
+
+<script>
+	$('body').on('submit', '#update_event_form', function(event) {
+		event.preventDefault();
+		$.ajax({
+			url: $(this).attr('action'),
+			type: $(this).attr('method'),
+			data: $(this).serialize(),
+		})
+		.done(function(data) {
+			// $('#notice_message').text(data.message);
+			// $("#noticeModal").modal('show');
+		})
+		
+	});
+</script>

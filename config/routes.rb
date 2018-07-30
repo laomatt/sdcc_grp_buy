@@ -10,7 +10,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :line_up_events
+  resources :line_up_events do
+    collection do 
+      get 'my_events'
+    end
+  end
 
   resources :line_days do
     collection do 

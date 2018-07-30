@@ -1,0 +1,72 @@
+
+<h1>Create a new Event.</h1>
+
+<form action='/line_up_events' method="POST">
+	<input name="utf8" type="hidden" value="✓" /><input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+	<div class="row">
+		<div class="col-lg-6">
+			
+			<div class="form-group new-event-form">
+				<label for="line_up_event_name">Event Name</label>
+				<input type="text" class="form-control" id="line_up_event_name" aria-describedby="emailHelp" placeholder="Enter Event Name" name="event[name]">
+			</div>
+
+			<div class="form-group new-event-form">
+				<label for="line_up_event_location">Event Location</label>
+				<input type="text" class="form-control" id="line_up_event_location" aria-describedby="emailHelp" placeholder="Enter Event Location" name="event[Location]">
+			</div>
+
+			<div class="form-group new-event-form">
+				<label for="line_up_event_start_date">Event Start Date</label>
+				<input type="date" class="form-control" id="line_up_event_start_date" aria-describedby="emailHelp" placeholder="Enter Event Start Date" name="event[start_date]">
+			</div>
+
+
+			<div class="form-group new-event-form">
+				<label for="description">Description</label>
+				<textarea class="form-control" id="description" name="event[description]" rows="10"></textarea>
+			</div>
+
+
+			<div class="row">
+			
+				<div class="col-lg-6">
+					<div class="form-check">
+						<label class="form-check-label" for="exampleCheck1">Active?</label>
+						<input type="checkbox" class="form-check-input" name="event[active]" value='1' id="exampleCheck1" checked>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="form-group new-event-form">
+						<input type="submit" value='Create Event' class="btn btn-primary" style="float: right;width: 100%;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+		</div>
+	</div>
+</form>
+
+<script>
+	$('body').on('click', '.form-check-input', function(event) {
+		if ($(this).is(':checked')) {
+			$(this).val('1');
+		} else {
+			$(this).val('0');
+
+		}
+	});
+</script>
+<style>
+	/*.new-event-form input, textarea {
+		width: 70%;
+		float: right;
+	}
+
+	.new-event-form label {
+		width: 30%;
+		float: left;
+	}*/
+
+</style>

@@ -25,4 +25,20 @@ class Holder < ApplicationRecord
   	user.name
   end
 
+
+  def time_conflicts
+    current_times = user.find_taken
+    start_hour = line_day_time_slot.time
+    end_hour = line_day_time_slot.end_time
+    # "#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"
+
+    while start_hour.hour <= end_hour.hour
+      curr_time = taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"]
+      if curr_time
+        errors.add(:user, "You have a time conflict with: #{curr_time.day} (curr_time.present_time)")
+      end
+      start_hour = start_hour + 1.hour
+    end
+  end
+
 end

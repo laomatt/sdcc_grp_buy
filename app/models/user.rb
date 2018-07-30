@@ -107,6 +107,24 @@ class User < ApplicationRecord
     false
   end
 
+  def find_taken
+    taken = {}
+
+    line_day_time_slot.includes('line_day').each do |ts|
+      start_hour = ts.time
+      end_hour = ts.end_time
+
+      while start_hour.hour <= end_hour.hour
+        attributes = ts.try(:attributes).slice('day')
+        attributes['present_time'] = ts.present_time
+        taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"] = attributes
+        start_hour = start_hour + 1.hour
+      end
+    end
+    
+    taken
+  end
+
   def day_hash
     # grab all the time slots for the user in the next 5 days and past 2 days
     slots = line_day_time_slot
@@ -121,19 +139,7 @@ class User < ApplicationRecord
     ]
 
     times = []
-    taken = {}
-
-    line_day_time_slot.includes('line_day').each do |ts|
-      start_hour = ts.time
-      end_hour = ts.end_time
-
-      while start_hour.hour <= end_hour.hour
-        taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"] = ts.try(:attributes).slice('day')
-        start_hour = start_hour + 1.hour
-      end
-    end
-
-
+    taken = find_taken
 
     start_time = Time.new(0)
     0.upto 24 do |i|
@@ -152,7 +158,6 @@ class User < ApplicationRecord
     end
 
     hsh
-    # taken
   end
 
   def my_groups

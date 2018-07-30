@@ -1,0 +1,48 @@
+  <% if current_user.is_admin %>
+
+    <div class="line-day-container">
+      <%=
+        react_component("LineDay", { 
+            day: 'New Event', 
+            description: '(Admin only)',
+            link: new_line_up_event_path, 
+            is_admin: current_user.is_admin?,
+            user_id: current_user.id
+          }) 
+      %>
+    </div>
+
+  <% end %>
+  
+  <% 
+  @events.each do |event|
+  %>
+  <div class="line-day-container">
+    <%=
+      react_component("LineDay", { 
+          day: event.name, 
+          description: event.description,
+          link: "/line_up_events/#{event.id}", 
+          owner: event.user.attributes.slice('avatar_url', 'name'),
+          is_admin: current_user.is_admin?,
+          user_id: current_user.id
+        }) 
+    %>
+  </div> 
+
+  <%
+    end
+  %>
+
+
+
+
+
+
+    <style>
+      .line-day-container {
+        position: relative;
+        display: inline-block;
+        width: 30%;
+      }
+    </style>
