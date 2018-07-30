@@ -147,11 +147,14 @@
 		<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @line_day.latitude %>,<%= @line_day.longitude %>&zoom=17&size=600x200&maptype=hybrid&scale=1&markers=color:red%7Clabel:LC%7C<%= @line_day.latitude %>,<%= @line_day.longitude %>&key=<%= ENV['GOOGLE_API_KEY']%>" alt="" style="width: 100%">
 	</div>
 </div>
+
+<div class="map_container">
 		<form action="/line_days/<%= @line_day.id%>/update_location" id='map_mark'>
 			<input type="hidden" id='line_day_latitude' name="line_day[latitude]">
 			<input type="hidden" id='line_day_longitude' name="line_day[longitude]">
 			<input type="submit" value='Mark Location' class='btn btn-lg btn-primary' id='map_mark_btn'>
 		</form>
+</div>
 <script>
 	$('body').on('click', '.top-tab', function(event) {
 		event.preventDefault();
@@ -391,7 +394,7 @@ function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
+    	$('.map_container').html("Geolocation is not supported by this browser.");
     }
 }
 
