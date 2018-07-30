@@ -113,10 +113,11 @@ class User < ApplicationRecord
     line_day_time_slot.includes('line_day').each do |ts|
       start_hour = ts.time
       end_hour = ts.end_time
+      
+      attributes = ts.try(:attributes).slice('day')
+      attributes['present_time'] = ts.present_time
 
       while start_hour.hour <= end_hour.hour
-        attributes = ts.try(:attributes).slice('day')
-        attributes['present_time'] = ts.present_time
         taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"] = attributes
         start_hour = start_hour + 1.hour
       end

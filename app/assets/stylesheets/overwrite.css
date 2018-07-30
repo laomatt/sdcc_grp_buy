@@ -1304,9 +1304,63 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 
 
+
 }
 
+
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) { 
+
+}
+
+    span.time-slot-date-container {
+        background-color: #faffda;
+
+    }
+
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+    span.time-slot-date-container {
+        display: none;
+    }
+
+    .time-sched-container {
+        /* padding-right: 2%; */
+        justify-content: left;
+        width: 30%;
+    }
+
+
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) { 
+
+}
+
+
+
 @media (max-width: 960px) {
+    span.time-slot-date-container {
+        display: none;
+    }
+
+    .time-sched-container {
+        /* padding-right: 2%; */
+        justify-content: left;
+        width: 30%;
+    }
     .clock-label {
         display: none;
     }
@@ -1402,7 +1456,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     .time-sched-container {
             /* padding-right: 2%; */
         justify-content: left;
-        width: 20%;
+        width: 30%;
     }
     
     .centered {

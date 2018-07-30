@@ -28,7 +28,7 @@ class TimeSlot2 extends React.Component {
 
 
     	<div className='btn btn-lg time-sched-container'>
-	    	<span id={"date_for"+time.id}></span>{time.date}
+	    	<span class='time-slot-date-container' id={"date_for"+time.id}>{time.date}</span>
 	    	<b id={"start_for_dis"+time.id}>
 		    	{time.time} 
 	    	</b> 

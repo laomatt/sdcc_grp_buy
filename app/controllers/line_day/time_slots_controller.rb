@@ -46,7 +46,7 @@ class LineDay::TimeSlotsController < ApplicationController
     end
 
     respond_to do |format|
-        format.html { redirect_to :back, notice: messages.join(', ') }
+        format.html { redirect_to :back, notice: { status: 200, message: messages.join(', ')} }
      end
   end
 
@@ -61,7 +61,7 @@ class LineDay::TimeSlotsController < ApplicationController
 
     respond_to do |format|
       if @line_day_time_slot.save
-        format.html { redirect_to :back, notice: 'Time slot was successfully created.' }
+        format.html { redirect_to :back, notice: { status: 200, message: 'Time slot was successfully created.'} }
         format.json { render :show, status: :created, location: @line_day_time_slot }
       else
         format.html { render :new }
@@ -100,7 +100,7 @@ class LineDay::TimeSlotsController < ApplicationController
   def destroy
     @line_day_time_slot.destroy
     respond_to do |format|
-      format.html { redirect_to :back, notice: 'Time slot was successfully destroyed.' }
+      format.html { redirect_to :back, notice: { status: 200, message: 'Time slot was successfully destroyed.'} }
       format.json { head :no_content }
     end
   end
