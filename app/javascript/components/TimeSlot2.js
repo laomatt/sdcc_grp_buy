@@ -45,7 +45,7 @@ class TimeSlot2 extends React.Component {
 				})}
 
 				
-				<div className='btn-person-container' style={{display: 'inline-block'}}>
+				<div className='btn-person-container'>
 						<form className="new_holder" id="new_holder" action={ time.has_current ? "/holders/erase" : "/holders"} method={ time.has_current ? "GET" : "POST"} acceptCharset="UTF-8"><input name="utf8" type="hidden" value="✓" />
 							<input type="hidden" name="authenticity_token" value={time.authenticity_token} />
 							<input type="hidden" name="holder[time]" id={"start_for" + time.id} value={time.start_time} />
@@ -78,7 +78,7 @@ class TimeSlot2 extends React.Component {
 
 				{
 							time.notes ? 
-							<div className='notes-section btn-person-container' style={{display: 'inline-block'}} id={"notes_for" + time.id}>
+							<div className='notes-section btn-person-container' id={"notes_for" + time.id}>
 								{ time.notes }
 							</div>
 							:
