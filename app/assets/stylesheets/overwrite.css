@@ -1513,7 +1513,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   -o-transition: -o-transform 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
   transition: transform 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
 }
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .main-sidebar,
   .left-side {
     -webkit-transform: translate(-230px, 0);
@@ -1522,7 +1522,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     transform: translate(-230px, 0);
   }
 }
-@media (min-width: 900px) {
+@media (min-width: 1000px) {
   .sidebar-collapse .main-sidebar,
   .sidebar-collapse .left-side {
     -webkit-transform: translate(-230px, 0);
@@ -1531,7 +1531,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     transform: translate(-230px, 0);
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .sidebar-open .main-sidebar,
   .sidebar-open .left-side {
     -webkit-transform: translate(0, 0);
@@ -1540,7 +1540,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     transform: translate(0, 0);
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
 
     .main-header .logo, .main-header .navbar {
         width: 100%;
@@ -1555,7 +1555,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     .navbar-custom-menu {
         /*display: none;*/
         /*width: 100%*/
-            width: 900px;
+            width: 1000px;
     }
 
     .top-tab {
