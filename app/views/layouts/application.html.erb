@@ -413,14 +413,6 @@
     } );
 
 
-
-
-// $( "#line_day_time_slot_time, #line_day_time_slot_end_time" ).on('click', function(event) {
-//   event.preventDefault();
-//   /* Act on the event */
-//   debugger
-// });
-
 $( function() {
   $( "#line_day_time_slot_time, #line_day_time_slot_end_time" ).datetimepicker({
     ampm: true, 
@@ -449,7 +441,6 @@ $( function() {
       var def_time = hours +":"+ minutes;
       var dateOptions = {defaultDate:def_date,defaultTime:def_time};
       this.setOptions(dateOptions);
-      // this.option = dateOptions;
 
     }
   }).change(function(event) {
