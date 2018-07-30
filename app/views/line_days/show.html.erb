@@ -4,8 +4,8 @@
 <h2 class='day_name'>
 	<%= @line_day.day %>
 </h2>  
+<a href="/line_up_events/<%= @line_day.line_up_event.id %>" class='btn btn-lg btn-primary' style='color:white'>Back to <%= @line_day.line_up_event.name %></a>
 
-<a href="/line_up_events/<%= @line_day.line_up_event.id %>" class='btn btn-lg btn-primary'>Back to <%= @line_day.line_up_event.name %></a>
 
 <p class='start'>
 	Starts @ <b><%= @line_day.start.try(:strftime,'%I:%M %p at %a %B %e, %Y') %></b> 
@@ -65,14 +65,13 @@
 		%>
 
 
-<% if (@line_day.longitude && @line_day.latitude) %>
-	<script>
-	</script>
-<% end %>
-
-
 		<% if current_user.is_admin? %>
-		<div class="row" style="padding: 1%">
+		<a href="#" id='admin-options-toggle' data-target='admin-options' class='btn btn-primary btn-lg' style="width: 100%">
+			Admin Options
+		</a>
+
+
+		<div class="row admin-options" style="padding: 1%;display: none;">
 			<div class="col-lg-6" style=" padding: 1%;
 																    background-color: transparent;
 																    color: black;
@@ -111,6 +110,16 @@
 					<div class='success'></div>
 			</div>
 		</div>
+
+
+	<script>
+		$('body').on('click', '#admin-options-toggle', function(event) {
+			event.preventDefault();
+			$('.admin-options').toggle(300);
+		});
+	</script>
+
+
 		<% end %>
 
 	</div>
@@ -139,22 +148,20 @@
 	</div>
 </div>
 
-<div id="map_location" style="display: <%= (@line_day.longitude && @line_day.latitude) ? 'block' : 'none' %>;">
-	this is a map
-
-	<div id="map" style="overflow: auto;">
-		<!-- TODO: must upload a new picture of the google map -->
-		<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @line_day.latitude %>,<%= @line_day.longitude %>&zoom=17&size=600x200&maptype=hybrid&scale=1&markers=color:red%7Clabel:LC%7C<%= @line_day.latitude %>,<%= @line_day.longitude %>&key=<%= ENV['GOOGLE_API_KEY']%>" alt="" style="width: 100%">
-	</div>
-</div>
-
 <div class="map_container">
 		<form action="/line_days/<%= @line_day.id%>/update_location" id='map_mark'>
 			<input type="hidden" id='line_day_latitude' name="line_day[latitude]">
 			<input type="hidden" id='line_day_longitude' name="line_day[longitude]">
-			<input type="submit" value='Mark Location' class='btn btn-lg btn-primary' id='map_mark_btn'>
+			<input type="submit" value='Mark Location' class='btn btn-lg btn-primary btn-wide' id='map_mark_btn'>
 		</form>
 </div>
+<div id="map_location" style="display: <%= (@line_day.longitude && @line_day.latitude) ? 'block' : 'none' %>;">
+	<div id="map" style="overflow: auto;">
+		<!-- TODO: must upload a new picture of the google map -->
+		<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @line_day.latitude %>,<%= @line_day.longitude %>&zoom=20&size=900x500&maptype=hybrid&scale=1&markers=color:red%7Clabel:LC%7C<%= @line_day.latitude %>,<%= @line_day.longitude %>&key=<%= ENV['GOOGLE_API_KEY']%>" alt="" style="width: 100%">
+	</div>
+</div>
+
 <script>
 	$('body').on('click', '.top-tab', function(event) {
 		event.preventDefault();

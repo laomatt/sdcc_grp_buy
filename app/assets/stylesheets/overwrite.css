@@ -1541,6 +1541,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   }
 }
 @media (max-width: 1000px) {
+    .main-header>.navbar {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
 
     .main-header .logo, .main-header .navbar {
         width: 100%;
@@ -1562,4 +1566,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
             width: 100%;
     }
 
+}
+
+
+.btn-primary:visited {
+    color: white;
 }
