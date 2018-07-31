@@ -23,13 +23,15 @@ export default class LineDay extends React.Component {
         {this.state.day}
 				<br/>
         { that.props.owner ? 
-          <img src={that.props.owner.avatar_url} className='chat-avatar img-circle' alt={that.props.owner.name} style={{float:'right'}}/> 
+          <div class='img-line-day-container'>
+            by: {that.props.owner.name}
+            <img src={that.props.owner.avatar_url} className='chat-avatar img-circle' alt={that.props.owner.name} style={{float:'right'}}/> 
+          </div>
           :
           <div></div>
         }
 
 
-        {this.state.description}
 
 
 				</a>

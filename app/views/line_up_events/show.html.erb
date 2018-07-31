@@ -10,7 +10,6 @@
         day: line_day.day, 
         description: line_day.description,
         link: "/line_days/#{line_day.id}", 
-        owner: line_day.user.attributes.slice('avatar_url, name'),
         is_admin: current_user.is_admin?,
         user_id: current_user.id
       }) 
