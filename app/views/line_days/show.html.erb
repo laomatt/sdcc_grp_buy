@@ -1,18 +1,26 @@
 
+<div class="row">
+	<div class="col-lg-6">
+		
+		<h2 class='day_name'>
+			<%= @line_day.day %>
+		</h2>  
+		<a href="/line_up_events/<%= @line_day.line_up_event.id %>" class='btn btn-lg btn-primary' style='color:white'>Back to <%= @line_day.line_up_event.name %></a>
+		<p class='description'>
+		  <%= @line_day.description %>
+		</p>
 
-<h2 class='day_name'>
-	<%= @line_day.day %>
-</h2>  
-<a href="/line_up_events/<%= @line_day.line_up_event.id %>" class='btn btn-lg btn-primary' style='color:white'>Back to <%= @line_day.line_up_event.name %></a>
+	</div>
+
+	<div class="col-lg-6">
+		<p class='start'>
+			Starts @ <b><%= @line_day.start.try(:strftime,'%I:%M %p at %a %B %e, %Y') %></b> 
+		</p>
+	</div>
 
 
-<p class='start'>
-	Starts @ <b><%= @line_day.start.try(:strftime,'%I:%M %p at %a %B %e, %Y') %></b> 
-</p>
 
-<p class='description'>
-  <%= @line_day.description %>
-</p>
+</div>
 
 <% 
 		time_slots_infos = @line_day.time_slots.map { |e| e.present_info(current_user.id) }
