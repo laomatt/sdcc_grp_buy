@@ -5,7 +5,7 @@ class LineDay::TimeSlot < ApplicationRecord
 		default_scope { order(:time => :asc) }
 		before_save :cover_end_time
 
-		validate :time_in_order
+		# validate :time_in_order
 
 		def time_in_order
 			if time >= end_time
