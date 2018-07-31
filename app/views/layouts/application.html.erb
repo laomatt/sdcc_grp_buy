@@ -136,7 +136,7 @@
 
         </section>
         <div style='overflow-y: scroll;'>
-          <ul id="grp_search_aside" class='grp_search_aside' style=''>
+          <ul id="grp_search_aside" class='grp_search_aside line_search_aside' style=''>
             <%= render :partial => 'groups/group_list_sidebar', :locals => { :groups => current_user.my_groups} %>
           </ul>
         </div>
@@ -503,7 +503,7 @@ $( function() {
       </section>
       <section class="content">
         <%= yield %>
-        
+
         <div class="responsive-top-menu">
           <div style='overflow-y: scroll;'>
           <ul id="" class='line_search_aside line_search_top' style='padding: 0%;'>

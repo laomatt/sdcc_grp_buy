@@ -1,11 +1,12 @@
   <% groups.try(:each).try(:each) do |grp| %>
     <% if grp %>
-      <li id="side-item-group-<%= grp.try(:id) %>" class='clock-slot  <%= (!@grp.nil? && @grp.try(:id) == grp.try(:id)) ? "group_active" : "group-slot" %> li_grp_for_<%= grp.try(:id) %> <%= grp.member_lists %>' style="background-color: <%= grp.coverage %>">
+      <li id="side-item-group-<%= grp.try(:id) %>" style="background-color: <%= grp.coverage %>">
         <% if (!@grp.nil? && @grp.try(:id) == grp.try(:id))%>
           <%= grp.name %> <br>
           coverage: <span id="side-item-count-for-group-<%= grp.try(:id) %>"> <%= grp.number_covered %>/<%= grp.member_groups.count %></span>
         <% else %>
-          <a class='group-list-item' href="/groups/<%= grp.try(:id) %>"><%= grp.name %> <br>
+          <a class='btn btn-lg btn-primar ln-wait-grp' href="/groups/<%= grp.try(:id) %>" style="width: 100%;
+    color: black;"><%= grp.name %> <br>
             coverage: <span id="side-item-count-for-group-<%= grp.try(:id) %>"> <%= grp.number_covered %>/<%= grp.member_groups.count %></span>
           </a>
         <% end %>
