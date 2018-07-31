@@ -1457,6 +1457,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
     .free {
         background-color: transparent;
+        /*padding-bottom: 17%;*/
     }
 
     .timerow {
@@ -1551,6 +1552,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
         margin-right: 0px;
     }
 
+    .free {
+        /*background-color: green;*/
+        /*padding-bottom: 17%;*/
+    }
+
+
     .main-header .logo, .main-header .navbar {
         width: 100%;
         float: none;
@@ -1578,6 +1585,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 }
 
+
+.occupied, .free {
+    height: 45px;
+}
+
+.occupied a:visited {
+    color: white;
+}
 
 .responsive-top-menu {
     display: block;
