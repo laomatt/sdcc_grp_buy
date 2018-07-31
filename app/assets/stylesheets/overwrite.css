@@ -1450,6 +1450,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
         font-weight: bold;
     }
 
+    .occupied a {
+        color: white;
+        border-width: 0;
+    }
+
     .free {
         background-color: transparent;
     }

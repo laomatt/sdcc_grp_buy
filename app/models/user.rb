@@ -116,6 +116,7 @@ class User < ApplicationRecord
       
       attributes = ts.try(:attributes).slice('day')
       attributes['present_time'] = ts.present_time
+      attributes['line_day_id'] = ts.line_day.id
 
       while start_hour.hour <= end_hour.hour
         taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"] = attributes

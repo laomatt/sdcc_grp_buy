@@ -6,12 +6,6 @@ import PersonContact from "./PersonContact"
 class TimeSlot2 extends React.Component {
 	constructor (props) {
     super(props);
-    this.state = {
-			// expanded: false
-    };
-
-    // This binding is necessary to make `this` work in the callback
-    // this.expandBox = this.expandBox.bind(this);
   }
 
   render () {
