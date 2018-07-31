@@ -17,6 +17,11 @@ class LineDay::TimeSlot < ApplicationRecord
 			"#{time.try(:strftime,"%l:%M %p")} - #{end_time.try('strftime',"%l:%M %p")}"			
 		end
 
+
+		def present_time_sched
+			"Starts @ #{time.try(:strftime,"%l:%M %p")}"			
+		end
+
 		def present_date
 			"(#{time.try(:strftime,"%b/%e")})"
 		end
