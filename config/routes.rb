@@ -107,6 +107,8 @@ Rails.application.routes.draw do
       get 'groups_index'
       get 'members_index'
       get 'groups_index'
+      get 'system_settings'
+      patch 'system_settings'
     end
   end
 

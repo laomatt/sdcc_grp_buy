@@ -11,6 +11,10 @@ class AdminsController < ApplicationController
 		end
 	end
 
+	def system_settings
+		
+	end
+
 	def search_members
 		members = Member.where("lower(sdcc_member_id) like ? OR lower(name) like ?", "%#{params[:search].downcase}%", "%#{params[:search].downcase}%").first(5)
 		render :partial => 'code_results_members', :locals => { :members => members }

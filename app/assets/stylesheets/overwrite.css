@@ -1566,6 +1566,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
         position: relative!important;
     }
 
+
+    .top-logo-prof-img {
+        display: block;
+    }
+
     .content-wrapper {
         margin-left: 0%;
     }
@@ -1584,10 +1589,24 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
         display: block;
     }
 
+    .line-day-container {
+            position: relative;
+    display: inline-block;
+    width: 100%;
+    padding: 2%;
+    overflow: auto;
+    overflow-wrap: all;
+    background-color: #222d32;
+          }
+
+
 
 }
 
 
+.top-logo-prof-img {
+    display: none;
+}
 .occupied, .free {
     height: 45px;
 }
@@ -1597,7 +1616,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .responsive-top-menu {
-    display: block;
+    display: none;
+    color: black;
 }
 
 .line_search_top li {

@@ -27,7 +27,7 @@ class LineUpEventsController < ApplicationController
 
 	def my_events
 		# list current users index
-		@events = LineUpEvent.where('active=?, user_id=?', true, current_user.id)
+		@events = LineUpEvent.where('user_id=?',current_user.id)
 	end
 
 

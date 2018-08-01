@@ -1,6 +1,17 @@
+  
+
+      <%=
+        react_component("LineDay", { 
+            day: 'My Events', 
+            description: '',
+            link: '"/line_up_events/my_events"', 
+            is_admin: current_user.is_admin?,
+            user_id: current_user.id
+          }) 
+      %>
+
   <% if current_user.is_admin %>
 
-    <div class="line-day-container">
       <%=
         react_component("LineDay", { 
             day: 'New Event', 
@@ -10,7 +21,6 @@
             user_id: current_user.id
           }) 
       %>
-    </div>
 
   <% end %>
   
@@ -37,10 +47,8 @@
 
 
 
-
-
     <style>
-            .line-day-container {
+      .line-day-container {
             position: relative;
     display: inline-block;
     width: 30%;
@@ -48,6 +56,5 @@
     overflow: auto;
     overflow-wrap: all;
     background-color: #222d32;
-          }    
-
-        </style>
+          }
+    </style>

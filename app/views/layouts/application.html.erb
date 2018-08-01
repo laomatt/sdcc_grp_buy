@@ -34,7 +34,9 @@
       
       <header class="main-header">
         <!-- Logo -->
-        <a href="/" class="logo"><b>SDCC</b>2019</a>
+        <a href="/" class="logo">
+          <img src="<%= current_user.avatar_url %>" class="more-circle top-logo-prof-img" alt="User Image" alt="" /><b>SDCC</b>2019
+        </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <% if flash[:error] %>
@@ -119,7 +121,20 @@
               <a href="/users/inbox" class='group-list-item'>INBOX</a>
             <% end %>
           </div>
-          <!-- search form -->
+          
+
+        <ul class="sidebar-menu">
+          <li class="header">YOUR LINE GROUPS</li>
+        </ul>
+
+        <div style='overflow-y: scroll;'>
+          <ul id="line_search_aside" class='line_search_aside' style='padding: 0%;'>
+              <%= render :partial => 'line_days/line_day_list', :locals => { :group => @grp_id } %>
+            <li><a href="/line_days/my_schedule" style="" class='btn btn-lg btn-primar ln-wait-grp'>My Schedule</a></li>
+          </ul>
+        </div>
+
+        <!-- search form -->
           <form action="#" method="get" id='private-grp-search' class="sidebar-form">
             <div class="input-group">
               <input type="text" name="q" id="pgsearch" class="form-control" placeholder="Search Your groups..."/>
@@ -138,17 +153,6 @@
         <div style='overflow-y: scroll;'>
           <ul id="grp_search_aside" class='grp_search_aside line_search_aside' style=''>
             <%= render :partial => 'groups/group_list_sidebar', :locals => { :groups => current_user.my_groups} %>
-          </ul>
-        </div>
-
-        <ul class="sidebar-menu">
-          <li class="header">YOUR LINE GROUPS</li>
-        </ul>
-
-        <div style='overflow-y: scroll;'>
-          <ul id="line_search_aside" class='line_search_aside' style='padding: 0%;'>
-              <%= render :partial => 'line_days/line_day_list', :locals => { :group => @grp_id } %>
-            <li><a href="/line_days/my_schedule" style="" class='btn btn-lg btn-primar ln-wait-grp'>My Schedule</a></li>
           </ul>
         </div>
 
@@ -173,6 +177,11 @@
             <li class="admin-options">
               <a href="/admins/groups_index" class='btn btn-lg btn-warning ln-wait-grp'>GROUPS</a>
             </li>
+
+            <li class="admin-options">
+              <a href="/admins/system_settings" class='btn btn-lg btn-warning ln-wait-grp'>SYSTEM</a>
+            </li>
+
           </ul>
          <% end %>
 
@@ -501,17 +510,17 @@ $( function() {
       <section class="content-header">
       </section>
       <section class="content">
+          <div class="responsive-top-menu">
+            <div style='overflow-y: scroll;'>
+            <ul id="" class='line_search_aside line_search_top' style='padding: 0%;'>
+              <%= render :partial => 'line_days/line_day_list', :locals => { :group => @grp_id } %>
+
+              <li><a href="/line_days/my_schedule" style="" class='btn btn-lg btn-primar ln-wait-grp'>My Schedule</a></li>
+            </ul>
+          </div>
+        </div>
         <%= yield %>
 
-        <div class="responsive-top-menu">
-          <div style='overflow-y: scroll;'>
-          <ul id="" class='line_search_aside line_search_top' style='padding: 0%;'>
-            <%= render :partial => 'line_days/line_day_list', :locals => { :group => @grp_id } %>
-
-            <li><a href="/line_days/my_schedule" style="" class='btn btn-lg btn-primar ln-wait-grp'>My Schedule</a></li>
-          </ul>
-        </div>
-      </div>
 
       </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
@@ -540,5 +549,66 @@ $( function() {
 
 
   </body>
+
+  <style>
+    @media (max-width: 1000px) {
+    .main-header>.navbar {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .free {
+        /*background-color: green;*/
+        /*padding-bottom: 17%;*/
+    }
+
+
+    .main-header .logo, .main-header .navbar {
+        width: 100%;
+        float: none;
+        position: relative!important;
+    }
+
+
+    .top-logo-prof-img {
+        display: block;
+        height: 50px;
+        width: 50px;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .content-wrapper {
+        margin-left: 0%;
+    }
+
+    .navbar-custom-menu {
+        /*display: none;*/
+        /*width: 100%*/
+            width: 1000px;
+    }
+
+    .top-tab {
+            width: 100%;
+    }
+
+    .responsive-top-menu {
+        display: block;
+    }
+
+        .line-day-container {
+            position: relative;
+    display: inline-block;
+    width: 100%;
+    padding: 2%;
+    overflow: auto;
+    overflow-wrap: all;
+    background-color: #222d32;
+          }
+
+
+
+}
+  </style>
 
 </html>
