@@ -1,1 +1,0 @@
-system_settings.html.erb

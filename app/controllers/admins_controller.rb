@@ -12,7 +12,41 @@ class AdminsController < ApplicationController
 	end
 
 	def system_settings
-		
+		@comm = SystemSetting.find_by_code('comm')
+		@email = SystemSetting.find_by_code('comm_email_test').value
+		@phone = SystemSetting.find_by_code('comm_phone_test').value
+		@signup = SystemSetting.find_by_code('signup')
+	end
+
+	def update_system_settings
+		# settings_params
+		errors = []
+		comm = SystemSetting.find_by_code('comm')
+
+		if !comm.update({value: settings_params[:comm_type]})
+			errors += comm.errors.full_messages
+		end
+
+		email = SystemSetting.find_by_code('comm_email_test')
+		if !email.update({value: settings_params[:test_email]})
+			errors += email.errors.full_messages
+		end
+
+		phone = SystemSetting.find_by_code('comm_phone_test')
+		if !phone.update({value: settings_params[:test_phone]})
+			errors += phone.errors.full_messages
+		end
+
+		signup = SystemSetting.find_by_code('signup')
+		if !signup.update({active: settings_params[:exclusive_signup],enum: settings_params[:email_whitelist].split(', ').to_json})
+			errors += signup.errors.full_messages
+		end
+
+		if errors.empty?
+      render :json => { status: 200, message: 'settings updated.' }
+    else
+      render :json => { status: 400, message: 'Some settings not updated: ' + errors.join(', ') }
+    end
 	end
 
 	def search_members
@@ -627,6 +661,10 @@ class AdminsController < ApplicationController
 
 
 	private
+
+	def settings_params
+		params.require(:settings).permit(:comm_type, :test_email, :test_phone, :exclusive_signup, :email_whitelist)
+	end
 
 	def invite_params
 		params.require(:invite).permit(:email)

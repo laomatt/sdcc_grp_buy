@@ -17,24 +17,16 @@ class MyMailer < ApplicationMailer
     @add_notes = options[:add_notes]
     @email = options[:email]
 
-    # obj_log = {
-    #     to: @email, 
-    #     from: 'site',
-    #     body: subject
-    #     type: 'log'
-    #   }
-      
-    # Email.make_log(obj_log)
-
-    mail(:to => @email, :subject => subject)
+    send_it(@email,subject)
   end
 
   def val_link(options, subject='SDCC Tickets: Please validate your email')
     @email = options[:email]
-  	@request = options[:request]
-  	@temp = options[:temp]
-  	@en_code = options[:en_code]
-    mail(:to => @email, :subject => subject)
+    @request = options[:request]
+    @temp = options[:temp]
+    @en_code = options[:en_code]
+
+    send_it(@email,subject)
   end
 
   def reset_link(options, subject='SDCC Tickets: Please validate your email')
@@ -42,6 +34,16 @@ class MyMailer < ApplicationMailer
     @request = options[:request]
     @temp = options[:temp]
     @en_code = options[:en_code]
-    mail(:to => @email, :subject => subject)
+
+    send_it(@email,subject)
+  end
+
+  def send_it(email,subject)
+    comm = SystemSetting.find_by_code('comm')
+    if comm.value == 'test'
+        email = SystemSetting.find_by_code('comm_email_test').value
+    end
+    
+    mail(:to => email, :subject => subject)
   end
 end

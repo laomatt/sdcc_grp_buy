@@ -1,0 +1,99 @@
+
+<h1>System Settings</h1>
+
+<form action='' method="PATCH" id='settings-form'>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Comunications (test,production)</label>
+        <select class="form-control" value="<%= @comm.value %>" name="settings[comm_type]">
+          <% 
+          @comm.list.each do |com| 
+            %>
+            <option value='<%= com %>' <%= com == @comm.value ? 'selected' : '' %>><%= com %></option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Test Email address</label>
+        <input type="email" class="form-control" value='<%= @email %>' id="" name="settings[test_email]">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Test Phone Number</label>
+        <input type="phone" class="form-control" value='<%= @phone %>' id="" name="settings[test_phone]">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-check">
+    <input class="form-check-input" type="hidden" value="<%= @signup.active ? '1' : '0'  %>" name="settings[exclusive_signup]">
+    <label class="form-check-label" for="defaultCheck1">
+      Exclusive sign up?
+    </label>
+    <a href="#" id='exclusive_signup_selector'>
+      <i class="fa <%= @signup.active ? 'fa-toggle-on' : 'fa-toggle-off'  %> fa-4x" aria-hidden="true" id=''></i>
+    </a>
+  </div>
+
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Email Whitelist</label>
+    <textarea class="form-control" id="" name='settings[email_whitelist]' rows="3">
+      <%=
+        @signup.list.join(', ')
+      %>
+    </textarea>
+  </div>
+
+  <input type="submit"class='btn btn-lg btn-primary' id='apply_settings' value='Apply Settings'>
+</form>
+
+
+
+
+
+<script>
+  $('body').on('click', '#exclusive_signup_selector', function(event) {
+    event.preventDefault();
+    if ($(this).find('i').hasClass('fa-toggle-on')) {
+      $(this).find('i').removeClass('fa-toggle-on');
+      $(this).find('i').addClass('fa-toggle-off');
+      $('input[name="settings[exclusive_signup]"]').val(0);
+    } else {
+      $(this).find('i').removeClass('fa-toggle-off');
+      $(this).find('i').addClass('fa-toggle-on');
+      $('input[name="settings[exclusive_signup]"]').val(1);
+
+    }
+  });
+
+  $('body').on('submit', '#settings-form', function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: '/admins/update_system_settings',
+      type: 'PATCH',
+      data: $(this).serialize(),
+    })
+    .done(function(data) {
+      if (data.status == 200) {
+        $("#notice_message").css('color', 'green');
+      } else {
+        $("#notice_message").css('color', 'red');
+      }
+      $("#notice_message").text(data.message);
+      $("#noticeModal").modal('show');
+    })
+  });
+</script>
+
+
+<style>
+  #exclusive_signup_selector {
+        border-width: 0px;
+    width: 100px;
+  }
+</style>
