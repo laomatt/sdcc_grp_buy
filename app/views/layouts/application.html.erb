@@ -2,10 +2,6 @@
 <html>
   <head>
     <title>SdccGrpBuy</title>
-    <!-- Bootstrap 3.3.2 -->
-    <!-- FontAwesome 4.3.0 -->
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> -->
-    <!-- Ionicons 2.0.0 -->
     <link href="https://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 
@@ -45,46 +41,118 @@
             </div>
 
             <script type="text/javascript">
-              setTimeout(function(){
-                $('.error-message').fadeOut(1000);
-              },2000)
+              $("#noticeModal").find('#notice_message').text(<%= flash[:error]%>)
+              $("#noticeModal").modal('show');
             </script>
           <% end %>
 
           <!-- Sidebar toggle button-->
           <% if current_user %>
           <div class="navbar-custom-menu">
+
             <ul class="nav navbar-nav">
-              <% if !current_user.try(:is_valid?) && current_user.has_a_val_code? %>
-                <li class="">
-                  <a href="/" class='btn btn-lg btn-danger'>Enter validation code</a>
-                </li>
-              <% end %>
-              <% if current_user.try(:is_valid?) %>
-                <li class="">
-                  <a href="/purchases" class='btn btn-lg'>PURCHASES</a>
-                </li>
-              <% end %>
 
-              <% if current_user.try(:is_valid?) %>
-                <li class="">
-                  <a href="/groups/new" class='btn btn-lg'>+GROUP</a>
-                </li>
-              <% end %>
-              <li class="">
-                <a href="/groups" class='btn btn-lg'>GROUPS</a>
-              </li>
-              <% if current_user.try(:is_valid?) %>
-                <li class="">
-                  <a href="/members/new" class='btn btn-lg'>+MEMBER</a>
-                </li>
-              <% end %>
-              <li class="">
-                <a href="/members" class='btn btn-lg'>MEMBERS</a>
-              </li>
+
+
+                <% if current_user.try(:is_admin) %>
+                  <div class="responsive-top-menu">
+                    <li class="">
+                      <a href="#" class='btn btn-lg dropdown-toggle' data-toggle='dropdown'>
+                        ADMIN MENU
+                      </a>
+
+                      <ul class='dropdown-menu'>
+                        <li class="admin-options">
+                          <a href="/groups/master_tab" class='btn btn-lg btn-warning'>Master View</a>
+                        </li>
+                        <li class="admin-options">
+                          <a href="/admins/csv_upload" class='btn btn-lg btn-warning'>Upload CSV</a>
+                        </li>
+                        <li class="admin-options">
+                          <a href="/admins" class='btn btn-lg btn-warning'>CODES</a>
+                        </li>
+                        <li class="admin-options">
+                          <a href="/admins/users_index" class='btn btn-lg btn-warning'>USERS</a>
+                        </li>
+                        <li class="admin-options">
+                          <a href="/admins/members_index" class='btn btn-lg btn-warning'>MEMBERS</a>
+                        </li>
+                        <li class="admin-options">
+                          <a href="/admins/groups_index" class='btn btn-lg btn-warning'>GROUPS</a>
+                        </li>
+
+                        <li class="admin-options">
+                          <a href="/admins/system_settings" class='btn btn-lg btn-warning'>SYSTEM</a>
+                        </li>
+
+                      </ul>
+                    </li>
+                  </div>
+                 <% end %>
+
+
 
               <li class="">
-                <a href="/line_up_events" class='btn btn-lg'>LINE UP EVENTS</a>
+                <a href="#" class='btn btn-lg dropdown-toggle' data-toggle='dropdown'>
+                  TICKET GROUPS MENU
+                </a>
+
+                <ul class="dropdown-menu">
+                  <% if !current_user.try(:is_valid?) && current_user.has_a_val_code? %>
+                    <li class="">
+                      <a href="/" class='btn btn-lg btn-danger'>Enter validation code</a>
+                    </li>
+                  <% end %>
+                  <% if current_user.try(:is_valid?) %>
+                    <li class="">
+                      <a href="/purchases" class='btn btn-lg'>PURCHASES</a>
+                    </li>
+                  <% end %>
+
+                  <% if current_user.try(:is_valid?) %>
+                    <li class="">
+                      <a href="/groups/new" class='btn btn-lg'>+GROUP</a>
+                    </li>
+                  <% end %>
+                  <li class="">
+                    <a href="/groups" class='btn btn-lg'>GROUPS</a>
+                  </li>
+                  <% if current_user.try(:is_valid?) %>
+                    <li class="">
+                      <a href="/members/new" class='btn btn-lg'>+MEMBER</a>
+                    </li>
+                  <% end %>
+                  <li class="">
+                    <a href="/members" class='btn btn-lg'>MEMBERS</a>
+                  </li>
+                </ul>
+              </li>
+
+
+              <li class="">
+                <a href="/line_up_events" class='btn btn-lg dropdown-toggle' data-toggle='dropdown'>LINE UP EVENT MENU</a>
+                <ul class="dropdown-menu">
+                  <li>
+                      <a href="<%= new_line_up_event_path %>" class='btn btn-lg btn-primary'>
+                        + Event
+                      </a>
+                  </li>
+
+                  <li>
+                      <a href='/line_up_events/my_events' class='btn btn-lg btn-primary'>
+                        My Events
+                      </a>
+                  </li>
+
+                  <li>
+                      <a href="/line_up_events" class='btn btn-lg btn-primary'>
+                        All Events
+                      </a>
+                  </li>
+
+
+
+                </ul>
               </li>
                 
               <li>
@@ -95,6 +163,18 @@
           <% end %>
         </nav>
       </header>
+
+
+      <style>
+        .dropdown-menu {
+          width: 100%;
+          background-color: #3c8dbc;
+        }
+        .dropdown-menu>li>a {
+            color: white;
+            border-width: 0px;
+        }
+      </style>
 
 
       <% if current_user %>
@@ -596,19 +676,42 @@ $( function() {
         display: block;
     }
 
-        .line-day-container {
-            position: relative;
-    display: inline-block;
-    width: 100%;
-    padding: 2%;
-    overflow: auto;
-    overflow-wrap: all;
-    background-color: #222d32;
-          }
+    .line-day-container {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      padding: 2%;
+      overflow: auto;
+      overflow-wrap: all;
+      background-color: #222d32;
+    }
 
+    .navbar-custom-menu>.navbar-nav>li>.dropdown-menu {
+      position: absolute;
+      right: 5%;
+      left: auto;
+      border: 1px solid #ddd;
+      background: #3c8dbc;
+        width: 90%;
+        margin-right: 0;
+    }
+
+/*    .dropdown-menu {
+    }*/
+    .dropdown-menu>li>a {
+      color: #fff;
+      background-color: #3c8dbc;
+    }
 
 
 }
+
+
+  .switch_selector {
+        border-width: 0px;
+    width: 100px;
+  }
+
   </style>
 
 </html>

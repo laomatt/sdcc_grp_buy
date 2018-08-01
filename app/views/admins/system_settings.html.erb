@@ -34,7 +34,7 @@
     <label class="form-check-label" for="defaultCheck1">
       Exclusive sign up?
     </label>
-    <a href="#" id='exclusive_signup_selector'>
+    <a href="#" id='exclusive_signup_selector' class='switch_selector'>
       <i class="fa <%= @signup.active ? 'fa-toggle-on' : 'fa-toggle-off'  %> fa-4x" aria-hidden="true" id=''></i>
     </a>
   </div>
@@ -50,10 +50,6 @@
 
   <input type="submit"class='btn btn-lg btn-primary' id='apply_settings' value='Apply Settings'>
 </form>
-
-
-
-
 
 <script>
   $('body').on('click', '#exclusive_signup_selector', function(event) {
@@ -92,8 +88,4 @@
 
 
 <style>
-  #exclusive_signup_selector {
-        border-width: 0px;
-    width: 100px;
-  }
 </style>

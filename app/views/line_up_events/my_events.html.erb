@@ -20,22 +20,6 @@
 
 
 
-    <% if current_user.is_admin %>
-
-      <%=
-        react_component("LineDay", { 
-            day: 'New Event', 
-            description: '(Admin only)',
-            link: new_line_up_event_path, 
-            is_admin: current_user.is_admin?,
-            user_id: current_user.id
-          }) 
-      %>
-
-    <% end %>
-
-
-
     <style>
       .line-day-container {
             position: relative;

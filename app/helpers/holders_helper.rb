@@ -23,12 +23,14 @@ module HoldersHelper
     # twilio API
     @client = Twilio::REST::Client.new account_sid, auth_token
 
+    raise "#{user.name} has opted to not recieve text messages" if !holder.user.active_phone
 
     @client.api.account.messages.create(
       from: "+#{ENV['TWILIO_NUMBER']}",
       to: number,
       body: text
     )
+
     # persist to holder text message record
     TextMessageRecord.create(:user_id => holder.user_id)
 
