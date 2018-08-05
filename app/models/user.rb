@@ -72,6 +72,7 @@ class User < ApplicationRecord
   end
 
   def is_valid?
+    # TODO (validation caching): check the users cached valid? column, if it is nil it will attempt to validate, if it is false it will not to validate, if it is true it will return true
     # this users validation_code must match thier assigned e-mail in the ValidationCode model
     code = ValidationCode.validate_by_email(email, decrypt_code(validation_code))
   end

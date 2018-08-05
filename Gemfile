@@ -55,6 +55,7 @@ gem 'redis', '~> 3.0'
 # Use Unicorn as the app server
 # gem 'unicorn'
 # gem 'websocket-rails'
+# gem 'rspec'
 gem 'react-rails'
 gem 'twilio-ruby', '~> 5.10.5'
 # gem 'webpacker'
@@ -71,6 +72,7 @@ gem 'aws-sdk', '< 3.0'
 # gem 'aws-sdk', '2.10.47'
 gem 'aws-sdk-s3'
 # gem 'csv'
+ gem 'web-console', group: :development
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-datetimepicker'
@@ -79,13 +81,17 @@ end
 group :development, :test do
   gem 'sqlite3'
   gem 'byebug'
-  
+  # gem "factory_bot_rails"
+  # gem 'factory_girl'
+  gem 'factory_girl_rails'
   gem 'listen'
+  gem 'capybara'
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  # gem 'web-console', '~> 2.0'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+   gem 'rspec-rails'
 end
 
 group :production do

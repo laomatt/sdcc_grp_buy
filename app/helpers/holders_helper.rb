@@ -11,6 +11,10 @@ module HoldersHelper
         num = holder.user.phone
     end
 
+    if Rails.env.development? || Rails.env.test?
+        num = '4152796392'
+    end
+
     raise "No Phone number provided for user #{holder.user.name}" if num.nil?
 
     number = num.gsub(/[^0-9,.]/, "")
