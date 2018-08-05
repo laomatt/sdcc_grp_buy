@@ -32,6 +32,9 @@ class HoldersController < ApplicationController
       holder = Holder.where({:user_id => contact_id, :line_day_time_slot_id => slot_id}).first
     end
 
+
+    raise 'Message body is empty' if contact_holder_params[:body].nil?
+
     text = "MESSAGE FROM LINE WAIT GROUP:  " + contact_holder_params[:body]
     begin
       send_to_holder(holder,text)
@@ -40,7 +43,7 @@ class HoldersController < ApplicationController
         end
     rescue Exception => e
       respond_to do |format|
-        format.html { redirect_to :back, notice: { status: 500, message: e.message }}
+        format.html { redirect_to :back, notice: { status: 400, message: e.message }}
       end
     end
   end

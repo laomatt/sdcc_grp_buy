@@ -35,7 +35,7 @@ namespace :test_db do
 		      payment_info: 'there is none',
 		      order_prefs: '',
 		      phone: '415-279-6392' ,
-		      active_phone: false
+		      active_phone: true
 		})
 
 		user_admin = User.create({
@@ -48,7 +48,7 @@ namespace :test_db do
 		      payment_info: 'there is none',
 		      order_prefs: '',
 		      phone: '415-279-6392' ,
-		      active_phone: false
+		      active_phone: true
 		})
 
 		dates_to_use = {

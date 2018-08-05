@@ -35,16 +35,19 @@ RSpec.describe HoldersController, type: :controller do
 
   describe 'signing up for a time shift' do 
 
-		it 'tests that a user with out a valid phone number cannot sign up' do 
+	  [nil, "", "dsfadsafsda","234444"].each do |num|
+			it 'tests that a user with out a valid phone number cannot sign up' do 
 		  # find a time slot that has a user limit of 4 and try ot sign up for it
-			current_user.update(phone: '')
-			line_day_slot = LineDay.where("user_limit=?", 4).first.time_slots.first
-			post 'create', params: { holder: {line_day_time_slot_id: line_day_slot.id} }
-			
-			expect(flash.notice[:status]).to eq 400
-			expect(flash.notice[:message]).to eq "User You need a valid phone number (area code AND phone number) in order to sign up for a wait group.  Please click on the \"Your Acct\" button on the top right and enter one in the form and click the \"Update Info\" button. "
-			expect(response.status).to eq 302
-		end
+				current_user.update(phone: num)
+				line_day_slot = LineDay.where("user_limit=?", 4).first.time_slots.first
+				post 'create', params: { holder: {line_day_time_slot_id: line_day_slot.id} }
+				
+				expect(flash.notice[:status]).to eq 400
+				expect(flash.notice[:message]).to eq "User You need a valid phone number (area code AND phone number) in order to sign up for a wait group.  Please click on the \"Your Acct\" button on the top right and enter one in the form and click the \"Update Info\" button. "
+				expect(response.status).to eq 302
+			end
+	  end
+
 
 
 		it 'should sign a user up for a time shift and unassign themselves from a time slot' do 
@@ -139,8 +142,43 @@ RSpec.describe HoldersController, type: :controller do
 
 	describe 'sending text messages' do
 
-	# test that a user who does not want text messages does not get text messages
-		# try to send a message to a user who does not want a text message
+		it "tests that message body is filled out" do
+			# try to send a message to a user who does not want a text message
+			send_user = User.where("active_phone=?", true).first
+			time_slot = LineDay::TimeSlot.last
+			Holder.create(user_id: send_user.id, line_day_time_slot_id: time_slot.id)
+
+			expect { 
+				post 'send_text', params: { holder_contact: { contact_id: send_user.id, slot_id: time_slot.id } }
+			}.to raise_error('Message body is empty')
+		end
+
+		it "the validity of the phone number" do
+			# try to send a message to a user who does not want a text message
+			send_user = User.where("active_phone=?", true).first
+			SystemSetting.find_by_code('comm').update(:value => 'production')
+			[nil, "", "dsfadsafsda","234"].each do |num|
+				send_user.update(:phone => num)
+				time_slot = LineDay::TimeSlot.last
+				Holder.create(user_id: send_user.id, line_day_time_slot_id: time_slot.id)
+
+				send_user.update(:phone => num)
+				post 'send_text', params: { holder_contact: { contact_id: send_user.id, slot_id: time_slot.id, body: 'example hello' } }
+				expect(flash.notice[:status]).to eq 400
+				expect(flash.notice[:message]).to eq "No Valid Phone number provided for user #{send_user.name}"
+			end
+		end
+
+		it "tests that a user who does not want text messages does not get text messages" do
+			# try to send a message to a user who does not want a text message
+			send_user = User.where("active_phone=?", false).first
+			time_slot = LineDay::TimeSlot.last
+			Holder.create(user_id: send_user.id, line_day_time_slot_id: time_slot.id)
+
+			post 'send_text', params: { holder_contact: { contact_id: send_user.id, slot_id: time_slot.id, body: 'example hello' } }
+			expect(flash.notice[:status]).to eq 400
+			expect(flash.notice[:message]).to eq "#{send_user.name} has opted to not recieve text messages"
+		end
 
 	end
 
