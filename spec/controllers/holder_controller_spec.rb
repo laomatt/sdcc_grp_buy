@@ -36,7 +36,7 @@ RSpec.describe HoldersController, type: :controller do
   describe 'signing up for a time shift' do 
 
 	  [nil, "", "dsfadsafsda","234444"].each do |num|
-			it 'tests that a user with out a valid phone number cannot sign up' do 
+			it "tests that a user with out a valid phone number cannot sign up with number #{num}" do 
 		  # find a time slot that has a user limit of 4 and try ot sign up for it
 				current_user.update(phone: num)
 				line_day_slot = LineDay.where("user_limit=?", 4).first.time_slots.first
@@ -153,11 +153,11 @@ RSpec.describe HoldersController, type: :controller do
 			}.to raise_error('Message body is empty')
 		end
 
-		it "the validity of the phone number" do
-			# try to send a message to a user who does not want a text message
-			send_user = User.where("active_phone=?", true).first
-			SystemSetting.find_by_code('comm').update(:value => 'production')
-			[nil, "", "dsfadsafsda","234"].each do |num|
+		[nil, "", "dsfadsafsda","234"].each do |num|
+			it "test that user cannot send number to: #{num}" do
+				# try to send a message to a user who does not want a text message
+				send_user = User.where("active_phone=?", true).first
+				SystemSetting.find_by_code('comm').update(:value => 'production')
 				send_user.update(:phone => num)
 				time_slot = LineDay::TimeSlot.last
 				Holder.create(user_id: send_user.id, line_day_time_slot_id: time_slot.id)
