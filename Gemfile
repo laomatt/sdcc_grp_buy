@@ -83,7 +83,7 @@ group :development, :test do
   gem 'byebug'
   # gem "factory_bot_rails"
   # gem 'factory_girl'
-  gem 'factory_girl_rails'
+  # gem 'factory_girl_rails'
   gem 'listen'
   gem 'database_cleaner'
   gem 'capybara'

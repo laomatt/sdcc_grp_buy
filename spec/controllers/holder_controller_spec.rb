@@ -182,8 +182,6 @@ RSpec.describe HoldersController, type: :controller do
 
 	end
 
-		
-
 	after :all do 
 		DatabaseCleaner.clean_with :truncation
 	end

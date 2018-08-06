@@ -1,6 +1,6 @@
 require 'byebug'
 module HoldersHelper
-	def send_to_holder(holder,text)
+	def send_to_holder(holder,text,user_id=nil)
     account_sid = ENV['TWILIO_ACCOUNT_SID']
     auth_token = ENV['TWILIO_AUTH_TOKEN']
     comm = SystemSetting.find_by_code('comm')
@@ -17,9 +17,9 @@ module HoldersHelper
         num = '4152796392'
     end
 
-    # byebug
-
     raise "No Valid Phone number provided for user #{holder.user.name}" if invalid? num
+    raise "#{holder.user.name} has opted to not recieve text messages" if !user.active_phone
+    raise "Message Required" if text.blank?
 
     number = num.gsub(/[^0-9,.]/, "")
 
@@ -29,19 +29,21 @@ module HoldersHelper
 
     number = "+" + number if number[0] != '+'
     # twilio API
-    @client = Twilio::REST::Client.new account_sid, auth_token
+    begin
+      @client = Twilio::REST::Client.new account_sid, auth_token
 
-    raise "#{holder.user.name} has opted to not recieve text messages" if !user.active_phone
 
-    @client.api.account.messages.create(
-      from: "+#{ENV['TWILIO_NUMBER']}",
-      to: number,
-      body: text
-    )
+      @client.api.account.messages.create(
+        from: "+#{ENV['TWILIO_NUMBER']}",
+        to: number,
+        body: text
+      )
+    rescue Exception => e
+      raise e.to_s
+    end
 
     # persist to holder text message record
-    TextMessageRecord.create(:user_id => holder.user_id)
-
+    TextMessageRecord.create(:user_id => holder.user_id, :originator_id => user_id, :body => text)
   end
 
 
@@ -51,5 +53,3 @@ module HoldersHelper
 end
 
 
-
-# TODO: test validity true --> ["4158225262","14158225262", "+14158225262", "1-415-622-7373", "1(800)435-9393", "(415)222-3333"]

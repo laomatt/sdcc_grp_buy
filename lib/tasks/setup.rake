@@ -1,4 +1,6 @@
-namespace :test_db do 
+namespace :test_db do
+
+
 	desc "Create the initial settings as per the DB"
 	task :set_settings_test_holders => :environment  do
 		SystemSetting.create(:name => 'Communication Mode', :code => 'comm', :value => 'test',:enum => ['test','production'].to_json, :active => true)
@@ -89,15 +91,7 @@ namespace :test_db do
 			start_date: dates_to_use['dec20']
 		})
 
-		# desc "create line_days"
-		# two line days at different times
-		# LineDay(id: integer, day: string, description: text, created_at: datetime, updated_at: datetime, user_limit: integer, start: datetime, latitude: string, longitude: string, active: boolean, line_up_event_id: integer)
-		# line_day_full = LineDay.create({
-		# 	day: 'some event',
-		# 	user_limit: 3,
-		# 	line_up_event_id:event_1.id,
-		# 	start: dates_to_use['dec20'] + times["7:00am"].seconds_since_midnight.seconds
-		# })
+		
 		line_day_jul18 = LineDay.create({
 			day: 'line_day_jul18',
 			user_limit: 3,
@@ -119,7 +113,6 @@ namespace :test_db do
 			start: dates_to_use['dec20'] + times["7:00am"].seconds_since_midnight.seconds
 		})
 
-		# LineDay::TimeSlot(id: integer, day: string, description: text, time: datetime, created_at: datetime, updated_at: datetime, line_day_id: integer, end_time: datetime)
 
 		start_h = Time.parse("12:00am")
 		1.upto 12 do |h|
@@ -146,9 +139,6 @@ namespace :test_db do
 			start_h = start_h + 2.hours
 		end
 
-		# desc "create holders"
-		# sign up certain time slots
-		# go through all time slots in event 1 created as assign holders to them
 		line_day_1.time_slots.each do |slot|
 			Holder.create(user_id: user_non_admin.id, line_day_time_slot_id: slot.id)
 			Holder.create(user_id: user_non_admin_wants_texts.id, line_day_time_slot_id: slot.id)

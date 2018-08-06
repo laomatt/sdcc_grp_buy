@@ -37,7 +37,7 @@ class HoldersController < ApplicationController
 
     text = "MESSAGE FROM LINE WAIT GROUP:  " + contact_holder_params[:body]
     begin
-      send_to_holder(holder,text)
+      send_to_holder(holder,text,current_user.id)
       respond_to do |format|
           format.html { redirect_to :back, notice: { status: 200, message: "Message sent to #{holder.user.name}." }}
         end
