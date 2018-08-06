@@ -1,4 +1,3 @@
-require 'byebug'
 module HoldersHelper
 	def send_to_holder(holder,text,user_id=nil)
     account_sid = ENV['TWILIO_ACCOUNT_SID']
