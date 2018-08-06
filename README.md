@@ -20,3 +20,10 @@ If the rails generator hangs run:
 spring stop	
 
 ```
+
+To run the chat box in local host
+
+```
+redis-server
+sh reset.sh
+```
