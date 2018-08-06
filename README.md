@@ -1,9 +1,8 @@
 # README
 
-* ...
-to get run tests:
+to run tests:
 ```
-bundle exec spec/path-to-spec-file_spec.rb
+bundle exec rspec spec/path-to-spec-file_spec.rb
 ```
 
 to get react working with rails:
