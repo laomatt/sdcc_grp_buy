@@ -18,9 +18,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def sign_in
-    
-  end
 
   def manual_create
     user = User.new(user_params)
