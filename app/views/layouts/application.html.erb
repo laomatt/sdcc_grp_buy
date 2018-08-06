@@ -31,7 +31,10 @@
       <header class="main-header">
         <!-- Logo -->
         <a href="/" class="logo">
-          <img src="<%= current_user.avatar_url %>" class="more-circle top-logo-prof-img" alt="User Image" alt="" /><b>SDCC</b>2019
+          <% if current_user %>
+            <img src="<%= current_user.avatar_url %>" class="more-circle top-logo-prof-img" alt="User Image" alt="" />
+          <% end %>
+          <b>SDCC</b>2019
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
