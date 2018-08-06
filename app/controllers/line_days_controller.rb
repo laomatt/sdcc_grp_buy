@@ -1,6 +1,6 @@
 class LineDaysController < ApplicationController
   before_action :authorize, :authenticate_user!
-  before_action :set_line_day, only: [:show, :edit, :update, :destroy, :update_location]
+  before_action :set_line_day, only: [:show, :edit, :update, :destroy, :update_location, :default_times]
 
   # GET /line_days
   # GET /line_days.json
@@ -26,6 +26,17 @@ class LineDaysController < ApplicationController
     @line_day = LineDay.new
   end
 
+  def default_times
+    # default_times_params
+    # @line_day.id
+    # start with the start_time of the line day, keep counting backwards by the increment until we are before the start_time
+
+    # subtract the incrment time from the events start time, and thats out first shift_start
+
+    # until the shift_start is before the default[start_time] param, keep --> shift_start = shift_start - default[increment].hours, shift_end = shift_start + default[increment].hours
+    
+  end
+
   # GET /line_days/1/edit
   def edit
   end
@@ -33,7 +44,6 @@ class LineDaysController < ApplicationController
   def my_schedule
     # grab all the time slots for the user in the next 5 days and past 2 days
     # display them in a grid pattern
-    # byebug
     if params[:date]
       @date = params[:date].to_date
     else
@@ -94,7 +104,10 @@ class LineDaysController < ApplicationController
   private
     def line_day_location
         params.require(:line_day).permit(:latitude, :longitude)
-      
+    end
+
+    def default_times_params
+        params.require(:default).permit(:start_time, :end_time, :increment)
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_line_day

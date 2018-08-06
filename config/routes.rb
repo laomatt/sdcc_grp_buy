@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     end
 
     member do 
+      post 'default_times'
       get 'update_location'
     end
   end

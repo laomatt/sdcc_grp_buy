@@ -85,13 +85,35 @@
 																}">
 																<h3>Add another time slot</h3>
 					<%= render :partial => 'line_day/time_slots/form' %>
+
+					<form action="#" action='/line_days/<%= @line_day.id %>/default_times' method='post' style="    background-color: #aadeb4;padding: 2%;">
+					<h3>Default time shifts</h3>
+						<div class="row">
+							
+							<div class="form-group col-lg-4">
+							<label for="default[start_time]">Start Time</label>
+								<input type="time" value='' id='' name='default[start_time]' class='form-control'>
+							</div>
+
+							<div class="form-group col-lg-4">
+								<label for="default[end_time]">End Time</label>
+								<input type="time" value='' id='' name='default[end_time]' class='form-control'>
+							</div>
+
+							<div class="form-group col-lg-4">
+								<label for="default[increment]">Increment Time (hours)</label>
+								<input type="number" value='' id='' name='default[increment]' class='form-control'>
+							</div>
+						</div>
+						<a href="#" class='btn btn-lg btn-primary submit-form-btn'>Create Default times for this shift</a>
+					</form>
 			</div>
 
 			<div class="col-lg-6">
 				<h3>Edit this schedule</h3>
 					<div class="form-group">
 						<label for="user_limit">Group Limit</label>
-						<input type="integer" value='<%= @line_day.user_limit %>' id='user_limit_spec' name='user_limit' class='form-control'>
+						<input type="number" value='<%= @line_day.user_limit %>' id='user_limit_spec' name='user_limit' class='form-control'>
 					</div>
 
 					<div class="form-group">
