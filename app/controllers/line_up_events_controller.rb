@@ -1,5 +1,5 @@
 class LineUpEventsController < ApplicationController
-	before_action :authenticate_user!
+	before_action :authorize, :authenticate_user!
 	before_action :set_event, only: [:show, :edit, :update, :destroy], except: [:my_events, :index]
 	def index
 		# list all current active events

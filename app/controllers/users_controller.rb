@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 	# before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:login, :manual_create,:manual_login,:confirm_create, :reset_password, :reset_password_view, :reset_password_work]
+  before_action :authorize, :authenticate_user!, except: [:login, :manual_create,:manual_login,:confirm_create, :reset_password, :reset_password_view, :reset_password_work]
   before_action :validate, except: [:login, :update, :manual_create,:manual_login, :side_menu, :confirm_create, :update_user, :reset_password, :reset_password_view, :reset_password_work]
   include SecurityHelper
 
@@ -16,6 +16,10 @@ class UsersController < ApplicationController
       flash[:error] = 'Email or password invalid'
       redirect_to :back
     end
+  end
+
+  def sign_in
+    
   end
 
   def manual_create
