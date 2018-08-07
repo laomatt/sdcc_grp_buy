@@ -121,8 +121,7 @@
 }
 
 .uncovered-member {
-    background-color: #ff6f6f;
-    font-weight: bold;
+    background-color: #ffd1d1;
 }
 
 .smaller_member_item {
@@ -1603,6 +1602,23 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 }
 
+.action-icon {
+    margin-left: 4px;
+}
+
+.action-on {
+    color: red;
+}
+
+.action-off {
+    color: black;
+    opacity: 0.5;
+}
+
+.action-off:hover {
+    color: black;
+    opacity: 1;
+}
 
 .top-logo-prof-img {
     display: none;
@@ -1618,6 +1634,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .responsive-top-menu {
     display: none;
     color: black;
+}
+
+.not_checked_in {
+    background-color: #ffd1d1;
+}
+
+.checked_in {
+    background-color: #faffd1;
 }
 
 .line_search_top li {

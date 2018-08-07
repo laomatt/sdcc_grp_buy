@@ -308,186 +308,186 @@ $(document).ready(function() {
 	// 	},500);
  //  }
 
- //  var addMemberToDom = function(message) {
- //    var member_group_id = message.member_group_id;
- //    $.ajax({
- //    	url: '/groups/present_member',
- //    	data: {mem_grp_id: member_group_id, grp_id: group_id},
- //    })
- //    .done(function(data) {
- //    	$("#member-list").append(data);
- //    	if (dispatcher.state == 'connected') {
- //    		$('.web_socket_loading').fadeIn(500);
- //    	}
- //    	getGroupCount();
- //    })
- //  }
+  var addMemberToDom = function(message) {
+    var member_group_id = message.member_group_id;
+    $.ajax({
+    	url: '/groups/present_member',
+    	data: {mem_grp_id: member_group_id, grp_id: group_id},
+    })
+    .done(function(data) {
+    	$("#member-list").append(data);
+    	if (dispatcher.state == 'connected') {
+    		$('.web_socket_loading').fadeIn(500);
+    	}
+    	getGroupCount();
+    })
+  }
 
 
 
-	// function startDispatch(){
-	//   dispatcher = new WebSocketRails(server_location + "/" + "websocket");
-	//   dispatcher.on_open = function(data) {
-	//   	$('.loading').fadeOut(500, function() {
-	//   		$('.web_socket_loading').fadeIn(500, function() {
-	//   		});
-	//   	});
-	//   	if (!activeDispatcher) {
-	// 	    console.log('Connection has been established: ', data);
-	// 	    connectionID = data.connection_id;
-	// 	    connection = group_id;
-	// 	    group_room_conn = 'group_'+ connection;
-	// 	    channel = dispatcher.subscribe(group_room_conn);
-	// 	    channel_global = dispatcher.subscribe('global');
-	// 	    var room_create_success = group_room_conn + '_created';
-	// 	    activeDispatcher = true;
+	function startDispatch(){
+	  dispatcher = new WebSocketRails(server_location + "/" + "websocket");
+	  dispatcher.on_open = function(data) {
+	  	$('.loading').fadeOut(500, function() {
+	  		$('.web_socket_loading').fadeIn(500, function() {
+	  		});
+	  	});
+	  	if (!activeDispatcher) {
+		    console.log('Connection has been established: ', data);
+		    connectionID = data.connection_id;
+		    connection = group_id;
+		    group_room_conn = 'group_'+ connection;
+		    channel = dispatcher.subscribe(group_room_conn);
+		    channel_global = dispatcher.subscribe('global');
+		    var room_create_success = group_room_conn + '_created';
+		    activeDispatcher = true;
 
-	// 	    // BINDING EVENTS
+		    // BINDING EVENTS
 
-	// 	    // listen for newly registered members
-	// 	    channel.bind("member_registered", function(mes) {
-	// 	    	var number = mes.num_of_ppl;
-	// 	    	if (number == 1) {
-	// 		    	$(".number-of-members").text(number + ' Member in this buying group')
-	// 	    	} else if (number == 0) {
-	// 		    	$(".number-of-members").text('This buying group is empty')
-	// 	    	} else {
-	// 		    	$(".number-of-members").text(number + ' Members in this buying group')
-	// 	    	}
-	// 	    	addMemberToDom(mes);
-	// 	    });
+		    // listen for newly registered members
+		    channel.bind("member_registered", function(mes) {
+		    	var number = mes.num_of_ppl;
+		    	if (number == 1) {
+			    	$(".number-of-members").text(number + ' Member in this buying group')
+		    	} else if (number == 0) {
+			    	$(".number-of-members").text('This buying group is empty')
+		    	} else {
+			    	$(".number-of-members").text(number + ' Members in this buying group')
+		    	}
+		    	addMemberToDom(mes);
+		    });
 
-	// 	    // listen for any dropped members
-	// 	    channel.bind("unregister_member",function(mes) {
-	// 	    	var number = mes.num_of_ppl;
+		    // listen for any dropped members
+		    channel.bind("unregister_member",function(mes) {
+		    	var number = mes.num_of_ppl;
 
-	// 	    	if (number == 1) {
-	// 		    	$(".number-of-members").text(number + ' Member in this buying group')
-	// 	    	} else if (number == 0) {
-	// 		    	$(".number-of-members").text('This buying group is empty')
-	// 	    	} else {
-	// 		    	$(".number-of-members").text(number + ' Members in this buying group')
-	// 	    	}
-	// 	    	$("#member_row_" + mes.member_group_id).fadeOut('500', function() {
-	// 			    $("#member_row_" + mes.member_group_id).remove();
-	// 	    	});
-	// 	    })
+		    	if (number == 1) {
+			    	$(".number-of-members").text(number + ' Member in this buying group')
+		    	} else if (number == 0) {
+			    	$(".number-of-members").text('This buying group is empty')
+		    	} else {
+			    	$(".number-of-members").text(number + ' Members in this buying group')
+		    	}
+		    	$("#member_row_" + mes.member_group_id).fadeOut('500', function() {
+				    $("#member_row_" + mes.member_group_id).remove();
+		    	});
+		    })
 
- //  		    // listen for any checked in members
-	// 	    channel_global.bind("check_in_member",function(mes) {
-	// 	    	member_id = mes.member_id
-	// 	    	$(".check-in-button-for" + member_id).fadeOut(300, function() {
-	// 	    		$(".check-out-button-for" + member_id).fadeIn(300);
-	// 	    		$(".activate-button-for" + member_id).fadeIn(300, function() {
-	// 	    			$(this).parents('.member-item').removeClass('member_not_checked_in');
-	// 	    			$(this).parents('.member-item').addClass('member_checked_in');
-	// 	    		});
-	// 	    	});
-	// 	    })
+  		    // listen for any checked in members
+		    channel_global.bind("check_in_member",function(mes) {
+		    	member_id = mes.member_id
+		    	$(".check-in-button-for" + member_id).fadeOut(300, function() {
+		    		$(".check-out-button-for" + member_id).fadeIn(300);
+		    		$(".activate-button-for" + member_id).fadeIn(300, function() {
+		    			$(this).parents('.member-item').removeClass('member_not_checked_in');
+		    			$(this).parents('.member-item').addClass('member_checked_in');
+		    		});
+		    	});
+		    })
 
-	// 	    channel_global.bind("check_out_member",function(mes) {
-	// 	    	member_id = mes.member_id
-	// 	    	$(".check-out-button-for" + member_id).fadeOut(300, function() {
-	// 	    		$(".check-in-button-for" + member_id).fadeIn(300);
-	// 	    		$(".activate-button-for" + member_id).fadeOut(300, function() {
-	// 	    			$(this).parents('.member-item').removeClass('member_checked_in');
-	// 	    			$(this).parents('.member-item').addClass('member_not_checked_in');
-	// 	    		});
-	// 	    	});
-	// 	    })
+		    channel_global.bind("check_out_member",function(mes) {
+		    	member_id = mes.member_id
+		    	$(".check-out-button-for" + member_id).fadeOut(300, function() {
+		    		$(".check-in-button-for" + member_id).fadeIn(300);
+		    		$(".activate-button-for" + member_id).fadeOut(300, function() {
+		    			$(this).parents('.member-item').removeClass('member_checked_in');
+		    			$(this).parents('.member-item').addClass('member_not_checked_in');
+		    		});
+		    	});
+		    })
 
-	// 	    // listen for any covered members across all groups in this group
-	// 	    channel_global.bind("member_covered",function(mes) {
-	// 		    $("#member_row_" + mes.member_group_id).addClass('member_covered');
-	// 		    $('.active-button-' + mes.member_id).hide(500);
+		    // listen for any covered members across all groups in this group
+		    channel_global.bind("member_covered",function(mes) {
+			    $("#member_row_" + mes.member_group_id).addClass('member_covered');
+			    $('.active-button-' + mes.member_id).hide(500);
 
-	// 		    member_id = mes.member_id
-	// 		    $.ajax({
-	// 		    	url: '/groups/present_day_container',
-	// 		    	data: {member_id: mes.member_id},
-	// 		    })
-	// 		    .done(function(html) {
-	// 		    	$('.day-holder-for' + member_id).html(html);
-	// 		    })
+			    member_id = mes.member_id
+			    $.ajax({
+			    	url: '/groups/present_day_container',
+			    	data: {member_id: mes.member_id},
+			    })
+			    .done(function(html) {
+			    	$('.day-holder-for' + member_id).html(html);
+			    })
 			    
 
-	// 		    $("#action-holder-for" + mes.member_group_id).html("This member has been covered");
-	// 	    })
+			    $("#action-holder-for" + mes.member_group_id).html("This member has been covered");
+		    })
 
 
 
-	// 	    channel_global.bind("group_updated",function(mes) {
-	// 	    	var group_id_specific = mes.group_id
-	// 	    	var newCount = mes.count
-	// 	    	var oldCount = $("#side-item-count-for-group-" + group_id_specific).text();
+		    channel_global.bind("group_updated",function(mes) {
+		    	var group_id_specific = mes.group_id
+		    	var newCount = mes.count
+		    	var oldCount = $("#side-item-count-for-group-" + group_id_specific).text();
 
 
-	// 		    if (group_id == 'master_tab') {
-	// 		    	// find the row and update the percent
-	// 		    	$.ajax({
-	// 		    		url: '/groups/present_master_partial',
-	// 		    		data: {group_id: group_id_specific}
-	// 		    	})
-	// 		    	.done(function(html) {
-	// 			    	$("#master_tab_group_" + group_id_specific).html(html);
-	// 		    	})
-	// 		    }
+			    if (group_id == 'master_tab') {
+			    	// find the row and update the percent
+			    	$.ajax({
+			    		url: '/groups/present_master_partial',
+			    		data: {group_id: group_id_specific}
+			    	})
+			    	.done(function(html) {
+				    	$("#master_tab_group_" + group_id_specific).html(html);
+			    	})
+			    }
 
-	// 	    	if (mes.group_id != group_id) {
-	// 			  	$("#side-item-group-" + group_id_specific).css("border-left", "10px solid red");
-	// 	    	}
-	// 		  	if (mes.complete) {
-	// 			  	$("#side-item-group-" + group_id_specific).css('background-color', '#6dff94');
-	// 			  	if (group_id == group_id_specific) {
-	// 			  		// $(".content").css('background-color', '#6dff94');
-	// 			  	} 
-	// 		  	} else {
-	// 			  	$("#side-item-group-" + group_id_specific).css('background-color', '#ecf0f5');
-	// 		  		$(".content").css('background-color', 'transparent');
+		    	if (mes.group_id != group_id) {
+				  	$("#side-item-group-" + group_id_specific).css("border-left", "10px solid red");
+		    	}
+			  	if (mes.complete) {
+				  	$("#side-item-group-" + group_id_specific).css('background-color', '#6dff94');
+				  	if (group_id == group_id_specific) {
+				  		// $(".content").css('background-color', '#6dff94');
+				  	} 
+			  	} else {
+				  	$("#side-item-group-" + group_id_specific).css('background-color', '#ecf0f5');
+			  		$(".content").css('background-color', 'transparent');
 
-	// 		  	}
+			  	}
 
-	// 	  		$("#side-item-count-for-group-" + group_id_specific).text(newCount);
-	// 		  	if (newCount != oldCount) {
-	// 		  		$("#side-item-count-for-group-" + group_id_specific).css('background-color', 'yellow');
-	// 		  		setTimeout(function(){
-	// 			  		$("#side-item-count-for-group-" + group_id_specific).css('background-color', 'transparent');
-	// 		  		},1000)
-	// 		  	}
-	// 	    })
+		  		$("#side-item-count-for-group-" + group_id_specific).text(newCount);
+			  	if (newCount != oldCount) {
+			  		$("#side-item-count-for-group-" + group_id_specific).css('background-color', 'yellow');
+			  		setTimeout(function(){
+				  		$("#side-item-count-for-group-" + group_id_specific).css('background-color', 'transparent');
+			  		},1000)
+			  	}
+		    })
 
-	// 	    // listen for active members
-	// 	    channel_global.bind("activate_member",function(mes) {
-	// 	    	if (mes.connection_id != connectionID) {
-	// 		    	$(".activate-button-for" + mes.member_id).fadeOut(1000, function() {
-	// 			    	$("#action-message-for" + mes.member_id).fadeIn(1000, function() {});
-	// 		    	});
-	// 			    $(".member_groups_marker_" + mes.member_id).addClass('member_active');
-	// 	    	}
-	// 	    })
+		    // listen for active members
+		    channel_global.bind("activate_member",function(mes) {
+		    	if (mes.connection_id != connectionID) {
+			    	$(".activate-button-for" + mes.member_id).fadeOut(1000, function() {
+				    	$("#action-message-for" + mes.member_id).fadeIn(1000, function() {});
+			    	});
+				    $(".member_groups_marker_" + mes.member_id).addClass('member_active');
+		    	}
+		    })
 
-	// 	    channel_global.bind("deactivate_member",function(mes) {
-	// 	    	if (mes.connection_id != connectionID) {
-	// 		    	$("#action-message-for" + mes.member_id).fadeOut(1000, function() {
-	// 			    	$(".activate-button-for" + mes.member_id).fadeIn(1000, function() {});
-	// 		    	});
-	// 			    $(".member_groups_marker_" + mes.member_id).removeClass('member_active');
-	// 	    	}
-	// 	    })
+		    channel_global.bind("deactivate_member",function(mes) {
+		    	if (mes.connection_id != connectionID) {
+			    	$("#action-message-for" + mes.member_id).fadeOut(1000, function() {
+				    	$(".activate-button-for" + mes.member_id).fadeIn(1000, function() {});
+			    	});
+				    $(".member_groups_marker_" + mes.member_id).removeClass('member_active');
+		    	}
+		    })
 
-	// 	    // chatroom listeners
+		    // chatroom listeners
 		   
 
-	// 	    dispatcher.bind('connection_closed', function() {
-	// 				setTimeout(function(){
-	// 					takeOffline();
-	// 				}, 500);
-	// 			});
+		    dispatcher.bind('connection_closed', function() {
+					setTimeout(function(){
+						takeOffline();
+					}, 500);
+				});
 
-	//     console.log(room_create_success);
-	//   	}
-	//   }
-	// }
+	    console.log(room_create_success);
+	  	}
+	  }
+	}
 
 	// setTimeout(function(){
 	//   startDispatch();

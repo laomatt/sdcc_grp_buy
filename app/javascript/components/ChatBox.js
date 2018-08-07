@@ -228,7 +228,6 @@ class ChatBox extends React.Component {
 		    });
 
 		    element.state.channel.bind('add_room_message', function(message) {
-		    	console.log('dsf');
 		    	if (document.getElementsByClassName('chat-box-group')[0].style.display == 'none') {
 			    	var globes = document.getElementsByClassName('expand-chat-log-group');
 			    	for (var i = globes.length - 1; i >= 0; i--) {

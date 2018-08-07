@@ -80,6 +80,10 @@ Rails.application.routes.draw do
       get 'mark_message_seen'
       get 'present_confirmation_partial'
     end
+
+    member do
+      patch 'change_status'
+    end
   end
 
   resources :admins do 

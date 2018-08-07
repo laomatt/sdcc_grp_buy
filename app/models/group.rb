@@ -68,6 +68,8 @@ class Group < ApplicationRecord
 			h[:display_last] = e.display_last
 			h[:has_purchase] = e.has_purchase
 			h[:days_left] = e.days_left
+			h[:status_class] = e.status[:class]
+			h[:status_msg] = e.status[:msg]
 			h[:is_part_of] = e.is_part_of(id)
 			h[:mem_grp] = member_groups.find_by_group_id(id).attributes
 

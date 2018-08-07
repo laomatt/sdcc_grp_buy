@@ -81,6 +81,20 @@ class Member < ApplicationRecord
 		tally
 	end
 
+	def status
+		if full_covered
+			{:class => 'full_covered' , :msg => 'COMPLETED, SEE YOU AT THE CON!!'}
+		elsif covered
+			{:class => 'covered' , :msg => 'COVERED'}
+		elsif active
+			{:class => 'active' , :msg => 'PURCHASE IN PROGRESS'}
+		elsif checked_in
+			{:class => 'checked_in' , :msg => 'PRESENT'}
+		else
+			{:class => 'not_checked_in' , :msg => 'ABSENT'}
+		end
+	end
+
 	def checked_in
 		checked_in_date == Date.today
 	end

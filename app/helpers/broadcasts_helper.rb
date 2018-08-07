@@ -23,6 +23,7 @@ module BroadcastsHelper
 		end
 	end
 
+
 	def check_out_member
 		room = message[:room]
 		member_id = message[:member_id]

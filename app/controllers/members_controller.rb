@@ -80,6 +80,17 @@ class MembersController < ApplicationController
 		end
 	end
 
+	def get_member_comp
+		# <BuyGroupMember member={member} ref={"mem-action"+idx} idx={idx} onChange={that.closeAll} current_user_valid={that.props.current_user_valid} order={that.order} />
+
+		render component: "BuyGroupMember", props: {
+									ref: "mem-action#{member_comp_params[:idx]}", 
+									current_user_valid: member_comp_params[:current_user_valid], 
+									member: @member.attributes
+								}
+		
+	end
+
 	def register_member
 		# user_id: integer, sdcc_member_id: integer, name: string, phone: string, email: string, covered: boolean,
 		@member = Member.new(member_params)
@@ -262,6 +273,28 @@ class MembersController < ApplicationController
 		render :json => { :member_id => member_id }
 	end
 
+	def change_status
+		@member = Member.find(params[:id])
+		if params[:new_status] == 'checked_in' || params[:new_status] == 'not_checked_in'
+			if @member.checked_in
+				new_date = nil
+			else
+				new_date = Date.today
+			end
+
+			if @member.update(:checked_in_date => new_date)
+				WebsocketRails["buy_group_#{params[:room]}"].trigger('check_in_member_to_group', {
+					room: params[:room], 
+					member_id: @member.id, 
+					status_class: @member.status[:class], 
+					status_msg: @member.status[:msg],
+					dom: 'check_in_btn',
+					online: @member.checked_in ? 'online' : 'offline'
+				})
+			end
+		end
+	end
+
 	private
 
 	def user_owns
@@ -271,6 +304,10 @@ class MembersController < ApplicationController
 			flash[:error] = 'your not authorized for this'
 			redirect_to :back
 		end
+	end
+
+	def member_comp_params
+		params.require(:member).permit(:current_user_valid, :idx)
 	end
 
 	def purchase_params

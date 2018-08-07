@@ -5,9 +5,17 @@
 </p>
 
 
+<!-- // PUT REACT COMPONENT IN THE RENDER METHOD OF THE CONTROLLER -->
+
+<!-- 
+		ALSO NEED A STATUS BAR ON TOP SAYING THE LAST 3 THINGS THAT HAPPENED: 
+					eg: PERSON ONE JUST STARTED BUYING FOR PERSON TWO, OR 'Mary just checked in'
+
+
+-->
 <hr>
 <div class="row" style="width: 90%;">
-	<div class="col-md-6">
+	<div class="col-md-12">
 				<%= 
 					if Rails.env.development?
 
@@ -32,26 +40,24 @@
 
 	</div>
 
-	<div class="col-md-6">
 		
 		<%= 
-			if @grp
-				react_component("ChatBox", { 
-					is_admin: current_user.is_admin?,
-					chat_messages: @grp.message_list,
-					global_chat_messages: ChatMessage.global_chats_messages,
-					group_id: @grp.id,
-					title: "#{@grp.name} Chat",
-					danger_spinner: image_tag("danger.gif"),
-					loading_spinner: image_tag("bar.gif"),
-					current_user: current_user.attributes.slice('id')
-				}) 
-			else
-				"No chat room for this day :("
-			end
+			# if @grp
+			# 	react_component("ChatBox", { 
+			# 		is_admin: current_user.is_admin?,
+			# 		chat_messages: @grp.message_list,
+			# 		global_chat_messages: ChatMessage.global_chats_messages,
+			# 		group_id: @grp.id,
+			# 		title: "#{@grp.name} Chat",
+			# 		danger_spinner: image_tag("danger.gif"),
+			# 		loading_spinner: image_tag("bar.gif"),
+			# 		current_user: current_user.attributes.slice('id')
+			# 	}) 
+			# else
+			# 	"No chat room for this day :("
+			# end
 		%>
 
-	</div>
 </div>
 
 <script type="text/javascript">
