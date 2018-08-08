@@ -13,6 +13,12 @@ class BuyGroupMember extends React.Component {
     // This binding is necessary to make `this` work in the callback
     this.expandBox = this.expandBox.bind(this);
     this.checkIn = this.checkIn.bind(this);
+    this.buyModal = this.buyModal.bind(this);
+    this.addCoverage = this.addCoverage.bind(this);
+  }
+
+  componentDidmount(){
+    console.log("Is is mounted ?")
   }
 
   expandBox() {
@@ -39,10 +45,30 @@ class BuyGroupMember extends React.Component {
   		method: 'PATCH',
   		data: {new_status: 'checked_in', room: this.props.room_id}
   	})
-  	.done(function() {
-  		console.log("success");
+  }
+
+  addCoverage(){
+  	$.ajax({
+  		url: '/members/'+this.props.member.id+'/change_status',
+  		method: 'PATCH',
+  		data: {new_status: 'covered', room: this.props.room_id}
   	})
-  
+  }
+
+
+  buyModal(){
+
+  	$.ajax({
+			url: '/members/present_confirmation_partial',
+			data: {member_id: this.props.member.id, mem_group_id: this.props.member_grp_id}
+		})
+		.done(function(data) {
+			console.log(data)
+			$('#confirmation-body-for-the-modal').html(data);
+	  	$('#purchase-confirmation-pop-up').modal('show');
+		})
+  	
+  	
   }
 
   checkInListen(status,status_msg){
@@ -67,58 +93,30 @@ class BuyGroupMember extends React.Component {
 
 				<div className="col-sm-4">
 						<div className="days_container_rightr">
-							{member.days_needed}
+							{
+								member.days_needed.map(function(elem, idx) {
+									return (
+											elem['covered'] ?
+												<span className="day_container covered_day" key={idx}>
+													{elem['day']}
+												</span>
+											:
+												<span className="day_container uncovered_day" key={idx}>
+														{elem['day']}
+												</span>
+									)
+								})		
+							}
 						</div>
 				</div>
 
 				<div className="col-sm-2">
 					{/* status actions */}
 					<i className={"fas check_in_btn fa-check-square action-icon " + (member.checked_in ? 'action-on' : 'action-off')} onClick={that.checkIn}></i>
-					<i className={"fas fa-shopping-cart action-icon " + (member.in_progress ? 'action-on' : 'action-off')}></i>
+					<i className={"container__actions_" + this.props.member_id + " fas fa-shopping-cart action-icon " + (member.in_progress ? 'action-on' : 'action-off')} onClick={that.buyModal} style={{display: (member.checked_in ? 'inline-block' : 'none')}}></i>
 				</div>
 			</div>
 
-
-
-				<div className="actions-container"  style={ this.state.expanded ? {display: "block"} : {display: "none"} }>
-					{ !(member.full_covered) && this.props.current_user_valid ?
-						<div>
-						{ member.active && member.current_user_buying_for_member ?
-							<div>
-								<a href="#" className={'active-button active-button-' +  member.id + ' btn btn-sm btn-primary cancel-this ' + (member.current_user_buying_for_member ? 'active-button-shown' : '')} data-id={member.mem_grp.id} member-id={member.id}>CANCEL</a>
-								<a href="#" className={'active-button active-button-' + member.id + ' btn btn-sm btn-primary confirm-this' + (member.current_user_buying_for_member ? 'active-button-shown' : '')} member-id={member.id} data-toggle="modal" data-target="#purchase-confirmation-pop-up" data-id={member.mem_grp.id} >CONFIRM</a>
-							</div>
-						:
-							<div>
-								<a href="#" className={'active-button active-button-'+ member.id + ' btn btn-sm btn-primary cancel-this  ' + (member.current_user_buying_for_member ? 'active-button-shown' : '')} data-id={member.mem_grp.id} member-id={member.id} style={{display: "none"}}>CANCEL</a>
-								<a href="#" className={'active-button active-button-' + member.id + ' btn btn-sm btn-primary confirm-this' + (member.current_user_buying_for_member ? 'active-button-shown' : '')} member-id={member.id} style={{display: "none"}} data-toggle="modal" data-target="#purchase-confirmation-pop-up" data-id={member.mem_grp.id} >CONFIRM</a>
-							</div>
-						}
-						{ member.active ?
-							<div>
-								<a href="#" className={'activate activate-button-for' + member.id + ' btn btn-sm btn-primary activate-this-user ' + (member.active ? 'active_member_style' : 'non_active_member_style')} member-id={member.id} style={{display: ( member.checked_in ? 'inline-block' : 'none'),width: '30%'}} data-id={member.mem_grp.id} >START</a>
-							</div>
-						:
-							<div>
-								<a href="#" className={'activate activate-button-for' + member.id + ' btn btn-sm btn-primary activate-this-user '+ (member.active ? 'active_member_style' : 'non_active_member_style')} style={{display: ( member.checked_in ? 'inline-block' : 'none'), width: '30%'}} data-id={member.mem_grp.id} member-id={member.id}>START</a>
-							</div>
-						}
-						{ member.checked_in ?
-							<div>
-								<a href="#" className={'check-in check-in-button-for' + member.id + ' btn btn-sm btn-warning check-in-this-user ' + (member.active ? 'active_member_style' : 'non_active_member_style')} data-id={member.mem_grp.id} member-id={member.id} style={{display: 'none'}}>CHECK IN</a>
-								<a href="#" className={'check-out btn btn-sm btn-danger uncheck-in-this-user check-out-button-for' + member.id} data-id={member.mem_grp.id} member-id={member.id}>UN-CHECK</a>
-							</div>
-						:
-							<div>
-								<a href="#" className={'check-in check-in-button-for' + member.id + ' btn btn-sm btn-warning check-in-this-user '+ (member.active ? 'active_member_style' : 'non_active_member_style')} data-id={member.mem_grp.id} member-id={member.id}>CHECK IN</a>
-								<a href="#" className={'check-out btn btn-sm btn-danger uncheck-in-this-user check-out-button-for' + member.id} data-id={member.mem_grp.id} member-id={member.id} style={{display: 'none'}}>UN-CHECK</a>
-							</div>
-						}
-						</div>
-					:
-						<div></div>
-					}
-				</div>
 			</li>
     );
   }

@@ -51,10 +51,10 @@ class Group < ApplicationRecord
 		}
 		members.includes(:purchases,:member_groups,:user).map do |e| 
 			h = e.attributes 
-			needed_string = ""
+			needed_string = []
 			wanted_string = ""
 			['wensday','thursday','friday','saturday','sunday'].each do |day|
-				needed_string += map[day] if h[day]
+				needed_string << {day: map[day], covered: false} if h[day]
 				wanted_string += map[day] if h['min_'+day]
 			end
 			h[:days_needed] = needed_string

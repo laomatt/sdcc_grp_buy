@@ -14,27 +14,28 @@ $(document).ready(function() {
     }
   });
 
-	$('body').on('submit', '#create-member-form', function(event) {
-		event.preventDefault();
-		// create the member.
-		$.ajax({
-			url: '/members/register_member',
-			type: 'POST',
-			data: $(this).serialize(),
-		})
-		.done(function(data) {
-			if (data.success) {
-				// register the member to the group.
-				$('#new-member-form').slideUp(500);
-				$('#create-member-form').trigger('reset');
-				regMember($('#reg-member').serialize());
-				$(this).trigger('reset');
-				$('.add-member-footer .btn').trigger('click');
-			} else {
-				populateErrors(data.message);
-			}
-		})		
-	});
+	// $('body').on('submit', '#create-member-form', function(event) {
+	// 	event.preventDefault();
+	// 	// create the member.
+	// 	$.ajax({
+	// 		url: '/members/register_member',
+	// 		type: 'POST',
+	// 		data: $(this).serialize(),
+	// 	})
+	// 	.done(function(data) {
+	// 		if (data.success) {
+	// 			// register the member to the group.
+	// 			$('#new-member-form').slideUp(500);
+	// 			$('#create-member-form').trigger('reset');
+	// 			regMember($('#reg-member').serialize());
+	// 			$(this).trigger('reset');
+	// 			$('.add-member-footer .btn').trigger('click');
+	// 		} else {
+	// 			populateErrors(data.message);
+	// 		}
+	// 	})		
+	// });
+	
 	$("body").on('click', '.cancel-this', function(event) {
 		event.preventDefault();
 		dispatcher.trigger('deactivate_member', { member_id: $(this).attr('member-id'), connection: connectionID });

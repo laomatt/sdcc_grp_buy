@@ -1,8 +1,4 @@
-<h2><%= @grp.name %></h2>
 
-<p>
-	<b>Group Coordinator: <a href="#" class='user-modal-pop btn' data-toggle="modal" data-target="#userModal" data-id='<%= @grp.user.try(:id) %>'> <%= @grp.user.try(:name) %></b> </a> (<%= @grp.user.try(:email) %>)
-</p>
 
 
 <!-- // PUT REACT COMPONENT IN THE RENDER METHOD OF THE CONTROLLER -->
@@ -13,7 +9,6 @@
 
 
 -->
-<hr>
 <div class="row" style="width: 90%;">
 	<div class="col-md-12">
 				<%= 
@@ -25,7 +20,11 @@
 							member_count: @grp.member_groups.count,
 							members: @grp.members_list(current_user),
 							group_id: @grp.id,
-							current_user_valid: current_user.is_valid?
+							group_name: @grp.name,
+							coordinator_email: @grp.user.try(:email),
+							coordinator_name: @grp.user.try(:name),
+							current_user_valid: current_user.is_valid?,
+							authenticity_token: form_authenticity_token
 						}) 
 
 
@@ -81,8 +80,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id='confirmation-body'>
-        ...
+      <div class="modal-body" id='confirmation-body-for-the-modal'>
       </div>
       <div class="modal-footer">
         <div class="working-message-conf" style="display: none;"><%= image_tag("ajax-loader.gif") %></div>
@@ -93,119 +91,9 @@
   </div>
 </div>
 
-<!-- add member modal -->
-
-<!-- Modal -->
-<div id="addUserModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content content-add-member">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add Members</h4>
-      </div>
-      <div class="modal-body add-member">
-
-				<h2>Add member to this group</h2>
-				<p>
-					<b>(Only the user that started this group may add members to this group)</b>
-				</p>
-				<p>
-					To register yourself or a member into this group, please provide a valid SDCC member ID here, and check off the days desired.
-				</p>
-				<form method="post" id="reg-member">
-					<input type="hidden" name="member_group[group_id]" value="<%= @grp.id %>">
-						<input type="text" name="sdcc_member_id" id='sdcc_member_id_holder' class="form-control" style='width: 100%' placeholder="SDCC member ID">
-						<div id="error_list" style="color: red"></div>
-
-						<hr>
-						<input type="submit" style='width: 100%' class="btn btn-primary btn-lg" name="ADD">
-				</form>
-
-
-				<div class="browse">
-					<p>Or Select members from list</p>
-					<p>
-						<a href="#" id='browse-for-members' style='width: 100%' class="btn btn-primary btn-lg">Browse Members</a>
-					</p>
-				</div>
-
-				<div class="browse-control" style="display: none;">
-						<input type="text" name="q" id='am_modal_search' class="form-control" autocomplete="off" placeholder="Search Members by SDCC member ID or name..."/>
-						<div class='member-list-results-add-member'>
-						</div>
-				</div>
-
-
-				<!-- id: integer, user_id: integer, sdcc_member_id: integer, name: string, phone: string, email: string, covered: boolean, -->
-				<div id="new-member-form" style='display: none;'>
-					<div class="create-form">
-						<form action='/members' method='POST' id='create-member-form'>
-							<h3>Create a new Member</h3>
-							<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-							<div class="form-group">
-								<label for='member[name]'>Name</label>
-								<input class="form-control" type="text" name='member[name]'>
-							</div>
-				      <div class="form-group">
-				        <label for='member[last_name]'>Last Name</label>
-				        <input class="form-control" type="text" name='member[last_name]'>
-				      </div>
-							<div class="form-group">
-								<label for='member[phone]'>Phone</label>
-								<input class="form-control" type="text" name='member[phone]'>
-							</div>
-							<div class="form-group">
-								<label for='member[email]'>E-Mail</label>
-								<input class="form-control" type="text" name='member[email]'>
-							</div>
-							<div class="form-group">
-								<label for='member[phone]'>SDCC Member ID</label>
-								<input class="form-control" id='sdcc_member_id_holder_create' type="text" name='member[sdcc_member_id]'>
-							</div>
-							<h3>Select the Days this member needs</h3>
-							<div class="form-check form-check-stacked">
-							  	<%= check_box_tag 'member[wensday]' %> Wensday
-							</div>
-							<div class="form-check form-check-stacked">
-							  	<%= check_box_tag 'member[thursday]' %> Thursday
-							</div>
-							<div class="form-check form-check-stacked">
-							  	<%= check_box_tag 'member[friday]' %> Friday
-							</div>
-
-							<div class="form-check form-check-stacked">
-							  	<%= check_box_tag 'member[saturday]' %> Saturday
-							</div>
-
-							<div class="form-check form-check-stacked">
-							  	<%= check_box_tag 'member[sunday]' %> Sunday
-							</div>
-
-							<div id="error_list" style="color: red"></div>
-							<button type="submit" class="btn btn-primary btn-lg">Register Member</button>
-						</form>
-					</div>
-				</div>
-
-
-
-      </div>
-      <div class="modal-footer add-member-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
 
 <% if @grp.is_fully_covered %>
-	<style type="text/css">
-	.content {
-		background-color: #6dff94;
-	}
-	</style>
+
 <% end %>
 
 

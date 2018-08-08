@@ -1,8 +1,8 @@
 class MembersController < ApplicationController
 	before_action :authorize
 	before_action :authenticate_user!
-	before_action :validate, :only => [:register_member,:register_member_to_group,:remove_member,:cover_member, :present_confirmation_partial, :find_member_name, :find_me]
-	before_action :validate_user, :only => [:register_member,:register_member_to_group,:remove_member,:cover_member, :present_confirmation_partial, :find_member_name, :find_me]
+	# before_action :validate, :only => [:register_member,:register_member_to_group,:remove_member,:cover_member, :present_confirmation_partial, :find_member_name, :find_me]
+	# before_action :validate_user, :only => [:register_member,:register_member_to_group,:remove_member,:cover_member, :present_confirmation_partial, :find_member_name, :find_me]
 
 	before_action :user_owns, :only => [:edit, :update]
 
@@ -18,7 +18,7 @@ class MembersController < ApplicationController
 		end
 	end
 
-	def validate_user
+	def validate
 		return if !current_user.is_valid?
 	end
 
@@ -34,7 +34,7 @@ class MembersController < ApplicationController
 			flash[:error] = @member.errors.full_messages.join(', ')	
 		end
 		
-	redirect_to :back
+		redirect_to :back
 	end
 
 
@@ -147,15 +147,13 @@ class MembersController < ApplicationController
 	end
 
 	def register_member_to_group
-
 		# every group can have a max of 5 members in it
 		@group = Group.find(params[:member_group][:group_id])
-		# @member = Member.create(member_params)
 		if @group.member_groups.count >= 40
 			render :json => {:success => false, :message => ["Sorry, this group is full"]}
 		else
-			if Member.exists?(:sdcc_member_id => params[:sdcc_member_id])
-				@member = Member.find_by_sdcc_member_id(params[:sdcc_member_id])
+			@member = Member.find_by_sdcc_member_id(params[:sdcc_member_id])
+			if @member
 				# a member can belong to no more than 3 groups
 				if @member.member_groups.count >= 20
 					render :json => {:success => false, :message => ['This member is already signed up with 5 groups, and cannot be in anymore.']}
@@ -164,7 +162,15 @@ class MembersController < ApplicationController
 					mb.member_id = @member.id
 					mb.user_id = current_user.id
 					if mb.save 
-						render :json => {:success => true, :member_id => @member.id, :member_group_id => mb.id}
+						# render :json => {:success => true, :member_id => @member.id, :member_group_id => mb.id}
+						# obj = {connection: connectionID, room: group_id, member_id: data.member_id, member_group_id: data.member_group_id}
+						# WebsocketRails trigger
+						WebsocketRails["buy_group_#{@group.id}"].trigger('reg_member_to_group', {
+															room: @group.id, 
+															member_id: @member.id, 
+															member_group_id: mb.id,
+															num_of_ppl: @group.member_groups.count
+														})
 						return
 					else
 						render :json => {:success => false, :message => mb.errors.full_messages}
@@ -175,6 +181,22 @@ class MembersController < ApplicationController
 				render :json => {:success => false, :new_member => true}
 			end
 		end
+	end
+
+	def present_member_dom
+		# member={member} ref={that.actListen} idx={idx} onChange={that.closeAll} current_user_valid={that.props.current_user_valid} member_grp_id={member.mem_grp.id} member_id={member.id} room_id={that.props.group_id} order={that.order}
+		@member = Member.find(params[:member_id])
+		@member_group = MemberGroup.where("member_id=? and group_id=?", params[:member_id], params[:group_id]).first
+		obj = {
+			member: @member.attributes,
+			idx: 2,
+			current_user_valid: current_user.is_valid,
+			member_grp_id: @member_group.id,
+			member_id: @member.id,
+			room_id: params[:group_id]
+		}
+
+		render component: 'BuyGroupMember', props: obj
 	end
 
 	def remove_member
@@ -292,7 +314,13 @@ class MembersController < ApplicationController
 					online: @member.checked_in ? 'online' : 'offline'
 				})
 			end
+
+		elsif params[:new_status] == 'covered' || params[:new_status] == 'full_covered'
+
+		elsif params[:new_status] == 'active' || params[:new_status] == 'not_active'
+			
 		end
+
 	end
 
 	private
