@@ -58,7 +58,9 @@ class LineDay::TimeSlotsController < ApplicationController
   # POST /line_day/time_slots.json
   def create
     @line_day_time_slot = LineDay::TimeSlot.new(line_day_time_slot_params)
-
+    if line_day_time_slot_params.end_time.nil?
+      line_day_time_slot_params.end_time = line_day_time_slot_params.time + 2.hours
+    end
     respond_to do |format|
       if @line_day_time_slot.save
         format.html { redirect_to :back, notice: { status: 200, message: 'Time slot was successfully created.'} }

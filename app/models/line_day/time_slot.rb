@@ -59,8 +59,8 @@ class LineDay::TimeSlot < ApplicationRecord
 			{
 				time: present_time,
 				date: present_date,
-				start_time: time.strftime('%l:%M %P @ %b/%e'),
-				end_time: end_time.strftime('%l:%M %P @ %b/%e'),
+				start_time: time.try(:strftime,'%l:%M %P @ %b/%e'),
+				end_time: end_time.try(:strftime,'%l:%M %P @ %b/%e'),
 				people: people,
 				people_hash: people_array,
 				notes: description,

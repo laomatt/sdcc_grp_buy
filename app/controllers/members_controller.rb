@@ -297,7 +297,9 @@ class MembersController < ApplicationController
 
 	def change_status
 		@member = Member.find(params[:id])
+		return if @member.nil?
 		if params[:new_status] == 'checked_in' || params[:new_status] == 'not_checked_in'
+			return if @member.user != current_user
 			if @member.checked_in
 				new_date = nil
 			else
