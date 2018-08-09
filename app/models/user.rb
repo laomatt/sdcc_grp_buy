@@ -86,7 +86,8 @@ class User < ApplicationRecord
   end
 
   def active_line_days
-    LineDay.joins(:holders).where("holders.user_id=? and start > NOW()",id).uniq
+    # LineDay.joins(:holders).where("holders.user_id=? and start > NOW()",id).uniq
+    LineDay.joins(:holders).where("holders.user_id=? and start > date('now')",id).uniq
     # LineDay.joins(:holders).where("holders.user_id=? and line_days.active = ?",id, true).uniq
   end
 
