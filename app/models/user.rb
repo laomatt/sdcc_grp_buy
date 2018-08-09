@@ -123,7 +123,7 @@ class User < ApplicationRecord
       attributes['line_day_id'] = ts.line_day.id
       attributes['present_time'] = ts.present_time_sched
 
-      while start_hour.hour <= end_hour.hour
+      while start_hour.hour < end_hour.hour
         taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"] = attributes
         start_hour = start_hour + 1.hour
       end
