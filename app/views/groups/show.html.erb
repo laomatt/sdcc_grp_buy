@@ -12,7 +12,6 @@
 <div class="row" style="width: 90%;">
 	<div class="col-md-12">
 				<%= 
-					if Rails.env.development?
 
 						react_component("BuyGroup", { 
 							is_admin: current_user.is_admin?,
@@ -26,13 +25,6 @@
 							current_user_valid: current_user.is_valid?,
 							authenticity_token: form_authenticity_token
 						}) 
-
-
-					else
-
-						"THIS IS CURRENTLY UNDERGOING CONSTRUCTION..."
-
-					end
 
 
 				%>

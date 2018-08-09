@@ -82,7 +82,7 @@ class BuyGroupMember extends React.Component {
   	var member = this.props.member;
   	var that = this;
     return (
-			<li className={"btn-lg "+(member.status_class)+" member-item-container " + (member.covered ? "covered-member" : "uncovered-member") + ' member-item-container_'+ this.props.member_id} order={this.props.idx} member_group_id={that.props.grp_id}>
+			<li className={"btn-lg "+(member.status_class)+" member-item-container " + (member.covered ? "covered" : "uncovered") + ' member-item-container_'+ this.props.member_id} order={this.props.idx} member_group_id={that.props.grp_id}>
 			<div className="row">
 				<div className="col-sm-4">
 							{member.name} <b>({member.sdcc_member_id})</b> 

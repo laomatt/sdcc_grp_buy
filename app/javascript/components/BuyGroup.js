@@ -25,6 +25,17 @@ class BuyGroup extends React.Component {
 		// 	$('.member-coverage-form').trigger('submit');
 		// });
 
+		$('body').on('click', '#non-covered-toggle', function(event) {
+			event.preventDefault();
+			$('.covered').toggle(500);
+		});
+
+		$('body').on('click', '#non-checked-in-toggle', function(event) {
+			event.preventDefault();
+			$('.not_checked_in').toggle(500);
+		});
+
+
 		this.signUpMember = this.signUpMember.bind(this);
 		this.addMemberToDom = this.addMemberToDom.bind(this);
 		this.signNewUpMember = this.signNewUpMember.bind(this);
