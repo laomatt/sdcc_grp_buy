@@ -58,10 +58,7 @@ class LineDay::TimeSlotsController < ApplicationController
   # POST /line_day/time_slots.json
   def create
     @line_day_time_slot = LineDay::TimeSlot.new(line_day_time_slot_params)
-    line_day_time_slot_params[:time] = DateTime.new(line_day_time_slot_params["time(1i)"].to_i,line_day_time_slot_params["time(2i)"].to_i,line_day_time_slot_params["time(3i)"].to_i,line_day_time_slot_params["time(4i)"].to_i,line_day_time_slot_params["time(5i)"].to_i)
-    end_time = DateTime.new(line_day_time_slot_params["end_time(1i)"].to_i,line_day_time_slot_params["end_time(2i)"].to_i,line_day_time_slot_params["end_time(3i)"].to_i,line_day_time_slot_params["end_time(4i)"].to_i,line_day_time_slot_params["end_time(5i)"].to_i)
-    if end_time.nil?
-      # byebug
+    if line_day_time_slot_params[:end_time].nil?
       line_day_time_slot_params[:end_time] = line_day_time_slot_params[:time] + 2.hours
     end
     respond_to do |format|
