@@ -5,11 +5,14 @@
   </div>
   <div class="col-lg-6">
     <% if current_user.id == @event.user_id %>
-      <div class="row" style="    padding-right: 10%;">
-        <a href="#" id='' data-target='#adminModal-edit-event' data-toggle="modal" class='btn btn-warning btn-lg col-md-6'><i class="fas fa-edit"></i> Event</a>
-        <a href="#" id='' data-target='#adminModal-add-day' data-toggle="modal" class='btn btn-warning btn-lg col-md-6'><i class="fas fa-plus-circle"></i> Line</a>
+      <div class="row" style="   margin-right: 10%;">
+        <div class="row">
+        </div>
+          <a href="#" id='' data-target='#adminModal-edit-event' data-toggle="modal" class='btn btn-warning btn-lg col-md-6'><i class="fas fa-edit"></i> Event</a>
+          <a href="#" id='' data-target='#adminModal-add-day' data-toggle="modal" class='btn btn-warning btn-lg col-md-6'><i class="fas fa-plus-circle"></i> Line</a>
       </div>
-      <div class="row">
+      <div class="row" style="   margin-right: 10%;">
+          <a href="#" id='' data-target='#adminModal-add-invite' data-toggle="modal" class='btn btn-warning btn-lg col-md-12'><i class="fas fa-envelope"></i> Invite people to this event</a>
       </div>
     <% end %>
   </div>
@@ -35,7 +38,30 @@
   <%
     end
   %>
-  
+
+  <!-- adminModal-add-invite -->
+<div id="adminModal-add-invite" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content time-slot-modal-body">
+      <div class="modal-header">
+        Invite People By Email
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        ---- invites
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 <div id="adminModal-edit-event" class="modal fade" role="dialog">
   <div class="modal-dialog">

@@ -133,6 +133,44 @@ class Member < ApplicationRecord
 		output
 	end
 
+	def member_list_item(current_user,group_id,map)
+		if map.nil?
+			map = {
+				'wensday' => ' WEN ',
+				'thursday' => ' TH ',
+				'friday' => ' FRI ',
+				'saturday' => ' SAT ',
+				'sunday' => ' SUN '
+			}
+		end
+
+		h = attributes 
+		needed_string = []
+		wanted_string = ""
+		['wensday','thursday','friday','saturday','sunday'].each do |day|
+			needed_string << {day: map[day], covered: false} if h[day]
+			wanted_string += map[day] if h['min_'+day]
+		end
+		h[:days_needed] = needed_string
+		h[:days_wanted] = wanted_string
+
+		h[:current_user_buying_for_member] = current_user.is_buying_for?(self)
+		h[:full_covered] = full_covered
+		h[:checked_in] = checked_in
+		h[:active] = active
+		h[:covered] = covered
+		h[:display_last] = display_last
+		h[:has_purchase] = has_purchase
+		h[:days_left] = days_left
+		h[:status_class] = status[:class]
+		h[:status_msg] = status[:msg]
+		h[:is_part_of] = is_part_of(group_id)
+		h[:mem_grp] = member_groups.find_by_group_id(group_id).attributes
+
+		h
+		
+	end
+
 	def has_purchase
 		Purchase.exists?(:member_id => id)
 	end

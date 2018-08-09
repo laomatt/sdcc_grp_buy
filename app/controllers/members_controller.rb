@@ -151,29 +151,42 @@ class MembersController < ApplicationController
 		@group = Group.find(params[:member_group][:group_id])
 		if @group.member_groups.count >= 40
 			render :json => {:success => false, :message => ["Sorry, this group is full"]}
+			return
 		else
-			@member = Member.find_by_sdcc_member_id(params[:sdcc_member_id])
+			@member = nil
+			@member = Member.find_by_sdcc_member_id(params[:sdcc_member_id]) if params[:sdcc_member_id]
+			# if member reg info is found then try to create the member
+			if params[:member]
+					@member = Member.new(member_params)
+					@member.user_id = current_user.id
+					@member.covered = false
+
+					if !@member.save
+						render :json => { :success => false, :message => @member.errors.full_messages} 
+						return
+					end
+			end
+
 			if @member
 				# a member can belong to no more than 3 groups
 				if @member.member_groups.count >= 20
 					render :json => {:success => false, :message => ['This member is already signed up with 5 groups, and cannot be in anymore.']}
+					return
 				else 
 					mb = MemberGroup.new(member_groups_params)
 					mb.member_id = @member.id
 					mb.user_id = current_user.id
 					if mb.save 
-						# render :json => {:success => true, :member_id => @member.id, :member_group_id => mb.id}
-						# obj = {connection: connectionID, room: group_id, member_id: data.member_id, member_group_id: data.member_group_id}
-						# WebsocketRails trigger
 						WebsocketRails["buy_group_#{@group.id}"].trigger('reg_member_to_group', {
 															room: @group.id, 
 															member_id: @member.id, 
 															member_group_id: mb.id,
 															num_of_ppl: @group.member_groups.count
 														})
+						render :json => {:success => true, :message => 'registered member.'}
 						return
 					else
-						render :json => {:success => false, :message => mb.errors.full_messages}
+						render :json => {:success => false, :message => mb.errors.full_messages.to_sentence}
 						return
 					end
 				end
@@ -184,19 +197,18 @@ class MembersController < ApplicationController
 	end
 
 	def present_member_dom
-		# member={member} ref={that.actListen} idx={idx} onChange={that.closeAll} current_user_valid={that.props.current_user_valid} member_grp_id={member.mem_grp.id} member_id={member.id} room_id={that.props.group_id} order={that.order}
 		@member = Member.find(params[:member_id])
 		@member_group = MemberGroup.where("member_id=? and group_id=?", params[:member_id], params[:group_id]).first
 		obj = {
-			member: @member.attributes,
-			idx: 2,
-			current_user_valid: current_user.is_valid,
+			member: @member.member_list_item(current_user,params[:group_id],nil),
+			current_user_valid: current_user.is_valid?,
 			member_grp_id: @member_group.id,
 			member_id: @member.id,
 			room_id: params[:group_id]
 		}
 
 		render component: 'BuyGroupMember', props: obj
+		# render react_component( 'BuyGroupMember', obj)
 	end
 
 	def remove_member

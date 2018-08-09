@@ -40,6 +40,8 @@ class BuyGroup extends React.Component {
   signUpMember(e){
   	e.preventDefault();
   	// debugger
+  	$(".create-mem-and-reg").attr('disabled', true);
+  	$(".create-mem-and-reg-message").text('working....');
   	var dataSend = $("#reg-member-try").serialize();
 		$.ajax({
 			url: '/members/register_member_to_group',
@@ -50,6 +52,8 @@ class BuyGroup extends React.Component {
 			if (data.success == true) {
 				$("#reg-member").trigger('reset');
 				$('.add-member-footer .btn').trigger('click');
+				$("#create-member-form").trigger('reset');
+				$("#reg-member-try").trigger('reset');
 			} else {
 				if (data.new_member) {
 					$('#new-member-form').slideDown('500', function() {
@@ -59,13 +63,17 @@ class BuyGroup extends React.Component {
 				} else {
 					populateErrors(data.message);
 				}
+				$(".create-mem-and-reg").attr('disabled', false);
+				$(".create-mem-and-reg-message").text('');
 			}
 		})
 	}
 
 	signNewUpMember(e){
 	  	e.preventDefault();
-	  	var dataSend = $("#").serialize('#new-member-form');
+	  	$(".create-mem-and-reg").attr('disabled', true);
+	  	$(".create-mem-and-reg-message").text('working....');
+	  	var dataSend = $("#create-member-form").serialize('#new-member-form');
 			$.ajax({
 				url: '/members/register_member_to_group',
 				method: 'POST',
@@ -75,9 +83,13 @@ class BuyGroup extends React.Component {
 				if (data.success == true) {
 					$("#reg-member").trigger('reset');
 					$('.add-member-footer .btn').trigger('click');
+					$("#create-member-form").trigger('reset');
+					$("#reg-member-try").trigger('reset');
 				} else {
 					populateErrors(data.message);
 				}
+				$(".create-mem-and-reg").attr('disabled', false);
+				$(".create-mem-and-reg-message").text('');
 			})
 		}
 
@@ -151,10 +163,11 @@ class BuyGroup extends React.Component {
 		    	var that = this;
 		    	$.ajax({
 		    		url: '/members/present_member_dom',
-		    		data: {member_id: mes.member_id, group_id: that.group_id},
+		    		data: {member_id: mes.member_id, group_id: mes.room},
 		    	})
 		    	.done(function(data) {
-			    	that.addMemberToDom(data);
+		    		debugger
+		    		$('.my_list').append(data);
 		    	});
 		    });
 
@@ -227,7 +240,7 @@ class BuyGroup extends React.Component {
 									<a href="#" id='non-covered-toggle' className='col-sm-4 btn btn-primary btn-sm'>Toggle Non-Covered Members</a>
 									<a href="#" id='non-checked-in-toggle' className='col-sm-4 btn btn-primary btn-sm'>Toggle Non-Checked in Members</a>
 							</div>
-							<ul id="table_sort" className='mem-list-container' style={{paddingLeft: "0",paddingRight: "0", margin: "0"}}>
+							<ul id="table_sort" className='mem-list-container my_list' style={{paddingLeft: "0",paddingRight: "0", margin: "0"}}>
 								
 								{
 									that.props.members.map(function(member, idx) {
@@ -255,6 +268,7 @@ class BuyGroup extends React.Component {
 				      <div className="modal-header">
 				        <button type="button" className="close" data-dismiss="modal">&times;</button>
 				        <h4 className="modal-title">Add Members</h4>
+				        <span className="create-mem-and-reg-message"></span>
 				      </div>
 				      <div className="modal-body add-member">
 
@@ -266,12 +280,13 @@ class BuyGroup extends React.Component {
 									To register yourself or a member into this group, please provide a valid SDCC member ID here, and check off the days desired.
 								</p>
 								<form method="" id="reg-member-try" className='to_hide_on_create'>
-									<input type="hidden" name="member_group[group_id]" value={that.props.group_id}/>
+										<input type="hidden" name="member_group[group_id]" value={that.props.group_id}/>
 										<input type="text" name="sdcc_member_id" id='sdcc_member_id_holder' className="form-control" style={{width: '100%'}} placeholder="SDCC member ID"/>
 										<div id="error_list" style={{color: "red"}}></div>
 										<hr/>
 								</form>
-								<button type="" style={{width: '100%'}} onClick={that.signUpMember} className="btn btn-primary btn-lg to_hide_on_create"> Add Member </button>
+								<button type="" style={{width: '100%'}} onClick={that.signUpMember} className="create-mem-and-reg btn btn-primary btn-lg to_hide_on_create"> Add Member </button>
+								<span className="create-mem-and-reg-message"></span>
 
 
 								<div className="browse to_hide_on_create">
@@ -292,6 +307,7 @@ class BuyGroup extends React.Component {
 								<div id="new-member-form" style={{display: 'none'}}>
 									<div className="create-form">
 										<form action='/members' method='POST' id='create-member-form'>
+											<input type="hidden" name="member_group[group_id]" value={that.props.group_id}/>
 											<h3>Create a new Member</h3>
 											<small>This Member ID is not yet in the system, you may sign up below</small>
 											<input type="hidden" name="authenticity_token" id="authenticity_token" value={that.props.authenticity_token}/>
@@ -350,7 +366,8 @@ class BuyGroup extends React.Component {
 											</div>
 
 											<div id="error_list" style={{color: 'red'}}></div>
-											<button type="submit" onClick={that.signNewUpMember} className="btn btn-primary btn-lg">Register Member</button>
+											<button type="submit" onClick={that.signNewUpMember} className="create-mem-and-reg btn btn-primary btn-lg">Register Member</button>
+											<span className="create-mem-and-reg-message"></span>
 										</form>
 									</div>
 								</div>
