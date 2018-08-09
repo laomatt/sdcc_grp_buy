@@ -75,7 +75,6 @@ class LineDay::TimeSlotsController < ApplicationController
   # PATCH/PUT /line_day/time_slots/1
   # PATCH/PUT /line_day/time_slots/1.json
   def update
-    # byebug
 
     line_day_time_slot_params = params.require(:line_day_time_slot).permit(:day, :description, :time, :line_day_id, :end_time) if line_day_time_slot_params.nil?
 
@@ -104,10 +103,11 @@ class LineDay::TimeSlotsController < ApplicationController
   # DELETE /line_day/time_slots/1
   # DELETE /line_day/time_slots/1.json
   def destroy
-    @line_day_time_slot.destroy
-    respond_to do |format|
-      format.html { redirect_to :back, notice: { status: 200, message: 'Time slot was successfully destroyed.'} }
-      format.json { head :no_content }
+    id = @line_day_time_slot.id
+    if @line_day_time_slot.destroy
+       render json: { status: 200, message: 'Time slot was successfully destroyed.', id: id} 
+    else
+        render json: { :status => 400, :message => @line_day_time_slot.errors.full_messages.join(', ')}
     end
   end
 

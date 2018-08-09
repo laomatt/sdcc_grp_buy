@@ -11,7 +11,7 @@ class TimeSlot2 extends React.Component {
   render () {
   	const time = this.props;
     return (
-    	<div className='time-row' style={time.count == time.total_limit ? {backgroudColor:'#a2de6c'} : {backgroudColor:'transparent'}}>
+    	<div className={'time-row time-row' + time.id} style={time.count == time.total_limit ? {backgroudColor:'#a2de6c'} : {backgroudColor:'transparent'}}>
     	<div className='btn-person-container'>
 				<a href="#" className='broadcast-message btn-wide btn btn-lg btn-primary btn-contact-grp' data-slot-id={time.id} data-id={time.id} end-pt='/line_day/time_slots/broadcast_to_slot' data-type={this.props.type} data-identifier={"Wait shift: " + time.time} data-toggle="modal" data-target="#timeSlotContactModal" alt='Broadcast'><i className="fas fa-broadcast-tower"></i></a>
 			</div>

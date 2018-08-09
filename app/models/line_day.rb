@@ -9,7 +9,15 @@ class LineDay < ApplicationRecord
 	end
 
 	def last_slot
-		[time_slots.last.end_time, start, time_slots.last.time].compact.first
+		if !time_slots.empty?
+			if time_slots.last.end_time
+				time_slots.last.end_time
+			else
+				time_slots.last.time
+			end
+		else
+			start
+		end
 	end
 
 	def holders

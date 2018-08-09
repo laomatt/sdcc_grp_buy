@@ -3,9 +3,18 @@
 	<div class="col-lg-6">
 		
 		<h2 class='day_name'>
-			<%= @line_day.day %>
+			<a href="/line_up_events/<%= @line_day.line_up_event.id %>" class='btn btn-lg btn-primary' style='color:white'><i class="fas fa-chevron-circle-left"></i> <%= @line_day.line_up_event.name %></a>
+			<span style="float: right;">
+				<%= @line_day.day %>
+			</span>
 		</h2>  
-		<a href="/line_up_events/<%= @line_day.line_up_event.id %>" class='btn btn-lg btn-primary' style='color:white'>Back to <%= @line_day.line_up_event.name %></a>
+		
+		<% if current_user.is_admin? %>
+			<div class="row">
+				<a href="#" id='' data-target='#adminModal-add-slot' data-toggle="modal" class='btn btn-warning btn-lg col-md-6'><i class="fas fa-plus-circle"></i> Time Slot</a>
+				<a href="#" id='' data-target='#adminModal-edit-grp' data-toggle="modal" class='btn btn-warning btn-lg col-md-6'><i class="fas fa-edit"></i>Edit Schedule</a>
+			</div>
+		<% end %>
 		<p class='description'>
 		  <%= @line_day.description %>
 		</p>
@@ -73,73 +82,96 @@
 
 
 		<% if current_user.is_admin? %>
-		<a href="#" id='admin-options-toggle' data-target='admin-options' class='btn btn-primary btn-lg' style="width: 100%">
-			Admin Options
-		</a>
+
+<div id="adminModal-add-slot" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content time-slot-modal-body">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+				<div class="row admin-options" style="padding: 1%;">
+					<div class="col-lg-12" style=" padding: 1%;
+																		    background-color: transparent;
+																		    color: black;
+																		}">
+																		<h3>Add another time slot</h3>
+							<%= render :partial => 'line_day/time_slots/form' %>
+
+					</div>
+
+					
+				</div>
+      	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-		<div class="row admin-options" style="padding: 1%;display: none;">
-			<div class="col-lg-6" style=" padding: 1%;
-																    background-color: transparent;
-																    color: black;
-																}">
-																<h3>Add another time slot</h3>
-					<%= render :partial => 'line_day/time_slots/form' %>
 
-					<form action="#" action='/line_days/<%= @line_day.id %>/default_times' method='post' style="    background-color: #aadeb4;padding: 2%;">
-					<h3>Default time shifts</h3>
-						<div class="row">
-							
-							<div class="form-group col-lg-6">
-							<label for="default[start_time]">Start Time</label>
-								<input type="time" value='' id='' name='default[start_time]' class='form-control'>
+<div id="adminModal-edit-grp" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content time-slot-modal-body">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+				<div class="row admin-options-add-slot" style="padding: 1%;">
+					
+
+					<div class="col-lg-12">
+						<h3>Edit this schedule</h3>
+							<div class="form-group">
+								<label for="user_limit">Group Limit</label>
+								<input type="number" value='<%= @line_day.user_limit %>' id='user_limit_spec' name='user_limit' class='form-control'>
 							</div>
 
-							<div class="form-group col-lg-6">
-								<label for="default[increment]">Increment Time (hours)</label>
-								<input type="number" value='' id='' name='default[increment]' class='form-control'>
+							<div class="form-group">
+								<label for="day">Title</label>
+								<input type="text" value='<%= @line_day.day %>' id='day_spec' name='day' class='form-control'>
 							</div>
-						</div>
-						<a href="#" class='btn btn-lg btn-primary submit-form-btn'>Create Default times for this shift</a>
-					</form>
-			</div>
 
-			<div class="col-lg-6">
-				<h3>Edit this schedule</h3>
-					<div class="form-group">
-						<label for="user_limit">Group Limit</label>
-						<input type="number" value='<%= @line_day.user_limit %>' id='user_limit_spec' name='user_limit' class='form-control'>
+							<div class="form-group">
+								<label for="description">Description</label>
+								<input type="text" value='<%= @line_day.description %>' id='description_spec' name='description' class='form-control'>
+							</div>
+
+							<div class="form-group">
+								<label for="start">start</label>
+								<input type="datetime-local" class='datepicker' value='<%= @line_day.start.strftime("%Y-%m-%dT%T") %>' id='start_spec' name='start' class='form-control'>
+							</div>
+
+							<div class="form-group">
+								<a id='update-user-limit' class='btn btn-primary btn-md'>Update</a>
+							</div>
+
+							<div class='error'></div>
+							<div class='success'></div>
 					</div>
-
-					<div class="form-group">
-						<label for="day">Title</label>
-						<input type="text" value='<%= @line_day.day %>' id='day_spec' name='day' class='form-control'>
-					</div>
-
-					<div class="form-group">
-						<label for="description">Description</label>
-						<input type="text" value='<%= @line_day.description %>' id='description_spec' name='description' class='form-control'>
-					</div>
-
-					<div class="form-group">
-						<label for="start">start</label>
-						<input type="text" class='datepicker' value='<%= @line_day.start %>' id='start_spec' name='start' class='form-control'>
-					</div>
-
-					<div class="form-group">
-						<a id='update-user-limit' class='btn btn-primary btn-md'>Update</a>
-					</div>
-
-					<div class='error'></div>
-					<div class='success'></div>
-			</div>
-		</div>
+				</div>
+      	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 	<script>
 		$('body').on('click', '#admin-options-toggle', function(event) {
 			event.preventDefault();
-			$('.admin-options').toggle(300);
+			// $('.admin-options').toggle(300);
+			$('#adminModal').modal('show');
 		});
 	</script>
 
@@ -300,6 +332,7 @@ $('body').on('click', '.edit-slot', function(event) {
 	var en = $('#end_for' + $(this).attr('data-id')).val();
 	var en_str = $('#end_for' + $(this).attr('data-id')).val();
 	$("#time_slot_textarea").text(text);
+	$('.delete_slot').attr('slot_id', $(this).attr('data-id') );
 
 	var start = new Date(st);
 	var end = new Date(en);
@@ -308,6 +341,12 @@ $('body').on('click', '.edit-slot', function(event) {
 	$('.time-slot-modal-body').fadeIn(500, function() {});
 });
 
+
+// $('body').on('click', '.delete_slot', function(event) {
+// 	event.preventDefault();
+// 	$("#edit_time_slot").attr('method', 'DELETE');
+// 	$("#edit_time_slot").trigger('submit');
+// });
 
 
 
@@ -339,6 +378,29 @@ $('body').on('click', '.update_notes', function(event) {
 	
 });
 
+
+$('body').on('click', '.delete_slot', function(event) {
+	event.preventDefault();
+	var id = $(this).attr('slot_id');
+	$(".time-row"+id).css('opacity', '0.5');
+	$.ajax({
+		url: $('#edit_time_slot').attr('action'),
+		type: 'DELETE'
+	})
+	.done(function(data) {
+		if (data.status == 200) {
+			$("#noticeModal").find('#notice_message').text(data.message);
+      $("#noticeModal").modal('show');
+      $(".time-row"+data.id).hide('500');
+		} else {
+			$("#notice_message").css('color', 'red');
+			$("#notice_message").text(data.message);
+			$("#noticeModal").modal('show');
+			$(".time-row"+data.id).css('opacity', '1');
+		}
+	})
+	
+});
 
 
 </script>
@@ -388,25 +450,17 @@ $('body').on('click', '.update_notes', function(event) {
       		<input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>' />
 		      <textarea name="line_day_time_slot[description]" id="time_slot_textarea" value="" cols="50" rows="20"></textarea>
 		      <% if current_user.is_admin? %>
-							ADMIN: EDIT TIMES <small>click on the time slot twice to get it to display the displayed time.</small> 
 		       <div class="row">
-    
 				    <div class="col-md-6">
 			        <div class="line_day_time_slot_start">START TIME</div>
 				      <div class="field form-group btn btn-primary btn-lg time-slot-edit-container" id='line_day_time_slot_time'>
 				        <input class="form-control" id="line_day_time_slot_time_span" type="datetime-local" autocomplete='off' name="line_day_time_slot[time]" value=''>
-				        <!-- <input class="form-control" type="hidden" autocomplete='off' name="line_day_time_slot[time]" value=''> -->
-				        <!-- <span class='date-picker-face' id="line_day_time_slot_time_span"></span> -->
 				      </div>
 				    </div>
-
-				    
 				    <div class="col-md-6">
 			        <div class="line_day_time_slot_end">END TIME</div>
 				      <div class="field form-group btn btn-primary btn-lg time-slot-edit-container" id='line_day_time_slot_end_time'>
 				        <input class="form-control" id="line_day_time_slot_end_time_span" type="datetime-local" autocomplete='off' name="line_day_time_slot[end_time]" value=''>
-				        <!-- <input class="form-control" type="hidden" autocomplete='off' name="line_day_time_slot[end_time]" value=''> -->
-				        <!-- <span class='date-picker-face' id="line_day_time_slot_end_time_span"></span> -->
 				      </div>
 				    </div>
 
@@ -416,6 +470,7 @@ $('body').on('click', '.update_notes', function(event) {
       	</form>
       </div>
       <div class="modal-footer">
+        <button type="button" class="delete_slot btn btn-danger" slot_id="" type="" data-dismiss="modal">Destroy</button>
         <button type="button" class="update_notes btn btn-default" slot_id="" type="" data-dismiss="modal">Update</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
