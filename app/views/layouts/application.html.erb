@@ -503,44 +503,44 @@
   //   } );
 
 
-$( function() {
-  $( "#line_day_time_slot_time, #line_day_time_slot_end_time" ).datetimepicker({
-    ampm: true, 
-    showPeriod: true,
-    formatTime:"h a",
-    stepping: 15, 
-    showWeekDays: true,
-    onShow: function(e, el){
-      var start_d = $(this).parent().find('span#'+el.attr('id')+'_span').text();
-      var date = new Date(start_d);
+// $( function() {
+//   $( "#line_day_time_slot_time, #line_day_time_slot_end_time" ).datetimepicker({
+//     ampm: true, 
+//     showPeriod: true,
+//     formatTime:"h a",
+//     stepping: 15, 
+//     showWeekDays: true,
+//     onShow: function(e, el){
+//       var start_d = $(this).parent().find('span#'+el.attr('id')+'_span').text();
+//       var date = new Date(start_d);
 
-      var day = date.getDate();
-      day = day < 10 ? '0'+day : day;
+//       var day = date.getDate();
+//       day = day < 10 ? '0'+day : day;
       
-      var month = (parseInt(date.getMonth() + 1));
-      month = month < 10 ? '0'+month : month;
+//       var month = (parseInt(date.getMonth() + 1));
+//       month = month < 10 ? '0'+month : month;
 
-      var def_date = date.getFullYear() + "/" + month + "/" + day;
+//       var def_date = date.getFullYear() + "/" + month + "/" + day;
 
-      var hours= date.getHours();
-      hours = hours < 10 ? '0'+hours : hours;
+//       var hours= date.getHours();
+//       hours = hours < 10 ? '0'+hours : hours;
 
-      var minutes = date.getMinutes();
-      minutes = minutes < 10 ? '0'+minutes : minutes;
+//       var minutes = date.getMinutes();
+//       minutes = minutes < 10 ? '0'+minutes : minutes;
 
-      var def_time = hours +":"+ minutes;
-      var dateOptions = {defaultDate:def_date,defaultTime:def_time};
-      this.setOptions(dateOptions);
+//       var def_time = hours +":"+ minutes;
+//       var dateOptions = {defaultDate:def_date,defaultTime:def_time};
+//       this.setOptions(dateOptions);
 
-    }
-  }).change(function(event) {
-    var new_date = $(this).val();
-    var dat = new Date(new_date);
-    var d = formatDate(dat);
-    $(this).find('span').text(d);
-    $(this).find('input').val(new_date);
-  });
-} );
+//     }
+//   }).change(function(event) {
+//     var new_date = $(this).val();
+//     var dat = new Date(new_date);
+//     var d = formatDate(dat);
+//     $(this).find('span').text(d);
+//     $(this).find('input').val(new_date);
+//   });
+// } );
 
 
 

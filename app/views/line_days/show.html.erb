@@ -90,17 +90,12 @@
 					<h3>Default time shifts</h3>
 						<div class="row">
 							
-							<div class="form-group col-lg-4">
+							<div class="form-group col-lg-6">
 							<label for="default[start_time]">Start Time</label>
 								<input type="time" value='' id='' name='default[start_time]' class='form-control'>
 							</div>
 
-							<div class="form-group col-lg-4">
-								<label for="default[end_time]">End Time</label>
-								<input type="time" value='' id='' name='default[end_time]' class='form-control'>
-							</div>
-
-							<div class="form-group col-lg-4">
+							<div class="form-group col-lg-6">
 								<label for="default[increment]">Increment Time (hours)</label>
 								<input type="number" value='' id='' name='default[increment]' class='form-control'>
 							</div>
@@ -308,8 +303,8 @@ $('body').on('click', '.edit-slot', function(event) {
 
 	var start = new Date(st);
 	var end = new Date(en);
-	$("#line_day_time_slot_time_span").text(st_str);
-	$("#line_day_time_slot_end_time_span").text(en_str);
+	$("#line_day_time_slot_time_span").val(st_str);
+	$("#line_day_time_slot_end_time_span").val(en_str);
 	$('.time-slot-modal-body').fadeIn(500, function() {});
 });
 
@@ -399,9 +394,9 @@ $('body').on('click', '.update_notes', function(event) {
 				    <div class="col-md-6">
 			        <div class="line_day_time_slot_start">START TIME</div>
 				      <div class="field form-group btn btn-primary btn-lg time-slot-edit-container" id='line_day_time_slot_time'>
-				        <input class="form-control" type="hidden" autocomplete='off' name="line_day_time_slot[time]" value=''>
-				        <span class='date-picker-face' id="line_day_time_slot_time_span">
-				        </span>
+				        <input class="form-control" id="line_day_time_slot_time_span" type="datetime-local" autocomplete='off' name="line_day_time_slot[time]" value=''>
+				        <!-- <input class="form-control" type="hidden" autocomplete='off' name="line_day_time_slot[time]" value=''> -->
+				        <!-- <span class='date-picker-face' id="line_day_time_slot_time_span"></span> -->
 				      </div>
 				    </div>
 
@@ -409,10 +404,9 @@ $('body').on('click', '.update_notes', function(event) {
 				    <div class="col-md-6">
 			        <div class="line_day_time_slot_end">END TIME</div>
 				      <div class="field form-group btn btn-primary btn-lg time-slot-edit-container" id='line_day_time_slot_end_time'>
-				        <input class="form-control" type="hidden" autocomplete='off' name="line_day_time_slot[end_time]" value=''>
-				        <span class='date-picker-face' id="line_day_time_slot_end_time_span">
-				        	
-				        </span>
+				        <input class="form-control" id="line_day_time_slot_end_time_span" type="datetime-local" autocomplete='off' name="line_day_time_slot[end_time]" value=''>
+				        <!-- <input class="form-control" type="hidden" autocomplete='off' name="line_day_time_slot[end_time]" value=''> -->
+				        <!-- <span class='date-picker-face' id="line_day_time_slot_end_time_span"></span> -->
 				      </div>
 				    </div>
 

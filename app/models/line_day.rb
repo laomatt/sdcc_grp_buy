@@ -8,6 +8,10 @@ class LineDay < ApplicationRecord
 		line_up_event.user
 	end
 
+	def last_slot
+		[time_slots.last.end_time, start, time_slots.last.time].compact.first
+	end
+
 	def holders
 		time_slots.map(&:holders).flatten
 	end

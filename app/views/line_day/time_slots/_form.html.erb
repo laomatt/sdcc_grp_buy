@@ -26,7 +26,7 @@
     <div class="col-md-6">
       <div class="field form-group">
         <%= f.label :time, :value => 'Start' %>
-        <%= f.datetime_select :time, {prompt: {day: 'Choose day', month: 'Choose month', year: 'Choose year', hour: 'Hour', minute: 'minute'}, ampm: true, default: Time.now.strftime('%Y %B %d %H %M') },{:autocomplete => 'off', :class => "form-control datepicker_create"} %>
+        <%= f.datetime_local_field :time, {value: @line_day.last_slot.strftime('%Y-%m-%dT%T'), autocomplete: 'off', class: "form-control"} %>
       </div>
     </div>
 
@@ -34,7 +34,7 @@
     <div class="col-md-6">
       <div class="field form-group">
         <%= f.label :end_time, :value => 'End' %>
-        <%= f.datetime_select :end_time, {prompt: {day: 'Choose day', month: 'Choose month', year: 'Choose year', hour: 'Hour', minute: 'minute'}, ampm: true, default: Time.now.strftime('%Y %B %d %H %M') },{:autocomplete => 'off', :class => "form-control datepicker_create"} %>
+        <%= f.datetime_local_field :end_time, {value: (@line_day.last_slot + 1.hour).strftime('%Y-%m-%dT%T'), autocomplete: 'off', class: "form-control"} %>
       </div>
     </div>
 

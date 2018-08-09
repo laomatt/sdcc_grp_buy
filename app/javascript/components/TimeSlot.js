@@ -29,7 +29,6 @@ export default class TimeSlot extends React.Component {
   	this.setState((prevState, props) => ({
 				expanded: false
 		}));
-
   }
 
 

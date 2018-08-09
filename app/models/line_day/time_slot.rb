@@ -17,7 +17,6 @@ class LineDay::TimeSlot < ApplicationRecord
 			"#{time.try(:strftime,"%l:%M %p")} - #{end_time.try('strftime',"%l:%M %p")}"			
 		end
 
-
 		def present_time_sched
 			"Starts @ #{time.try(:strftime,"%l:%M %p")}"			
 		end
@@ -59,8 +58,8 @@ class LineDay::TimeSlot < ApplicationRecord
 			{
 				time: present_time,
 				date: present_date,
-				start_time: time.try(:strftime,'%l:%M %P @ %b/%e'),
-				end_time: end_time.try(:strftime,'%l:%M %P @ %b/%e'),
+				start_time: time.try(:strftime,'%Y-%m-%dT%T'),
+				end_time: end_time.try(:strftime,'%Y-%m-%dT%T'),
 				people: people,
 				people_hash: people_array,
 				notes: description,
