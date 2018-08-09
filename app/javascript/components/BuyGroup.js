@@ -39,7 +39,6 @@ class BuyGroup extends React.Component {
 
   signUpMember(e){
   	e.preventDefault();
-  	// debugger
   	$(".create-mem-and-reg").attr('disabled', true);
   	$(".create-mem-and-reg-message").text('working....');
   	var dataSend = $("#reg-member-try").serialize();
@@ -166,7 +165,6 @@ class BuyGroup extends React.Component {
 		    		data: {member_id: mes.member_id, group_id: mes.room},
 		    	})
 		    	.done(function(data) {
-		    		debugger
 		    		$('.my_list').append(data);
 		    	});
 		    });

@@ -83,7 +83,7 @@ class Member < ApplicationRecord
 
 	def status
 		if full_covered
-			{:class => 'full_covered' , :msg => 'COMPLETED, SEE YOU AT THE CON!!'}
+			{:class => 'full_covered' , :msg => 'COMPLETED!'}
 		elsif covered
 			{:class => 'covered' , :msg => 'COVERED'}
 		elsif active

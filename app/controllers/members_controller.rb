@@ -4,6 +4,9 @@ class MembersController < ApplicationController
 	# before_action :validate, :only => [:register_member,:register_member_to_group,:remove_member,:cover_member, :present_confirmation_partial, :find_member_name, :find_me]
 	# before_action :validate_user, :only => [:register_member,:register_member_to_group,:remove_member,:cover_member, :present_confirmation_partial, :find_member_name, :find_me]
 
+	# present_member_dom
+	# layout 'application', :except => :present_member_dom
+
 	before_action :user_owns, :only => [:edit, :update]
 
 	include SecurityHelper
@@ -207,8 +210,7 @@ class MembersController < ApplicationController
 			room_id: params[:group_id]
 		}
 
-		render component: 'BuyGroupMember', props: obj
-		# render react_component( 'BuyGroupMember', obj)
+		render component: 'BuyGroupMember', props: obj, layout: false
 	end
 
 	def remove_member
