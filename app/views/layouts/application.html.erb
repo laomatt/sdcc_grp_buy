@@ -275,7 +275,7 @@
 
 
 
-<% if notice %>
+<% if current_user && notice %>
   <!-- Modal -->
   <div class="modal fade modal-<%= notice[:status] == 200 ? 'success' : 'danger' %>" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
