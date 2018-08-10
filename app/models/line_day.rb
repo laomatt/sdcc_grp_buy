@@ -16,7 +16,7 @@ class LineDay < ApplicationRecord
 				time_slots.last.time
 			end
 		else
-			start
+			start - 1.day
 		end
 	end
 
