@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  layout 'application'
+  layout 'application', except: :login
 
   def authorize
     if !current_user

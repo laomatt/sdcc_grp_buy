@@ -1,4 +1,4 @@
-$(document).ready(function() {
+ $(document).ready(function() {
 	if (group_id == 'undefined' && group_id != 'master_tab') {
 		return;
 	}

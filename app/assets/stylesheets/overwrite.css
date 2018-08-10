@@ -17,7 +17,7 @@
 }
 
 .login-body {
-	padding-left: 10%;
+	padding-left: 5%;
 }
 
 .create-form {
@@ -706,10 +706,34 @@
         display: none;
     }
     .welcome-message {
-        width: 75%;
+        width: 100%;
         font-size: 14px;
         font-family: sans-serif;
         padding: 5%;
+    }
+
+    .splash-image {
+        position: relative;
+        width: 100%;
+        background-image: url(background_cci.jpg);
+        background-color: #fbf2f2;
+        margin-left: 0;
+        height: 40%;
+        background-position: fix;
+        margin-bottom: 1%;
+        background-repeat-x: no-repeat;
+        background-repeat: no-repeat;
+        background-position: left;
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100%;
+        height: 630px;
+        /* background: no-repeat center center scroll; */
+        background-attachment: fixed;
+        /*padding: 5%;*/
+        color: white;
+        font-size: 50px;
+        font-weight: bold;
     }
 
     .chat-box-global {
@@ -762,7 +786,7 @@
 
     .login-window {
         background-color: #e2e3e4;
-        width: 70%;
+        width: 100%;
         padding: 2%;
         border-radius: 10px;
     }
@@ -896,6 +920,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 #manual-login-form {
     padding: 0%;
+}
+
+#manual-signup-form {
+    /*height: 100%;*/
+    /*overflow-wrap: */
+    overflow-y: auto;
 }
 
 .profile-container-edit {

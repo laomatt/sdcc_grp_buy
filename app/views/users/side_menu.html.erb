@@ -93,56 +93,7 @@
 
   <!-- /.search form -->
   <!-- sidebar menu: : style can be found in sidebar.less -->
-<div class="row">
-  <div class="col-lg-6">
-    <h1>
-      YOUR GROUPS
-    </h1>
-    <div style='overflow-y: scroll;'>
-      <ul id="grp_search_aside" style='padding: 2%;'>
-        <%= render :partial => 'groups/group_list_sidebar', :locals => { :groups => @groups } %>
-      </ul>
-    </div>
-    <!-- /.sidebar -->
 
-    
-  </div>
-  <div class="col-lg-6">
-    <h1>YOUR MEMBERS</h1>
-    <div class='member-list'>
-      <% @members.each do |member| %>
-        <div class="list-member">
-          <%= render :partial => 'groups/member_list_item', :locals => { :member => member, :mem_grp => nil, :grp => nil } %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
-
-
-
-<% if current_user.try(:is_admin) %>
-  <ul class='line_search_aside' style='padding: 0%; margin-top: 30px; list-style: none;'>
-    <li class="admin-options">
-      <a href="/groups/master_tab" class='btn btn-lg btn-warning ln-wait-grp'>Master View</a>
-    </li>
-    <li class="admin-options">
-      <a href="/admins/csv_upload" class='btn btn-lg btn-warning ln-wait-grp'>Upload CSV</a>
-    </li>
-    <li class="admin-options">
-      <a href="/admins" class='btn btn-lg btn-warning ln-wait-grp'>CODES</a>
-    </li>
-    <li class="admin-options">
-      <a href="/admins/users_index" class='btn btn-lg btn-warning ln-wait-grp'>USERS</a>
-    </li>
-    <li class="admin-options">
-      <a href="/admins/members_index" class='btn btn-lg btn-warning ln-wait-grp'>MEMBERS</a>
-    </li>
-    <li class="admin-options">
-      <a href="/admins/groups_index" class='btn btn-lg btn-warning ln-wait-grp'>GROUPS</a>
-    </li>
-  </ul>
- <% end %>
 
 
 

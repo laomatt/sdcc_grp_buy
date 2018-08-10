@@ -5,13 +5,18 @@ class UsersController < ApplicationController
   include SecurityHelper
 
   def login
+    if current_user
+      redirect_to :side_menu_users
+      return
+    end
+    render layout: false
   end
 
   def manual_login
     user = User.find_by_email(login_params['email'])
     if user && user.valid_password?(login_params['password'])
       sign_in(:user, user)
-      redirect_to :back
+      redirect_to :side_menu_users
     else
       flash[:error] = 'Email or password invalid'
       redirect_to :back
@@ -38,7 +43,7 @@ class UsersController < ApplicationController
 
     if user.valid?
       # make a validation code
-      # make an entry in the user_holder_table with validation code and 
+      # make an entry in the temp with validation code and 
       flash[:error] = "An Email has been sent to #{user_params['email']} with a verification link, please check that e-mail and click the link."
       temp = Temp.new(:name => user.name, :password => user.password, :avatar_url => user.avatar_url, :email => user.email)
       temp.avatar_url = user.avatar_url
@@ -53,7 +58,7 @@ class UsersController < ApplicationController
         en_code: en_code
       }
 
-    MyMailer.val_link(obj, 'Your validation link from SDCC tickets').deliver
+      MyMailer.val_link(obj, 'Your validation link from SDCC tickets').deliver
 
       redirect_to :back
     else
@@ -66,7 +71,7 @@ class UsersController < ApplicationController
     code = params[:val]
     id = params[:id]
     temp = Temp.find(id)
-    # compare params[:confirmation_code] with what is in user_holder_table for this id 
+    # compare params[:confirmation_code] with what is in temp for this id 
     if code == temp.val_code
       user = User.new(:name => temp.name, :password => temp.password, :password_confirmation => temp.password, :avatar_url => temp.avatar_url, :email => temp.email)
       if user.save
@@ -77,7 +82,7 @@ class UsersController < ApplicationController
           mem.save
         end
         sign_in(:user, user)
-        redirect_to '/'
+        redirect_to :side_menu_users
       else
         flash[:error] = user.errors.full_messages.join(', ')
         redirect_to '/'
