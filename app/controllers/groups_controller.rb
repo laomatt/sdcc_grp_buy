@@ -19,7 +19,8 @@ class GroupsController < ApplicationController
 
 	def get_count
 		@group = Group.find(params[:group_id])
-		count = @group.count_string
+		@group.count_string!
+		count = @group.cached_count_string
 
 		render :json => { :count => count }
 	end
@@ -56,6 +57,7 @@ class GroupsController < ApplicationController
 		@grp = Group.new(group_params)
 		@grp.user_id = current_user.id
 		if @grp.save
+			current_user.my_groups!
 			render :json => { :success => true}
 		else 
 			render :json => { :success => false, :message => @grp.errors.full_messages}

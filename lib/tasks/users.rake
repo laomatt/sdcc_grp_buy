@@ -26,4 +26,13 @@ namespace :users do
 		end
 	end
 
+
+	desc 'update users group string and count'
+
+	task :update_groups => :environment do
+		User.all.each do |u|
+			u.my_groups!
+		end
+	end
+
 end

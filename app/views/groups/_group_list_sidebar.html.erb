@@ -1,13 +1,13 @@
   <% groups.try(:each).try(:each) do |grp| %>
     <% if grp %>
-      <li id="side-item-group-<%= grp.try(:id) %>" style="background-color: <%= grp.coverage %>">
-        <% if (!@grp.nil? && @grp.try(:id) == grp.try(:id))%>
-          <%= grp.name %> <br>
-          coverage: <span id="side-item-count-for-group-<%= grp.try(:id) %>"> <%= grp.number_covered %>/<%= grp.member_groups.count %></span>
+      <li id="side-item-group-<%= grp['id'] %>" style="background-color: transparent;">
+        <% if (!@grp.nil? && @grp.try(:id) == grp['id'])%>
+          <%= grp['name'] %> <br>
+          coverage: <span id="side-item-count-for-group-<%= grp['id'] %>"> <%= grp['cached_count_string'] %></span>
         <% else %>
-          <a class='btn btn-lg btn-primar ln-wait-grp' href="/groups/<%= grp.try(:id) %>" style="width: 100%;
-    color: black;"><%= grp.name %> <br>
-            coverage: <span id="side-item-count-for-group-<%= grp.try(:id) %>"> <%= grp.number_covered %>/<%= grp.member_groups.count %></span>
+          <a class='btn btn-lg btn-primar ln-wait-grp' href="/groups/<%= grp['id'] %>" style="width: 100%;
+    color: black;"><%= grp['name'] %> <br>
+            coverage: <span id="side-item-count-for-group-<%= grp['id'] %>"> <%= grp['cached_count_string'] %></span>
           </a>
         <% end %>
       </li>

@@ -171,24 +171,32 @@ class User < ApplicationRecord
 
     # all groups created by user
     groups.each do |grp|
-      out << grp
+      grp.count_string!
+      out << grp.attributes
     end
 
     # all groups followed by user
     followed_groups.all.each do |grp|
-      out << grp.group
+      grp.group.count_string!
+      out << grp.group.attributes
     end
 
     # all groups with a member created/sponsored by user
     members.each do |mem|
       mem.member_groups.each do |mg|
-        out << mg.group
+        mg.group.count_string!
+        out << mg.group.attributes
       end
     end
 
 
 
     out.uniq
+  end
+
+  def my_groups!
+    # update the cached_groups_string hash
+   update(:cached_my_groups => my_groups.to_json)
   end
 
 

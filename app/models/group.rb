@@ -54,8 +54,9 @@ class Group < ApplicationRecord
 		end
 	end
 
-	def count_string
-		"#{number_covered}/#{member_groups.count}"
+	def count_string!
+		# TODO: cache this information somewhere
+		update(:cached_count_string => "#{number_covered}/#{member_groups.count}")
 	end
 
 	def coverered_members
