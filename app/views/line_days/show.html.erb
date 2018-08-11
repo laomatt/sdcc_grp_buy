@@ -37,40 +37,7 @@
 		# @time_slots_infos = @line_day.time_slots.joins(holders: :user_id).map { |e| 
 		# @time_slots_infos =@line_day.time_slots.joins(holders: :user).select('day, holders.id, holders.user_id, time, end_time').map { |e| 
 
-		@time_slots_infos = []
-
-		slots = @line_day.time_slots
-
-		data = slots.joins(holders: :user).select('day, holders.line_day_time_slot_id, description, holders.user_id, time, end_time, name, avatar_url')
-
-		slots.each { |e| 
-
-			ihh = e.id
-
-			users_in_slot = data.select {|e| e.line_day_time_slot_id == ihh}
-			if users_in_slot.map { |e| e.user_id }.include?(current_user.id)
-				@has_current = true
-			else
-				@has_current = false
-			end
-
-			hsh = {
-				time: "#{e.time.try(:strftime,"%l:%M %p")} - #{e.end_time.try('strftime',"%l:%M %p")}",
-				date: "(#{e.time.try(:strftime,"%b/%e")})",
-				start_time: e.time.try(:strftime,'%Y-%m-%dT%T'),
-				end_time: e.end_time.try(:strftime,'%Y-%m-%dT%T'),
-				people_hash: users_in_slot.map { |u| 
-					u.attributes.slice("name","id","avatar_url")
-				},
-				notes: e.description,
-				id: ihh,
-				has_current: @has_current
-			}
-
-			# byebug
-			@time_slots_infos << hsh
-
-		}
+		
 		# @time_slots_infos = @line_day.time_slots.
     @time_slots_infos.each do |slot|
       slot['authenticity_token'] = form_authenticity_token

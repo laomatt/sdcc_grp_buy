@@ -18,11 +18,40 @@ class LineDaysController < ApplicationController
     @line_day_time_slot = LineDay::TimeSlot.new
     @grp_id = @line_day.id
     @grp = Group.last{|e| e.line_group_id == @line_day.id}
-    # @time_slots_infos = LineDay::TimeSlot.joins(:holders).where("line_day_time_slots.line_day_id=?",@line_day.id).map { |e| e.present_info(current_user.id) }
-    # @time_slots_infos = LineDay::TimeSlot.joins('holders on holders.line_day_id=line_day_time_slots.id').where("line_day_time_slots.line_day_id=?",@line_day.id).map { |e| e.present_info(current_user.id) }
-    # @time_slots_infos = Holder.joins(:line_day_time_slots).where("line_day_id=?",@line_day.id).map { |e| e.present_info(current_user.id) }
-    # @time_slots_infos = LineDay::TimeSlot.joins('outter join holders on holders.line_day_time_slot_id=line_day_time_slots.id').where("line_day_time_slots.line_day_id=8")
+    @time_slots_infos = []
 
+    slots = @line_day.time_slots
+
+    data = slots.joins(holders: :user).select('day, holders.line_day_time_slot_id, description, holders.user_id, time, end_time, name, avatar_url')
+
+    slots.each { |e| 
+
+      ihh = e.id
+
+      users_in_slot = data.select {|e| e.line_day_time_slot_id == ihh}
+      if users_in_slot.map { |e| e.user_id }.include?(current_user.id)
+        @has_current = true
+      else
+        @has_current = false
+      end
+
+      hsh = {
+        time: "#{e.time.try(:strftime,"%l:%M %p")} - #{e.end_time.try('strftime',"%l:%M %p")}",
+        date: "(#{e.time.try(:strftime,"%b/%e")})",
+        start_time: e.time.try(:strftime,'%Y-%m-%dT%T'),
+        end_time: e.end_time.try(:strftime,'%Y-%m-%dT%T'),
+        people_hash: users_in_slot.map { |u| 
+          u.attributes.slice("name","id","avatar_url")
+        },
+        notes: e.description,
+        id: ihh,
+        has_current: @has_current
+      }
+
+      @time_slots_infos << hsh
+
+    }
+    
   end
 
   # GET /line_days/new
