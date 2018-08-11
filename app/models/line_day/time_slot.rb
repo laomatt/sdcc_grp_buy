@@ -53,7 +53,8 @@ class LineDay::TimeSlot < ApplicationRecord
 
 		def present_info(current_user_id)
 			people_array = present_people(current_user_id)
-			people = people_array.map{ |e| e["name"] }.join(',')
+			# people = people_array.map{ |e| e["name"] }.join(',')
+			people = ''
 
 			{
 				time: present_time,

@@ -14,10 +14,14 @@ class LineDaysController < ApplicationController
   # GET /line_days/1
   # GET /line_days/1.json
   def show
-    @time_slots = @line_day.time_slots
+    @time_slots = @line_day.time_slots.includes('holders')
     @line_day_time_slot = LineDay::TimeSlot.new
     @grp_id = @line_day.id
     @grp = Group.last{|e| e.line_group_id == @line_day.id}
+    # @time_slots_infos = LineDay::TimeSlot.joins(:holders).where("line_day_time_slots.line_day_id=?",@line_day.id).map { |e| e.present_info(current_user.id) }
+    # @time_slots_infos = LineDay::TimeSlot.joins('holders on holders.line_day_id=line_day_time_slots.id').where("line_day_time_slots.line_day_id=?",@line_day.id).map { |e| e.present_info(current_user.id) }
+    # @time_slots_infos = Holder.joins(:line_day_time_slots).where("line_day_id=?",@line_day.id).map { |e| e.present_info(current_user.id) }
+    # @time_slots_infos = LineDay::TimeSlot.joins('outter join holders on holders.line_day_time_slot_id=line_day_time_slots.id').where("line_day_time_slots.line_day_id=8")
 
   end
 

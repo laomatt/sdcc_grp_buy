@@ -14,13 +14,29 @@ require 'faker'
 # 50.times do 
 # 	Group.create(:name => Faker::Hipster.sentence, :user_id => 3)
 # end
+ld = LineDay.find(8)
 
+ld.time_slots.each do |ts|
+	5.times do 
+		user = User.new(:email => Faker::Internet.safe_email, :name => Faker::Internet.user_name, :avatar_url => nil, :password => 'password', :phone => '4153332222')
+		if user.save
+			h = Holder.new(:user => user, :line_day_time_slot => ts)
+			if !h.save
+				p h.errors.full_messages
+			end
+		else
+			p user.errors.full_messages
+		end
+	end
+end
 
 # 40.times do 
-# 	user = User.new(:email => Faker::Internet.safe_email, :name => Faker::Internet.user_name, :avatar_url => Faker::Avatar.image("my-own-slug", "50x50"), :password => 'password')
+	# user = User.new(:email => Faker::Internet.safe_email, :name => Faker::Internet.user_name, :avatar_url => Faker::Avatar.image("my-own-slug", "50x50"), :password => 'password')
 # 	if !user.save
 # 		p user.errors.full_messages
 # 	end
+
+
 # end
 
 # 5.times do 
