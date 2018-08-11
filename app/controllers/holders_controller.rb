@@ -73,9 +73,7 @@ class HoldersController < ApplicationController
   # POST /holders.json
   def create
     @holder = Holder.new(holder_params)
-    @holder.user_id = current_user.id
-    @holder.email = current_user.email
-    @holder.number = current_user.phone
+    @holder.user = current_user
     respond_to do |format|
       if @holder.save
         format.html { redirect_to :back, notice: { status: 200, message: 'You were successfully assigned.' }}
