@@ -13,7 +13,7 @@ class MySchedule extends React.Component {
 														</div>
 											 			<div line_day_id={elem["12:00 AM"]} className={'time_list ' + (elem["12:00 AM"] ? 'occupied' : 'free')}>
 												 			 { elem["12:00 AM"] ? 
-												 					<a href={'/line_days/' + elem[" 1:00 AM"]['line_day_id']}>{elem["12:00 AM"]['day']} <br/> {elem["12:00 AM"]['present_time']}</a>
+												 				 elem["12:00 AM"]['present_time']
 												 					: 
 												 					'12:00 AM'
 												 				}

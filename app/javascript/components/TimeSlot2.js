@@ -21,7 +21,7 @@ class TimeSlot2 extends React.Component {
 			</div>
 
 
-    	<div className='btn btn-lg time-sched-container'>
+    	<div className='btn btn-lg time-sched-container' style={{width: '25%'}}>
 	    	<span className='time-slot-date-container' id={"date_for"+time.id}>{time.date}</span>
 	    	<b id={"start_for_dis"+time.id}>
 		    	{time.time} 
@@ -46,11 +46,14 @@ class TimeSlot2 extends React.Component {
 							<input type="hidden" name="holder[end_time]" id={"end_for" + time.id} value={time.end_time} />
 							
 							<input value={time.id} type="hidden" name="holder[line_day_time_slot_id]" id="holder_line_day_time_slot_id" />
-						{time.has_current ? 
-								<input type="submit" name="commit" value="leave" className="btn btn-lg  btn-spec assign-btn btn-primary border-color" style={{backgroundColor: 'red'}} data-disable-with="leaving..." />
-							:
-								<input type="submit" name="commit" value="Join" className="btn btn-lg  border-color assign-btn btn-spec btn-primary border-color" style={{backgroundColor: 'green'}} data-disable-with="joining" />
-							}
+						{/*move this*/}
+			    	<div className='btn-person-container'>
+								{time.has_current ? 
+										<input type="submit" name="commit" value="leave" className="btn btn-lg btn-spec assign-btn btn-primary border-color" style={{backgroundColor: 'red'}} data-disable-with="leaving..." />
+									:
+										<input type="submit" name="commit" value="Join" className="btn btn-lg border-color assign-btn btn-spec btn-primary border-color" style={{backgroundColor: 'green'}} data-disable-with="joining" />
+									}
+						</div>	
 						</form>
 				</div>	
     	</div>

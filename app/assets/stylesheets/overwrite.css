@@ -1166,12 +1166,26 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
     }
 
+    .nameUser {
+            margin-left: 2px;
+    position: absolute;
+    z-index: 4;
+    background-color: #9ddfb4;
+    padding: 1%;
+    border-radius: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
+    color: black;
+    font-weight: bold;
+    }
+
     .non-visible-name-span {
         display: none;
     }
 
     .visible-name-span {
-        display: block;
+        display: inline-block;
     }
 
     .lighter-row {
