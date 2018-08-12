@@ -79,7 +79,7 @@ class TimeSlot2 extends React.Component {
 								{ time.notes }
 							</div>
 							:
-							<div id={"notes_for btn-person-container" + time.id} style={{display: 'inline-block'}}></div>
+							<div className='notes-section btn-person-container' id={"notes_for" + time.id} style={{display: 'inline-block'}}></div>
 						}
 
 			</div>

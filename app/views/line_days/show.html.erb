@@ -346,7 +346,7 @@ $('body').on('click', '.edit-slot', function(event) {
 	var st_str = $('#start_for' + $(this).attr('data-id')).val();
 	var en = $('#end_for' + $(this).attr('data-id')).val();
 	var en_str = $('#end_for' + $(this).attr('data-id')).val();
-	$("#time_slot_textarea").text(text);
+	$("#time_slot_textarea").val(text);
 	$('.delete_slot').attr('slot_id', $(this).attr('data-id') );
 
 	var start = new Date(st);
