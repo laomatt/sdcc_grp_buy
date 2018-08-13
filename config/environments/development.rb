@@ -41,6 +41,9 @@ config.webpacker.check_yarn_integrity = true
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
+
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
@@ -58,12 +61,12 @@ config.webpacker.check_yarn_integrity = true
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-  config.action_mailer.smtp_settings = {
-  :address => "email-smtp.us-west-2.amazonaws.com",
-  :port => 587,
-  :user_name => ENV["SES_SMTP_USERNAME"], #Your SMTP user
-  :password => ENV["SES_SMTP_PASSWORD"], #Your SMTP password
-  :authentication => :login,
-  :enable_starttls_auto => true
-}
+#   config.action_mailer.smtp_settings = {
+#   :address => "email-smtp.us-west-2.amazonaws.com",
+#   :port => 587,
+#   :user_name => ENV["SES_SMTP_USERNAME"], #Your SMTP user
+#   :password => ENV["SES_SMTP_PASSWORD"], #Your SMTP password
+#   :authentication => :login,
+#   :enable_starttls_auto => true
+# }
 end

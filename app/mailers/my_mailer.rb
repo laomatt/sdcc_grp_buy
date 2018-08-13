@@ -53,7 +53,10 @@ class MyMailer < ApplicationMailer
     if comm.value == 'test'
         email = SystemSetting.find_by_code('comm_email_test').value
     end
-    
+
+    usr = User.find_by_email(email)
+    TextMessageRecord.create(:user_id => usr.try(:user_id), :originator_id => options[:current_user_id], :body => subject, :type => 'email')
+
     mail(:to => email, :subject => subject)
   end
 

@@ -42,7 +42,7 @@ module HoldersHelper
     end
 
     # persist to holder text message record
-    TextMessageRecord.create(:user_id => holder.user_id, :originator_id => user_id, :body => text)
+    TextMessageRecord.create(:user_id => holder.user_id, :originator_id => user_id, :body => text, :type => 'text')
   end
 
 

@@ -52,6 +52,7 @@ gem 'dotenv-rails'
 gem 'will_paginate', '~> 3.0.6'
 gem 'redis', '~> 3.0'
 # gem 'redis-namespace'
+gem 'mailcatcher', '~> 0.6.5'
 # Use Unicorn as the app server
 # gem 'unicorn'
 # gem 'websocket-rails'

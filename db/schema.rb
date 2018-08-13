@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180810165018) do
+ActiveRecord::Schema.define(version: 20180813154019) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.string   "message"
@@ -81,10 +81,12 @@ ActiveRecord::Schema.define(version: 20180810165018) do
     t.string   "day"
     t.text     "description"
     t.datetime "time"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.integer  "line_day_id"
     t.datetime "end_time"
+    t.text     "cached_present_people"
+    t.text     "cached_present_info"
   end
 
   create_table "line_days", force: :cascade do |t|
@@ -223,6 +225,7 @@ ActiveRecord::Schema.define(version: 20180810165018) do
     t.text     "body"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "type"
   end
 
   create_table "users", force: :cascade do |t|
