@@ -1,10 +1,14 @@
+  
+
+
   <% 
   @events.each do |event|
   %>
-  <div class="line-day-container">
+  <div class="line-day-event-container">
     <%=
-      react_component("LineDay", { 
-          day: event.name, 
+      react_component("LineEvent", { 
+          day: event.attributes.slice('name','description'),
+          title: event.name, 
           description: event.description,
           link: "/line_up_events/#{event.id}", 
           owner: event.user.attributes.slice('avatar_url', 'name'),
@@ -19,15 +23,3 @@
   %>
 
 
-
-    <style>
-      .line-day-container {
-            position: relative;
-    display: inline-block;
-    width: 30%;
-    padding: 2%;
-    overflow: auto;
-    overflow-wrap: all;
-    background-color: #222d32;
-          }
-    </style>

@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-export default class LineDay extends React.Component {
+export default class LineEvent extends React.Component {
 	constructor (props) {
     super(props)
     this.state = {
@@ -20,17 +20,15 @@ export default class LineDay extends React.Component {
     	<div>
 
 
-        <div className='line-day'>
+        <div className='line-day' style={{textAlign: 'left', color: 'white', backgroundColor: 'transparent'}}>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-md-12" style={{textAlign: 'left', color: 'white', backgroundColor: 'transparent'}}>
 
-              <a href={this.state.link} className="btn btn-primary btn-lg" style={{width: '100%'}}>
+              <a href={this.state.link} className="btn btn-primary btn-lg" style={{width: '100%', marginBottom: '3%'}}>
                 {that.props.title}
               </a>
 
-            </div>
             
-            <div className="col-md-8" style={{textAlign: 'left'}}>
               { that.props.owner ? 
                 <div className='img-line-day-container'>
                   by: {that.props.owner.name} <br/>
