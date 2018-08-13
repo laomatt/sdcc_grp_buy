@@ -26,11 +26,13 @@
 
   <%=
     react_component("LineDay", { 
-        day: line_day.day, 
+        day: line_day.attributes.slice('day','description'), 
+        start: line_day.start.strftime('%l:%M %P %A, %b %e %Y'),
         description: line_day.description,
         link: "/line_days/#{line_day.id}", 
-        is_admin: current_user.is_admin?,
-        user_id: current_user.id
+        is_admin: current_user.id == @event.id,
+        user_id: current_user.id,
+        owner: @event.user.attributes.slice('id','name')
       }) 
   %>
 
@@ -256,13 +258,14 @@
 <style>
   
     .line-day {
-        width: 90%;
-        padding: 2%;
-        margin: 1%;
-        font-size: 20px;
-        font-weight: bold;
-        background-color: #775b5b;
-        color: white;
+      width: 90%;
+      padding: 2%;
+      margin: 1%;
+      font-size: 20px;
+      font-weight: bold;
+      background-color: transparent;
+      color: black;
+      border-bottom: solid #d1cccc;
     }
   
     a:visited {

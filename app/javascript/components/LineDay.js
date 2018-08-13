@@ -18,33 +18,51 @@ export default class LineDay extends React.Component {
     const that = this;
     return (
     	<div>
-				<a href={this.state.link} className='btn line-day btn-primary'>
-        
-        {this.state.day}
-				<br/>
-        { that.props.owner ? 
-          <div class='img-line-day-container'>
-            by: {that.props.owner.name}
-            <img src={that.props.owner.avatar_url} className='chat-avatar img-circle' alt={that.props.owner.name} style={{float:'right'}}/> 
+
+
+        <div className='line-day'>
+          <div className="row">
+            <div className="col-md-4">
+
+              <a href={this.state.link} className="btn btn-primary btn-lg" style={{width: '100%'}}>
+                {that.props.day.day}
+              </a>
+
+            </div>
+            
+            <div className="col-md-8" style={{textAlign: 'left'}}>
+              { that.props.owner ? 
+                <div class='img-line-day-container'>
+                  by: {that.props.owner.name} <br/>
+
+                  <p>
+                    {that.props.day.description}
+                  </p>
+
+                  <p>
+                    starts: {that.props.start}
+                  </p>
+                </div>
+                :
+                <div></div>
+              }
+            </div>
+
+
+          </div>
+
+
+        </div>
+        { this.props.is_admin ? 
+          <div>
+            <div className="admin_box_line_day" style={{'display':'inline-block'}}>
+              <div className="btn btn-warning btn-lg">edit</div>
+              <div className="btn btn-danger btn-lg">delete</div>
+            </div>
           </div>
           :
           <div></div>
         }
-
-
-
-
-				</a>
-          { this.props.is_admin ? 
-            <div>
-              <div className="admin_box_line_day" style={{'display':'none'}}>
-                <div className="btn btn-warning btn-lg">edit</div>
-                <div className="btn btn-danger btn-lg">delete</div>
-              </div>
-            </div>
-            :
-            <div></div>
-          }
       </div>
     );
   }

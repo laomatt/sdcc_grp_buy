@@ -221,7 +221,9 @@
 <div id="map_location" style="display: <%= (@line_day.longitude && @line_day.latitude) ? 'block' : 'none' %>;">
 	<div id="map" style="overflow: auto;">
 		<!-- TODO: must upload a new picture of the google map -->
-		<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @line_day.latitude %>,<%= @line_day.longitude %>&zoom=20&size=900x500&maptype=hybrid&scale=1&markers=color:red%7Clabel:LC%7C<%= @line_day.latitude %>,<%= @line_day.longitude %>&key=<%= ENV['GOOGLE_API_KEY']%>" alt="" style="width: 100%">
+		<% if Rails.env.production? %>
+			<img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= @line_day.latitude %>,<%= @line_day.longitude %>&zoom=20&size=900x500&maptype=hybrid&scale=1&markers=color:red%7Clabel:LC%7C<%= @line_day.latitude %>,<%= @line_day.longitude %>&key=<%= ENV['GOOGLE_API_KEY']%>" alt="" style="width: 100%">
+		<% end %>
 	</div>
 </div>
 
