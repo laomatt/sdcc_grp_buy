@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     collection do 
       get 'my_events'
     end
+
+    member do 
+      get 'invite_emails'
+    end
   end
 
   resources :line_days do
@@ -52,6 +56,7 @@ Rails.application.routes.draw do
       get 'inbox' 
       get 'show_user'
       get 'side_menu'
+      get 'preset_reset_pw'
     end
 
   end

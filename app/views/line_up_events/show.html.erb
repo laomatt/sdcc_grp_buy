@@ -50,15 +50,43 @@
       </div>
       <div class="modal-body">
         
-        ---- invites
+        <p>Please enter emails of people you wish to invite to ths event, seperate emails by commas</p>
+
+        <textarea name="invite[emails]" id="invite_email_list" cols="30" rows="10"></textarea>
       </div>
       <div class="modal-footer">
+        <button type="button" id='invite_list_btn' class="btn btn-default" data-dismiss="modal">Invite List</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 
+
+<script>
+  $('.body').on('click', '#invite_list_btn', function(event) {
+    event.preventDefault();
+    var emails = $("#invite_email_list").val();
+
+    $.ajax({
+      url: '/line_up_events/'+<%= @event.id %>+'/invite_emails',
+      data: {emails: emails},
+    })
+    .done(function(data) {
+      if (data.status == 200) {
+        $("#noticeModal").find('#notice_message').css('color', 'green');
+        $("#noticeModal").find('#notice_message').text(data.message)
+        $("#noticeModal").modal('show');
+      } else {
+        $("#noticeModal").find('#notice_message').css('color', 'red');
+        $("#noticeModal").find('#notice_message').text(data.message)
+        $("#noticeModal").modal('show');
+      }
+    })
+    
+    /* Act on the event */
+  });
+</script>
 
 
 

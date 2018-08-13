@@ -1,6 +1,8 @@
 class LineUpEventsController < ApplicationController
 	before_action :authorize, :authenticate_user!
 	before_action :set_event, only: [:show, :edit, :update, :destroy], except: [:my_events, :index]
+
+	before_action :verify_user, only: [:invite_emails]
 	def index
 		# list all current active events
 		@events = LineUpEvent.where('active=?', true)
@@ -18,6 +20,60 @@ class LineUpEventsController < ApplicationController
       end
     end
 		
+	end
+
+	def invite_emails
+		# validate that the current user owns the event
+
+		# split the emails
+		all_emails = User.all.map { |r| r.email }
+
+		emails = params[:emails].split('')
+		messages = []
+		# iterate through the emails
+
+		data = User.where('email in (?)', emails)
+
+		emails.each do |e|
+			invite = data.select {|e| e.email == e}
+			# if the email is in the system send the invite back e-mail, and a link to the event
+			if all_emails.include?(e)
+	      obj = {
+	        email: e,
+	        invitee: invite,
+	        user: current_user,
+	        event: @event
+	      }
+
+	      MyMailer.invite_back(obj, "#{current_user.name} has invited you to sign up for line wait groups.").deliver
+			else
+				# if the email is NOT in the system, then send singup instructions and a link to the event, 
+
+				# and create an invite for this email
+				invite = Invite.new({:email => e, :user_id => current_user.id})
+
+				if invite.save
+					messages << "#{email} invited to app. "
+
+					obj = {
+		        email: e,
+		        invitee: invite,
+		        user: current_user,
+		        event: @event
+		      }
+
+		      MyMailer.new_user_invite_grp(obj, "#{current_user.name} has invited you to sign up for line wait groups.").deliver
+				else
+					errors << invite.errors.full_messages.to_sentence
+				end
+			end
+
+
+		end
+
+
+
+
 	end
 
 	def show
@@ -63,6 +119,13 @@ class LineUpEventsController < ApplicationController
 	end
 
   private
+
+  def verify_user
+  	if @event.user_id != current_user.id
+  		render :json => { :status => 403, :message => 'You do not own this event, and cannot invite users to this event'}
+  		return
+  	end
+  end
 
   def set_event
     @event = LineUpEvent.find(params[:id])

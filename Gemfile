@@ -69,6 +69,7 @@ gem 'websocket-rails', github: 'recurser/websocket-rails', branch: 'bugfix/388-l
 # gem 'aws-sdk-rails'
 # gem 'aws-sdk', '~> 3'
 gem 'aws-sdk', '< 3.0'
+gem "font-awesome-rails"
 # gem 'aws-sdk', '2.10.47'
 gem 'aws-sdk-s3'
 # gem 'csv'

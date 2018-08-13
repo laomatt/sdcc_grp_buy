@@ -1,6 +1,6 @@
 class MyMailer < ApplicationMailer
 	include ActionView::Helpers::NumberHelper
-  
+
 	def send_email(options={},subject="Your Validation code for SDCCTICKETS")
     @name = options[:name]
     @email = options[:email]
@@ -38,6 +38,16 @@ class MyMailer < ApplicationMailer
     send_it(@email,subject)
   end
 
+  def invite_back(options, subject='SDCC Tickets')
+    # send body explaining that there is a user for this e-mail, if they do not remember thier login they can always reset thier password from the login page
+    send_it(options[:email], :subject => subject)
+  end
+
+  def new_user_invite_grp(options, subject='SDCC Tickets')
+    # send body explainig the sign up process and how to use the validation link to sign up
+    send_it(options[:email], :subject => subject)
+  end
+
   def send_it(email,subject)
     comm = SystemSetting.find_by_code('comm')
     if comm.value == 'test'
@@ -46,4 +56,5 @@ class MyMailer < ApplicationMailer
     
     mail(:to => email, :subject => subject)
   end
+
 end

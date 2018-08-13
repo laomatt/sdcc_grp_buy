@@ -23,6 +23,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def preset_reset_pw
+    
+  end
+
 
   def manual_create
     user = User.new(user_params)
