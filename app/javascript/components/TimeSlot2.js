@@ -33,7 +33,7 @@ class TimeSlot2 extends React.Component {
 						const timeSlotId = time.id;
 						return (
 								<div key={"contact_" + idx} className='btn-person-container'>
-									<PersonContact user_id={elem.id} avatar_url={elem.avatar_url} name={elem.name} slot_id={timeSlotId} type={time.type}/>
+									<PersonContact user_id={elem.user_id} avatar_url={elem.avatar_url} current_user_id={time.current_user_id} name={elem.name} slot_id={timeSlotId} type={time.type}/>
 					    	</div>
 							)
 				})}

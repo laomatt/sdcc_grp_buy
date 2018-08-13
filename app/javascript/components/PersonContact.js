@@ -32,9 +32,9 @@ export default class PersonContact extends React.Component {
 
   render () {
     return (
-	    	<a href="#" data-id={this.state.id} data-toggle="modal" data-identifier={this.state.name} data-target="#timeSlotContactModal" data-type={this.props.type} data-slot-id={this.state.slot_id} className='btn btn-md btn-person btn-primary broadcast-message btn-contact-list-item border-color' end-pt='/holders/send_text' alt={this.state.name} onMouseOut={this.closeBox} onMouseOver={this.expandBox}>
+	    	<a href="#" style={{backgroundColor: (this.props.current_user_id == this.props.user_id ? 'red' : '#3c8dbc' )}} data-id={this.state.id} data-toggle="modal" data-identifier={this.state.name} data-target="#timeSlotContactModal" data-type={this.props.type} data-slot-id={this.state.slot_id} className='btn btn-md btn-person btn-primary broadcast-message btn-contact-list-item border-color' end-pt='/holders/send_text' alt={this.state.name} onMouseOut={this.closeBox} onMouseOver={this.expandBox}>
           <img src={this.props.avatar_url} className="img-circle border-color" alt="User Image" /> 
-          <span className={"nameUser " + (this.state.expanded ? 'visible-name-span' : 'non-visible-name-span')}>{this.state.name}</span>
+          <span style={{backgroundColor: (this.props.current_user_id == this.props.user_id ? 'red' : '#3c8dbc' )}} className={"nameUser " + (this.state.expanded ? 'visible-name-span' : 'non-visible-name-span')}>{this.props.name}</span>
         </a>
     );
   }

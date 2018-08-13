@@ -29,6 +29,7 @@ class LineDaysController < ApplicationController
       ihh = e.id
 
       users_in_slot = data.select {|e| e.line_day_time_slot_id == ihh}
+
       if users_in_slot.map { |e| e.user_id }.include?(current_user.id)
         @has_current = true
       else
@@ -41,7 +42,7 @@ class LineDaysController < ApplicationController
         start_time: e.time.try(:strftime,'%Y-%m-%dT%T'),
         end_time: e.end_time.try(:strftime,'%Y-%m-%dT%T'),
         people_hash: users_in_slot.map { |u| 
-          u.attributes.slice("name","id","avatar_url")
+          u.attributes.slice("name","user_id","avatar_url")
         },
         notes: e.description,
         id: ihh,

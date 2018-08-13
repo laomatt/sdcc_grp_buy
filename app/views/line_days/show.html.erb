@@ -80,6 +80,7 @@
 				limit: @line_day.user_limit,
 				all_hash: all_ppl,
 				authenticity_token: form_authenticity_token,
+				current_user_id: current_user.id,
 				user_id: current_user.id,
 				day_id: @line_day.id
 			}) 

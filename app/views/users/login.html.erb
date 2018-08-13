@@ -53,35 +53,19 @@
 
 		<div class="splash-image">
 			<div class="" style="       display: block;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.9);
+    background: linear-gradient(transparent, white);
     width: 100%;
     height: 100%;
     color: black;
-    padding: 5%;">
+    padding: 5%;"
+    >
 				
 			<h1>
 					Welcome!  Thank you for using this site to organize your next trip to comic con.
 			</h1>
 
-
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
-		  	Log In or Sign Up
-			</button>
-
-			</div>
-		</div>
-	<!-- Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Login or Sign Up</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="login-window">
+<div class="login-window">
 					
 					<% if current_user.nil? %>
 						<form id="manual-login-form" method="POST" action='/users/manual_login'>
@@ -102,7 +86,7 @@
 						    <label for="password">Password</label>
 						    <input type="password" class="form-control" name='login[password]' id="password" aria-describedby="emailHelp" placeholder="Enter Password">
 						    <div id="reset-container">
-							    <a href="#" class='login-link reset_pw_conf'>Forgot your password?</a>
+							    <a href="#" class='btn btn-lg btm-primary login-link reset_pw_conf'>Forgot your password?</a>
 						    </div>
 						  </div>
 						  
@@ -147,13 +131,6 @@
 						</form>
 					<% end %>
 				</div>
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div>
-
-  </div>
-</div>
 
 <div class="login-body">
 
@@ -232,10 +209,10 @@
 
 <style>
 	.login-link {
-		border-color: transparent;
+		/*border-color: transparent;
     width: 20%;
     color: blue;
-    overflow: auto;
+    overflow: auto;*/
 	}
 
 	.note-message {
@@ -246,16 +223,26 @@
 <script>
 	$('body').on('click', '.reset_pw_conf', function(event) {
 		event.preventDefault();
-		$('#reset-container').text('sending reset link...')
-		$.ajax({
-			url: '/users/reset_password',
-			data: {email: $("#login_email").val()}
-		})
-		.done(function() {
-			console.log("success");
+		// 
+		var em = $("#login_email").val();
 
-			$('#manual-login-form').html("<p class='note-message'>Validation has been sent to your e-mail.  Please find it and follow the instructions.</p>")
-		})
+		if (em == "" || em == null) {
+			$('#login_email').css('background-color', 'red');
+			$('#emailHelp').css('color', 'red');
+			$('#emailHelp').text('Please enter an email you wish to reset.')
+
+		} else {
+			$('#reset-container').text('sending reset link...')
+			$.ajax({
+				url: '/users/reset_password',
+				data: {email: em}
+			})
+			.done(function() {
+				console.log("success");
+
+				$('#manual-login-form').html("<p class='note-message'>Validation has been sent to your e-mail.  Please find it and follow the instructions.</p>")
+			})
+		}
 		
 	});
 </script>
