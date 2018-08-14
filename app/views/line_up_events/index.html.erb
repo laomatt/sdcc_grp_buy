@@ -2,7 +2,8 @@
     
   <form action="#" method="get" id="" class="sidebar-form-top">
     <div class="input-group">
-      <input type="text" name="q" id="esearch" class="form-control sidebar-form-top" placeholder="Search events..." style="background-color: #374750">
+      <input type="text" name="q" id="esearch" class="form-control sidebar-form-top" placeholder="Search events..." style="background-color: #374750" autocomplete="off">
+      <small class='small-txt'></small>
       <span class="input-group-btn">
         <button type="submit" name="search" id="event_search-btn" class="btn btn-flat sidebar-form-top"><i class="fa fa-search"></i></button>
       </span>
@@ -40,6 +41,7 @@
 <script>
   $('body').on('click', '#event_search-btn', function(event) {
     event.preventDefault();
+    $('.small-txt').text('searching...')
     var text = $('#esearch').val();
 
     $.ajax({
@@ -47,8 +49,23 @@
       data: {phrase: text},
     })
     .done(function(data) {
-      console.log("success");
+      $('.events_result').html(data);
+      $('.small-txt').text('')
     })
-    
+  });
+
+  $('body').on('keyup', '#esearch', function(event) {
+    event.preventDefault();
+    var text = $('#esearch').val();
+    $('.small-txt').text('searching...')
+
+    $.ajax({
+      url: '/line_up_events/search',
+      data: {phrase: text},
+    })
+    .done(function(data) {
+      $('.events_result').html(data);
+      $('.small-txt').text('')
+    })
   });
 </script>
