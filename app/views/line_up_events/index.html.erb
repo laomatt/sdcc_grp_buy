@@ -1,26 +1,54 @@
-  
-  
-  <% 
-  @events.each do |event|
-  %>
-  <div class="line-day-event-container">
+<div class="top-search-container">
+    
+  <form action="#" method="get" id="" class="sidebar-form-top">
+    <div class="input-group">
+      <input type="text" name="q" id="esearch" class="form-control sidebar-form-top" placeholder="Search events..." style="background-color: #374750">
+      <span class="input-group-btn">
+        <button type="submit" name="search" id="event_search-btn" class="btn btn-flat sidebar-form-top"><i class="fa fa-search"></i></button>
+      </span>
+    </div>
+  </form>
+</div>
+
+  <div class="events_result">
     <%=
-      react_component("LineEvent", { 
-          day: event.attributes.slice('name','description'),
-          title: event.name, 
-          description: event.description,
-          link: "/line_up_events/#{event.id}", 
-          owner: event.user.attributes.slice('avatar_url', 'name'),
-          is_admin: current_user.is_admin?,
-          user_id: current_user.id
-        }) 
+      react_component("EventList", { 
+          events: @events_data,
+          is_admin: current_user.is_admin?
+      }) 
     %>
-  </div> 
-
-  <%
-    end
-  %>
+  </div>
 
 
 
 
+
+<style>
+  .sidebar-form-top {
+        background-color: #242e33;
+        color: white;
+  }
+
+  .top-search-container {
+        background-color: #242e33;
+    width: 90%;
+    padding: 2%;
+  }
+</style>
+
+
+<script>
+  $('body').on('click', '#event_search-btn', function(event) {
+    event.preventDefault();
+    var text = $('#esearch').val();
+
+    $.ajax({
+      url: '/line_up_events/search',
+      data: {phrase: text},
+    })
+    .done(function(data) {
+      console.log("success");
+    })
+    
+  });
+</script>
