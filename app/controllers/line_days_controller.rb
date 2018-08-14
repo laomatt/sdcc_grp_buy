@@ -1,5 +1,6 @@
 class LineDaysController < ApplicationController
   before_action :authorize, :authenticate_user!
+  before_action :user_owns_day, only: [:update]
   before_action :set_line_day, only: [:show, :edit, :update, :destroy, :update_location, :default_times]
 
   # GET /line_days
@@ -136,6 +137,15 @@ class LineDaysController < ApplicationController
   end
 
   private
+
+    def user_owns_day
+      if @line_day.user != current_user
+        render :json => {:status => 403, :message => 'You cannot update this'}
+        return
+      end
+    end
+
+
     def line_day_location
         params.require(:line_day).permit(:latitude, :longitude)
     end
