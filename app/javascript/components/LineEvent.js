@@ -3,13 +3,6 @@ import PropTypes from "prop-types"
 export default class LineEvent extends React.Component {
 	constructor (props) {
     super(props)
-    this.state = {
-    	user_id: props.user_id,
-    	day: props.day,
-    	description: props.description,
-    	link: props.link
-    }
-
     this.props = props;
   }
 
@@ -24,22 +17,37 @@ export default class LineEvent extends React.Component {
           <div className="row">
             <div className="col-md-12" style={{textAlign: 'left', color: 'white', backgroundColor: 'transparent'}}>
 
-              <a href={this.state.link} className="btn btn-primary btn-lg" style={{width: '100%', marginBottom: '3%'}}>
-                {that.props.title}
+              <a href={"/line_up_events/" + that.props.event.line_up_event_id} className="btn btn-primary btn-lg" style={{width: '100%', marginBottom: '3%'}}>
+                {that.props.event.event_name}
               </a>
 
             
-              { that.props.owner ? 
+              { that.props ? 
                 <div className='img-line-day-container'>
-                  by: {that.props.owner.name} <br/>
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <img src={that.props.event.avatar_url} className='chat_avatar' style={{width: "100%"}}/> 
+                      <br/>
+                      <hr/>
+                      by: {that.props.event.user_name}  
+                    </div>
+                    <div className="col-sm-9">
 
-                  <p>
-                    {that.props.day.description}
-                  </p>
+                      <p>
+                        {that.props.event.description}
+                      </p>
+                      { that.props.event.start_date ? 
+                          <p>
+                            starts: {that.props.event.start_date.toLocaleString('es-ES', {weekday: 'short', month: 'short', day: 'numeric' })}
+                          </p>
+                          :
+                          <p></p>
 
-                  <p>
-                    starts: {that.props.start}
-                  </p>
+                      }
+                      
+                      
+                    </div>
+                  </div>
                 </div>
                 :
                 <div></div>

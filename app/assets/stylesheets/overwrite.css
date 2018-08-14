@@ -1756,11 +1756,17 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .line-day-event-container {
                 position: relative;
-    display: inline-block;
+    display: inline-grid;
     width: 30%;
     padding: 2%;
+    /*margin: 1px;*/
     height: 350px;
     overflow: scroll;
     overflow-wrap: all;
     background-color: #222d32;
-          }
+    border: solid white 1px;
+}
+
+
+
+

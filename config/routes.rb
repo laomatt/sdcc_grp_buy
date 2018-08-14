@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :line_up_events do
     collection do 
       get 'my_events'
+      get 'search'
     end
 
     member do 

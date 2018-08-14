@@ -5,7 +5,14 @@ class LineUpEventsController < ApplicationController
 	before_action :verify_user, only: [:invite_emails]
 	def index
 		# list all current active events
-		@events = LineUpEvent.where('active=?', true)
+		@events_data = LineUpEvent.joins(:user).select('line_up_events.name as event_name','line_up_events.description','users.id as user_id','users.avatar_url','line_up_events.id as line_up_event_id', 'users.name as user_name', 'line_up_events.start_date').where('active=?', true).map(&:attributes)
+	end
+
+	def search
+		@events_data = LineUpEvent.joins(:user).select('line_up_events.name as event_name','line_up_events.description','users.id as user_id','users.avatar_url','line_up_events.id as line_up_event_id', 'users.name as user_name', 'line_up_events.start_date').where('active=? and LOWER(line_up_events.name) like ?', true, "%#{params[:phrase].downcase}%").map(&:attributes)
+
+		render component: 'EventList', props: {is_admin: current_user.is_admin?, events: @events_data}, layout: false
+		
 	end
 
 	def create
@@ -89,7 +96,8 @@ class LineUpEventsController < ApplicationController
 
 	def my_events
 		# list current users index
-		@events = LineUpEvent.where('user_id=?',current_user.id)
+		# @events = LineUpEvent.where('user_id=?',current_user.id)
+		@events_data = LineUpEvent.joins(:user).select('line_up_events.name as event_name','line_up_events.description','users.id as user_id','users.avatar_url','line_up_events.id as line_up_event_id', 'users.name as user_name', 'line_up_events.start_date', 'line_up_events.active').where('line_up_events.user_id=?',current_user.id).map(&:attributes)
 	end
 
 

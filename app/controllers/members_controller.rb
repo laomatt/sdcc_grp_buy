@@ -84,8 +84,6 @@ class MembersController < ApplicationController
 	end
 
 	def get_member_comp
-		# <BuyGroupMember member={member} ref={"mem-action"+idx} idx={idx} onChange={that.closeAll} current_user_valid={that.props.current_user_valid} order={that.order} />
-
 		render component: "BuyGroupMember", props: {
 									ref: "mem-action#{member_comp_params[:idx]}", 
 									current_user_valid: member_comp_params[:current_user_valid], 
