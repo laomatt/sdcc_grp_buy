@@ -39,24 +39,15 @@ class MyMailer < ApplicationMailer
   end
 
   def invite_back(options, subject='SDCC Tickets')
-    # email: e,
-    #         invitee: invite,
-    #         user: current_user,
-    #         event: @event
-    @email = options[:email]
-    @invitee = options[:invitee]
-    @user = options[:user]
-    @event = options[:event]
-    
+    @options = options
+
     # send body explaining that there is a user for this e-mail, if they do not remember thier login they can always reset thier password from the login page
     send_it(options[:email],subject,options)
   end
 
   def new_user_invite_grp(options, subject='SDCC Tickets')
-    @email = options[:email]
-    @user = options[:user]
-    @invitee = options[:invitee]
-    @event = options[:event]
+    @options = options
+    
     # send body explainig the sign up process and how to use the validation link to sign up
     send_it(options[:email],subject,options)
   end

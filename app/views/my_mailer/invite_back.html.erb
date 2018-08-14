@@ -1,9 +1,9 @@
-Hello and welcome back <%= @invitee.try(:name) %>!!, 
+Hello and welcome back <%= @options[:invitee].try(:name) %>!!, 
 
 <br>
 
 <p>
-	you have been invited by user: <%= @user.name %> (<%= @user.email %>) to start signing up for line wait groups for the event: <b><%= @event.name %></b>, the lines for this event can be found at <a href="https://sdcctickets.herokuapp.com/line_up_events/<%= @event.id %>">this link</a>.
+	you have been invited by user: <%= @options[:user].name %> (<%= @options[:user].email %>) to start signing up for line wait groups for the event: <b><%= @options[:event].name %></b>, the lines for this event can be found at <a href="https://sdcctickets.herokuapp.com/line_up_events/<%= @options[:event].id %>">this link</a>.
 </p>
 
 <p>
