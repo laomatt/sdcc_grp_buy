@@ -81,7 +81,7 @@ end
 
 group :development, :test do
   gem 'sqlite3'
-  # gem 'mailcatcher', '~> 0.6.5'
+  gem 'mailcatcher'
   gem 'byebug'
   
   gem 'listen'

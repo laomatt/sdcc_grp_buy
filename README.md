@@ -27,3 +27,16 @@ To run the chat box in local host
 redis-server
 sh reset.sh
 ```
+
+
+To run the mail catcher in dev
+
+```
+gem install mailcatcher
+mailcather
+
+
+
+then: http://127.0.0.1:1080/
+
+```
