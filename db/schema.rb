@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(version: 20180813154019) do
     t.text     "body"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.string   "type"
+    t.string   "comm_type"
   end
 
   create_table "users", force: :cascade do |t|

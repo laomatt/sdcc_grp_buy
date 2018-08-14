@@ -58,8 +58,8 @@
         <textarea name="invite[emails]" id="invite_email_list" cols="30" rows="10"></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" id='invite_list_btn' class="btn btn-default" data-dismiss="modal">Invite List</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id='invite_list_btn' class="btn btn-default">Invite List</button>
+        <button type="button" id='invite_list_btn_close' class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -67,27 +67,34 @@
 
 
 <script>
-  $('.body').on('click', '#invite_list_btn', function(event) {
+  $('body').on('click', '#invite_list_btn', function(event) {
     event.preventDefault();
+    $(this).text('working...');
+    $(this).attr('disabled', true);
     var emails = $("#invite_email_list").val();
-
     $.ajax({
       url: '/line_up_events/'+<%= @event.id %>+'/invite_emails',
       data: {emails: emails},
     })
     .done(function(data) {
+      console.log(data)
       if (data.status == 200) {
-        $("#noticeModal").find('#notice_message').css('color', 'green');
-        $("#noticeModal").find('#notice_message').text(data.message)
+        $('#notice_message').css('color', 'green');
+        $('#notice_message').text(data.messages);
+        $('#err_notice_message').text(data.errors)
         $("#noticeModal").modal('show');
+        $("#invite_email_list").val("");
       } else {
-        $("#noticeModal").find('#notice_message').css('color', 'red');
-        $("#noticeModal").find('#notice_message').text(data.message)
+        $('#notice_message').css('color', 'red');
+        $('#notice_message').text(data.messages)
         $("#noticeModal").modal('show');
       }
+      
+      $("#invite_list_btn").attr('disabled', false);
+      $('#invite_list_btn').text('Invite List');
+      $("#invite_list_btn_close").trigger('click');
     })
     
-    /* Act on the event */
   });
 </script>
 

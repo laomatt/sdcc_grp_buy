@@ -17,7 +17,7 @@ class MyMailer < ApplicationMailer
     @add_notes = options[:add_notes]
     @email = options[:email]
 
-    send_it(@email,subject)
+    send_it(@email,subject,options)
   end
 
   def val_link(options, subject='SDCC Tickets: Please validate your email')
@@ -26,7 +26,7 @@ class MyMailer < ApplicationMailer
     @temp = options[:temp]
     @en_code = options[:en_code]
 
-    send_it(@email,subject)
+    send_it(@email,subject,options)
   end
 
   def reset_link(options, subject='SDCC Tickets: Please validate your email')
@@ -35,27 +35,40 @@ class MyMailer < ApplicationMailer
     @temp = options[:temp]
     @en_code = options[:en_code]
 
-    send_it(@email,subject)
+    send_it(@email,subject,options)
   end
 
   def invite_back(options, subject='SDCC Tickets')
+    # email: e,
+    #         invitee: invite,
+    #         user: current_user,
+    #         event: @event
+    @email = options[:email]
+    @invitee = options[:invitee]
+    @user = options[:user]
+    @event = options[:event]
+    
     # send body explaining that there is a user for this e-mail, if they do not remember thier login they can always reset thier password from the login page
-    send_it(options[:email], :subject => subject)
+    send_it(options[:email],subject,options)
   end
 
   def new_user_invite_grp(options, subject='SDCC Tickets')
+    @email = options[:email]
+    @user = options[:user]
+    @invitee = options[:invitee]
+    @event = options[:event]
     # send body explainig the sign up process and how to use the validation link to sign up
-    send_it(options[:email], :subject => subject)
+    send_it(options[:email],subject,options)
   end
 
-  def send_it(email,subject)
+  def send_it(email,subject,options={})
     comm = SystemSetting.find_by_code('comm')
     if comm.value == 'test'
         email = SystemSetting.find_by_code('comm_email_test').value
     end
 
     usr = User.find_by_email(email)
-    TextMessageRecord.create(:user_id => usr.try(:user_id), :originator_id => options[:current_user_id], :body => subject, :type => 'email')
+    TextMessageRecord.create(:user_id => usr.try(:user_id), :originator_id => options[:current_user_id], :body => subject, :comm_type => 'email')
 
     mail(:to => email, :subject => subject)
   end

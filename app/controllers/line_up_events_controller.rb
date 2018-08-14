@@ -1,6 +1,6 @@
 class LineUpEventsController < ApplicationController
 	before_action :authorize, :authenticate_user!
-	before_action :set_event, only: [:show, :edit, :update, :destroy], except: [:my_events, :index]
+	before_action :set_event, only: [:show, :edit, :update, :destroy, :invite_emails], except: [:my_events, :index]
 
 	before_action :verify_user, only: [:invite_emails]
 	def index
@@ -28,16 +28,19 @@ class LineUpEventsController < ApplicationController
 		# split the emails
 		all_emails = User.all.map { |r| r.email }
 
-		emails = params[:emails].split('')
+		emails = params[:emails].split(',')
 		messages = []
+		errors = []
 		# iterate through the emails
 
 		data = User.where('email in (?)', emails)
 
 		emails.each do |e|
-			invite = data.select {|e| e.email == e}
-			# if the email is in the system send the invite back e-mail, and a link to the event
-			if all_emails.include?(e)
+			e_mail = e
+			invite = data.select {|e| e.email == e_mail}.first
+			
+
+			if invite
 	      obj = {
 	        email: e,
 	        invitee: invite,
@@ -45,7 +48,9 @@ class LineUpEventsController < ApplicationController
 	        event: @event
 	      }
 
-	      MyMailer.invite_back(obj, "#{current_user.name} has invited you to sign up for line wait groups.").deliver
+
+	      MyMailer.invite_back(obj, "#{current_user.name} has invited you to sign up for line wait groups @ #{@event.name}.").deliver
+				messages << "#{e} invited to app"
 			else
 				# if the email is NOT in the system, then send singup instructions and a link to the event, 
 
@@ -53,7 +58,6 @@ class LineUpEventsController < ApplicationController
 				invite = Invite.new({:email => e, :user_id => current_user.id})
 
 				if invite.save
-					messages << "#{email} invited to app. "
 
 					obj = {
 		        email: e,
@@ -62,7 +66,8 @@ class LineUpEventsController < ApplicationController
 		        event: @event
 		      }
 
-		      MyMailer.new_user_invite_grp(obj, "#{current_user.name} has invited you to sign up for line wait groups.").deliver
+		      MyMailer.new_user_invite_grp(obj, "#{current_user.name} has invited you to sign up for line wait groups @ #{@event.name}.").deliver
+					messages << "#{e} invited to app"
 				else
 					errors << invite.errors.full_messages.to_sentence
 				end
@@ -72,6 +77,7 @@ class LineUpEventsController < ApplicationController
 		end
 
 
+		render :json => { :status => 200, :errors => errors.join(', '), :messages => messages.join(', ') }
 
 
 	end

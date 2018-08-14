@@ -129,7 +129,7 @@ class UsersController < ApplicationController
     new_password = new_password_params[:new_password]
     new_password_confirmation = new_password_params[:new_password_confirmation]
     email = new_password_params[:email]
-# byebug
+
     if val_code != reset_user.val_code || email != reset_user.email
       flash[:error] = 'reset not successful, bad validation.';
       redirect_to :back 
