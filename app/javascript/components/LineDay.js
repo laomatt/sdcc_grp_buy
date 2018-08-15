@@ -25,7 +25,7 @@ export default class LineDay extends React.Component {
             <div className="col-md-4">
 
               <a href={this.state.link} className="btn btn-primary btn-lg" style={{width: '100%'}}>
-                {that.props.title}
+                {that.props.day.day}
               </a>
 
             </div>

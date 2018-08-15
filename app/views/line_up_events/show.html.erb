@@ -25,16 +25,15 @@
   %>
 
   <%=
-    react_component("LineDay", { 
+        react_component("LineDay", {
         day: line_day.attributes.slice('day','description'), 
         start: line_day.start.strftime('%l:%M %P %A, %b %e %Y'),
-        title: line_day.day,
-        description: line_day.description,
         link: "/line_days/#{line_day.id}", 
         is_admin: current_user.id == @event.id,
         user_id: current_user.id,
         owner: @event.user.attributes.slice('id','name')
       }) 
+
   %>
 
 

@@ -32,13 +32,6 @@
 </div>
 
 <% 
-		# @time_slots_infos = LineDay::TimeSlot.includes(holders: :user).where('line_day_time_slots.line_day_id=?',@line_day.id).map { |e| 
-		# @time_slots_infos = @line_day.time_slots.eager_load(holders: :user).map { |e| 
-		# @time_slots_infos = @line_day.time_slots.joins(holders: :user_id).map { |e| 
-		# @time_slots_infos =@line_day.time_slots.joins(holders: :user).select('day, holders.id, holders.user_id, time, end_time').map { |e| 
-
-		
-		# @time_slots_infos = @line_day.time_slots.
     @time_slots_infos.each do |slot|
       slot['authenticity_token'] = form_authenticity_token
     end
@@ -269,7 +262,7 @@
 	.btn-primary {
 		    border-color: #ecf0f5;
 		    /*background-color: #9dc5df*/
-		    background-color: #9ddfb4;
+		    /*background-color: #9ddfb4;*/
 	}
 
 	.btn-contact-list-item {
