@@ -213,24 +213,24 @@
         <div style='overflow-y: scroll;'>
           <ul id="line_search_aside" class='line_search_aside' style='padding: 0%;'>
               <%= render :partial => 'line_days/line_day_list', :locals => { :group => @grp_id } %>
-            <li><a href="/line_days/my_schedule" style="" class='btn btn-lg btn-primar ln-wait-grp'>My Schedule</a></li>
+            <li><a href="/line_days/my_schedule" style="" class='btn btn-lg btn-primar ln-wait-grp'><i class="far fa-calendar-alt"></i> My Schedule</a></li>
           </ul>
         </div>
 
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+            <li class="header">YOUR GROUPS</li>
+          </ul>
         <!-- search form -->
           <form action="#" method="get" id='private-grp-search' class="sidebar-form">
             <div class="input-group">
-              <input type="text" name="q" id="pgsearch" class="form-control" placeholder="Search Your groups..."/>
+              <input type="text" name="q" id="pgsearch" class="form-control" placeholder="ticket groups..."/>
               <span class="input-group-btn">
                 <button type='submit' name='search' id='psearch-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
               </span>
             </div>
           </form>
           <!-- /.search form -->
-          <!-- sidebar menu: : style can be found in sidebar.less -->
-          <ul class="sidebar-menu">
-            <li class="header">YOUR GROUPS</li>
-          </ul>
 
         </section>
         <div style='overflow-y: scroll;'>
