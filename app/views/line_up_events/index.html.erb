@@ -2,7 +2,7 @@
     
   <form action="#" method="get" id="" class="sidebar-form-top">
     <div class="input-group">
-      <input type="text" name="q" id="esearch" class="form-control sidebar-form-top" placeholder="Search events..." style="background-color: #374750" autocomplete="off">
+      <input type="text" name="q" id="esearch" class="form-control sidebar-form-top" placeholder="Search events... seperate coordinator name and event name with a slash (/)" style="background-color: #374750" autocomplete="off">
       <small class='small-txt'></small>
       <span class="input-group-btn">
         <button type="submit" name="search" id="event_search-btn" class="btn btn-flat sidebar-form-top"><i class="fa fa-search"></i></button>
@@ -32,8 +32,16 @@
 
   .top-search-container {
         background-color: #242e33;
-    width: 90%;
-    padding: 2%;
+        width: 90%;
+        padding: 2%;
+        border-radius: 10px;  
+  }
+
+  .event-label {
+        width: 100%;
+    margin-bottom: 3%;
+    position: absolute;
+    top: 0;
   }
 </style>
 

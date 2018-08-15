@@ -9,7 +9,12 @@ class LineUpEventsController < ApplicationController
 	end
 
 	def search
-		@events_data = LineUpEvent.joins(:user).select('line_up_events.name as event_name','line_up_events.description','users.id as user_id','users.avatar_url','line_up_events.id as line_up_event_id', 'users.name as user_name', 'line_up_events.start_date').where('active=? and LOWER(line_up_events.name) like ?', true, "%#{params[:phrase].downcase}%").map(&:attributes)
+		phrases = params[:phrase].split('/').compact.map { |e| e.strip }
+		if phrases.length == 1
+			@events_data = LineUpEvent.joins(:user).select('line_up_events.name as event_name','line_up_events.description','users.id as user_id','users.avatar_url','line_up_events.id as line_up_event_id', 'users.name as user_name', 'line_up_events.start_date').where('active=? and LOWER(line_up_events.name) like ? or LOWER(users.name) like ?', true, "%#{params[:phrase].downcase}%", "%#{params[:phrase].downcase}%").map(&:attributes)
+		else
+			@events_data = LineUpEvent.joins(:user).select('line_up_events.name as event_name','line_up_events.description','users.id as user_id','users.avatar_url','line_up_events.id as line_up_event_id', 'users.name as user_name', 'line_up_events.start_date').where('active=? and (LOWER(line_up_events.name) like ? and LOWER(users.name) like ?) or (LOWER(line_up_events.name) like ? and LOWER(users.name) like ?)', true, "%#{phrases[0].downcase}%", "%#{phrases[1].downcase}%","%#{phrases[1].downcase}%", "%#{phrases[0].downcase}%").map(&:attributes)
+		end
 
 		render component: 'EventList', props: {is_admin: current_user.is_admin?, events: @events_data}, layout: false
 		
