@@ -2,7 +2,8 @@ require 'twilio-ruby'
 
 class HoldersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_holder, only: [:show, :edit, :update, :destroy], except: [:erase]
+  before_action :set_holder, only: [:show, :edit, :update, :erase_holder], except: [:erase]
+  before_action :authenticate_coordinator, only: [:destroy]
 
   include HoldersHelper
 
@@ -39,11 +40,12 @@ class HoldersController < ApplicationController
     begin
       send_to_holder(holder,text,current_user.id)
       respond_to do |format|
-          format.html { redirect_to :back, notice: { status: 200, message: "Message sent to #{holder.user.name}." }}
+          # format.html { redirect_back fallback_location: '/', notice: { status: 200, message: "Message sent to #{holder.user.name}." }}
+          format.html { redirect_back fallback_location: '/', notice: { status: 200, message: "Message sent to #{holder.user.name}." }}
         end
     rescue Exception => e
       respond_to do |format|
-        format.html { redirect_to :back, notice: { status: 400, message: e.message }}
+        format.html { redirect_back fallback_location: '/', notice: { status: 400, message: e.message }}
       end
     end
   end
@@ -54,19 +56,23 @@ class HoldersController < ApplicationController
   def edit
   end
 
-  def erase
+  define_method 'erase' do
     time_slot_id = holder_params[:line_day_time_slot_id]
-    holder = Holder.find_by ({:line_day_time_slot_id => time_slot_id, :user_id => current_user.id})
+    @holder = Holder.find_by ({:line_day_time_slot_id => time_slot_id, :user_id => current_user.id})
     begin
-      holder.destroy
+      @holder.destroy
       respond_to do |format|
-        format.html { redirect_to :back, notice: { status: 200, message: 'you were successfully unassigned from shift.' }}
+        format.html { redirect_back fallback_location: '/', notice: { status: 200, message: 'you were successfully unassigned from shift.' }}
       end    
     rescue Exception => e
       respond_to do |format|
-        format.html { redirect_to :back, notice: { status: 400, message: e.message }}
+        format.html { redirect_back fallback_location: '/', notice: { status: 400, message: e.message }}
       end
     end
+  end
+
+  define_method 'erase_holder' do
+    
   end
 
   # POST /holders
@@ -74,12 +80,13 @@ class HoldersController < ApplicationController
   def create
     @holder = Holder.new(holder_params)
     @holder.user = current_user
+
     respond_to do |format|
       if @holder.save
-        format.html { redirect_to :back, notice: { status: 200, message: 'You were successfully assigned.' }}
+        format.html { redirect_back fallback_location: '/', notice: { status: 200, message: 'You were successfully assigned.' }}
         format.json { render :show, status: :created, location: @holder }
       else
-        format.html { redirect_to :back, notice: { status: 400, message: @holder.errors.full_messages.join('. ') }}
+        format.html { redirect_back fallback_location: '/', notice: { status: 400, message: @holder.errors.full_messages.join('. ') }}
       end
     end
   end
@@ -103,14 +110,32 @@ class HoldersController < ApplicationController
   def destroy
     @holder.destroy
     respond_to do |format|
-      format.html { redirect_to :back, notice: { status: 200, message: 'Holder was successfully destroyed.' }}
+      format.html { redirect_back fallback_location: '/', notice: { status: 200, message: "User #{@holder.user.name} was successfully removed from time slot #{@time_slot.present_time}." }}
     end
   end
 
   private
+    def authenticate_coordinator
+      
+      @line_day = LineDay.find(params[:line_day_id])
+      @time_slot = @line_day.time_slots.detect({:id => params[:time_slot_id]})
+      @holder = @time_slot.holders.detect({:id => params[:id]})
+
+      if current_user != @line_day.user
+        render :json => { status: 403, message: 'You cannot do this' }
+        return        
+      end
+      
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_holder
       @holder = Holder.find(params[:id])
+    end
+
+    def destroy_holder_params
+      # params.require(:holder).permit(:line_day_time_slot_id, :contact_id)
+      
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

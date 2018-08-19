@@ -5,8 +5,7 @@ class Holder < ApplicationRecord
   belongs_to :line_day_time_slot, class_name: 'LineDay::TimeSlot'
   validates :user_id, uniqueness: {scope: :line_day_time_slot_id, message: 'You cannot be assigned to a group more than once'}
 
-  validate :should_only_have_a_few
-  validate :time_conflicts
+  validate :should_only_have_a_few, :should_have_valid_number, :time_conflicts
 
   def should_only_have_a_few
   	# should only be able to add to max number of people
@@ -15,6 +14,9 @@ class Holder < ApplicationRecord
       errors.add(:user,'This shift is full, please sign up for another one.')
     end
 
+  end
+
+  def should_have_valid_number
     if user.phone.nil? || user.phone == "" || user.phone.gsub(/[^0-9,.]/, "").length < 10
   		errors.add(:user,'You need a valid phone number (area code AND phone number) in order to sign up for a wait group.  Please click on the "Your Acct" button on the top right and enter one in the form and click the "Update Info" button. ')
     end
@@ -42,3 +44,22 @@ class Holder < ApplicationRecord
   end
 
 end
+
+
+
+class HolderMember < Holder
+  belongs_to :member
+
+  validate :member_active
+
+  def member_active
+    if !member.checked_in
+      errors.add('member needs to check in')
+    end
+  end
+
+end
+
+# type String
+# member_id String
+

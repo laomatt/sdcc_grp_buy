@@ -72,6 +72,9 @@ namespace :test_db do
 
 		# desc "create line_up_events"
 		# LineUpEvent(id: integer, user_id: integer, name: string, description: text, start_date: date, active: boolean, location: string, created_at: datetime, updated_at: datetime)
+
+
+		
 		july18_event = LineUpEvent.create({
 			user_id: user_admin.id, 
 			name: 'Some Example Event', 
@@ -137,6 +140,7 @@ namespace :test_db do
 			})
 
 			start_h = start_h + 2.hours
+
 		end
 
 		line_day_1.time_slots.each do |slot|

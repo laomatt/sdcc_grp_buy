@@ -208,3 +208,8 @@ class User < ApplicationRecord
     end
   end
 end
+
+
+class TempUser < User
+
+end

@@ -289,7 +289,7 @@
         <div class="modal-body">
           <% if notice.is_a? Hash %>
             <p style='font-size: 25px; padding: 2%;line-height: 115%;color: white' id='notice_message'>
-            <p style='font-size: 25px; padding: 2%;line-height: 115%;color: red' id='err_notice_message'>
+            <p style='font-size: 25px; padding: 2%;line-height: 115%;color: white' id='err_notice_message'>
               <%= notice[:message] %>
             </p>
           <% else %>
@@ -317,7 +317,7 @@
         </div>
         <div class="modal-body">
           <p style='font-size: 25px; padding: 2%;line-height: 115%; color: white;' id='notice_message'>
-          <p style='font-size: 25px; padding: 2%;line-height: 115%;color: red;' id='err_notice_message'>
+          <p style='font-size: 25px; padding: 2%;line-height: 115%;color: white;' id='err_notice_message'>
           </p>
         </div>
         <div class="modal-footer">
@@ -423,8 +423,8 @@
       var mess = err_array[i];
       html += ""+mess+"\n"
     }
-   alert(html);
-    // $('#error_list').html(html);
+    $('#err_notice_message').html(html);
+    $("#noticeModal").modal('show');
   }
 
   function performPrivateSearch(){

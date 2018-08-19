@@ -10,6 +10,10 @@ RSpec.describe HoldersController, type: :controller do
   before :all do 
   	Rake::Task['test_db:set_settings_test_holders'].invoke
   	Rake::Task['test_db:create_holders_data'].invoke
+  end
+
+
+  before :each do 
 	  @user = User.create({
 	  			name: 'Session user',
 	  			email: "user@example.org", 
@@ -22,12 +26,6 @@ RSpec.describe HoldersController, type: :controller do
 		      phone: '4152796392' ,
 		      active_phone: false
 		})
-
-
-  end
-
-
-  before :each do 
 		request.env["HTTP_REFERER"] = "current_page"
 	  login @user
   end
@@ -35,13 +33,16 @@ RSpec.describe HoldersController, type: :controller do
 
   describe 'signing up for a time shift' do 
 
-	  [nil, "", "dsfadsafsda","234444"].each do |num|
+	  [nil, "", "dsfadsafsda","234444"].each_with_index do |num,idx|
 			it "tests that a user with out a valid phone number cannot sign up with number #{num}" do 
 		  # find a time slot that has a user limit of 4 and try ot sign up for it
-				current_user.update(phone: num)
+
+				@user.update(phone: num)
+
 				line_day_slot = LineDay.where("user_limit=?", 4).first.time_slots.first
+
 				post 'create', params: { holder: {line_day_time_slot_id: line_day_slot.id} }
-				
+
 				expect(flash.notice[:status]).to eq 400
 				expect(flash.notice[:message]).to eq "User You need a valid phone number (area code AND phone number) in order to sign up for a wait group.  Please click on the \"Your Acct\" button on the top right and enter one in the form and click the \"Update Info\" button. "
 				expect(response.status).to eq 302
@@ -53,18 +54,12 @@ RSpec.describe HoldersController, type: :controller do
 		it 'should sign a user up for a time shift and unassign themselves from a time slot' do 
 			line_day_slot = LineDay.where("user_limit=?", 4).first.time_slots.first
 			post 'create', params: { holder: {line_day_time_slot_id: line_day_slot.id} }
-			
-
 
 			expect(flash.notice[:status]).to eq 200
 			expect(flash.notice[:message]).to eq "You were successfully assigned."
 			expect(response.status).to eq 302
 
-
 		 	get 'erase', params: { holder: {line_day_time_slot_id: line_day_slot.id} }
-		 	
-
-
 
 			expect(flash.notice[:status]).to eq 200
 			expect(flash.notice[:message]).to eq "you were successfully unassigned from shift."
@@ -136,6 +131,43 @@ RSpec.describe HoldersController, type: :controller do
 		  	# try to assign that user to the time slot
 		# test that a user cannot sign up for non active event
 			# find the line_day_jul18 line day and try to sign up for a wait shift
+  end
+
+
+  describe 'event coordinator actions' do
+  	it 'tests that the coordinator may remove a holder from a time slot' do
+  		# line_day_time_slot = LineDay.where("user_limit=?", 4).first.time_slots.first
+
+  		# create an event for the @user logged in
+			@event = LineUpEvent.create({
+				user_id: @user.id, 
+				name: 'Valid Event for this current_user', 
+				start_date: Date.new(2018,7,18)
+			})
+
+			# create a line day for it
+			@line_day = LineDay.create({
+				day: 'sample line day',
+				user_limit: 3,
+				line_up_event_id: @event.id,
+				start: Date.new(2018,7,18) + times["7:00am"].seconds_since_midnight.seconds
+			})
+
+
+  		# hold cannot be removed by an invalid coordinator
+  		LineDay.each do |ld|
+  			valid_coordinator = ld.user
+  			# try to drop a holder from this group as @user
+  			ld.time_slots.each do |ts|
+  				ts.holders.each do |h|
+		  			delete line_day_time_slot_holder_path(:line_day_id => ld.id, :time_slot_id => ts.id, :id => h.id)
+		  			expect(response.status).to eq 403
+  				end
+  			end
+  		end
+
+  		# holder should be removed by a valid coordinator
+  	end
   end
 
 

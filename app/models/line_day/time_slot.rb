@@ -13,6 +13,10 @@ class LineDay::TimeSlot < ApplicationRecord
 			end
 		end
 
+		def user 
+			line_day.user
+		end
+
 		def present_time
 			"#{time.try(:strftime,"%l:%M %p")} - #{end_time.try('strftime',"%l:%M %p")}"			
 		end

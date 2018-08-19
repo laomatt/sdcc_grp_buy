@@ -381,7 +381,7 @@ $('body').on('click', '.update_notes', function(event) {
 			$("#start_for_dis" + data.id).text(data.start_for);
 			$("#date_for" + data.id).text(data.date_for);
 		} else {
-			$("#notice_message").css('color', 'red');
+			$("#notice_message").css('color', 'white');
 			$("#notice_message").text(data.message);
 			$("#noticeModal").modal('show');
 		}
@@ -404,7 +404,7 @@ $('body').on('click', '.delete_slot', function(event) {
       $("#noticeModal").modal('show');
       $(".time-row"+data.id).hide('500');
 		} else {
-			$("#notice_message").css('color', 'red');
+			$("#notice_message").css('color', 'white');
 			$("#notice_message").text(data.message);
 			$("#noticeModal").modal('show');
 			$(".time-row"+data.id).css('opacity', '1');

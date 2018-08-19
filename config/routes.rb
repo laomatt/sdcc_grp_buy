@@ -30,12 +30,20 @@ Rails.application.routes.draw do
       post 'default_times'
       get 'update_location'
     end
+
+    resources :time_slots do
+      resources :holders
+    end
   end
 
   resources :holders do 
     collection do 
       get 'erase'
       post 'send_text'
+    end
+
+    member do 
+
     end
   end
 

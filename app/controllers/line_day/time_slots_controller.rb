@@ -103,6 +103,11 @@ class LineDay::TimeSlotsController < ApplicationController
   # DELETE /line_day/time_slots/1
   # DELETE /line_day/time_slots/1.json
   def destroy
+    if current_user != @line_day_time_slot.user
+        render json: { :status => 403, :message => 'you have no authority to remove this' }
+      return
+    end
+
     id = @line_day_time_slot.id
     if @line_day_time_slot.destroy
        render json: { status: 200, message: 'Time slot was successfully destroyed.', id: id} 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180813154019) do
+ActiveRecord::Schema.define(version: 20180819185758) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.string   "message"
@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(version: 20180813154019) do
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.integer  "line_day_time_slot_id"
+    t.string   "type"
+    t.integer  "member_id"
     t.index ["line_day_id"], name: "index_holders_on_line_day_id"
     t.index ["user_id"], name: "index_holders_on_user_id"
   end
@@ -250,6 +252,7 @@ ActiveRecord::Schema.define(version: 20180813154019) do
     t.string   "phone"
     t.boolean  "active_phone",           default: true
     t.text     "cached_my_groups"
+    t.string   "type"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

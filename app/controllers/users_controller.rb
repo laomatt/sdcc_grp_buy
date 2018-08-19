@@ -49,10 +49,11 @@ class UsersController < ApplicationController
       # make a validation code
       # make an entry in the temp with validation code and 
       flash[:error] = "An Email has been sent to #{user_params['email']} with a verification link, please check that e-mail and click the link."
-      temp = Temp.new(:name => user.name, :password => user.password, :avatar_url => user.avatar_url, :email => user.email)
+      temp = TempUser.new(:name => user.name, :password => user.password, :avatar_url => user.avatar_url, :email => user.email)
+      # temp = Temp.new(:name => user.name, :password => user.password, :avatar_url => user.avatar_url, :email => user.email)
       temp.avatar_url = user.avatar_url
       en_code = encrypt_code(gen_code)
-      temp.val_code = en_code
+      temp.validation_code = en_code
       temp.save
 
       obj = {
@@ -74,9 +75,9 @@ class UsersController < ApplicationController
   def confirm_create
     code = params[:val]
     id = params[:id]
-    temp = Temp.find(id)
+    temp = TempUser.find(id)
     # compare params[:confirmation_code] with what is in temp for this id 
-    if code == temp.val_code
+    if code == temp.validation_code
       user = User.new(:name => temp.name, :password => temp.password, :password_confirmation => temp.password, :avatar_url => temp.avatar_url, :email => temp.email)
       if user.save
         # find member with the email of this user
