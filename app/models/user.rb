@@ -15,10 +15,11 @@ class User < ApplicationRecord
 
   has_many :holders, :dependent => :delete_all
   has_many :line_day_time_slot, :through => :holders
-  # has_many :line_day, :through => :holders
   has_many :followed_groups, :dependent => :delete_all
   has_many :direct_messages, :dependent => :delete_all
-  validates_uniqueness_of :name, :email
+  # with_options :unless => 
+  validates_uniqueness_of :name, :email, only: self.class == 'User'
+
   validate :filter_whitelist
   after_create :transfer_member_self
 
@@ -165,31 +166,28 @@ class User < ApplicationRecord
   end
 
   def my_groups
-    out = []
+    out = Set.new
 
     # all groups created by user
     groups.each do |grp|
-      grp.count_string!
-      out << grp.attributes
+      # grp.count_string!
+      out.add grp.attributes
     end
 
     # all groups followed by user
-    followed_groups.all.each do |grp|
-      grp.group.count_string!
-      out << grp.group.attributes
+    followed_groups.all.includes(:group).each do |grp|
+      # grp.group.count_string!
+      out.add grp.group.attributes
     end
 
     # all groups with a member created/sponsored by user
-    members.each do |mem|
+    members.all.includes(member_groups: :group).each do |mem|
       mem.member_groups.each do |mg|
-        mg.group.count_string!
-        out << mg.group.attributes
+        out.add mg.group.attributes
       end
     end
 
-
-
-    out.uniq
+    out
   end
 
   def my_groups!
@@ -209,7 +207,22 @@ class User < ApplicationRecord
   end
 end
 
+# STI classes
 
 class TempUser < User
+  validate :email_not_taken
+  def email_not_taken
+    if User.exists?(:email => email)
+      errors.add('This e-mail is already in our system, please try again.')
+    end
+  end
+end
 
+class PassResetUser < User
+  validate :email_exists_somewhere
+  def email_exists_somewhere
+    if User.find_by_email(email).nil?
+      errors.add('This e-mail is not in our system, please try again.')
+    end
+  end
 end

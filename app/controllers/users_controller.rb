@@ -49,11 +49,11 @@ class UsersController < ApplicationController
       # make a validation code
       # make an entry in the temp with validation code and 
       flash[:error] = "An Email has been sent to #{user_params['email']} with a verification link, please check that e-mail and click the link."
-      temp = TempUser.new(:name => user.name, :password => user.password, :avatar_url => user.avatar_url, :email => user.email)
       # temp = Temp.new(:name => user.name, :password => user.password, :avatar_url => user.avatar_url, :email => user.email)
+      temp = Temp.new(:name => user.name, :password => user.password, :avatar_url => user.avatar_url, :email => user.email)
       temp.avatar_url = user.avatar_url
       en_code = encrypt_code(gen_code)
-      temp.validation_code = en_code
+      temp.val_code = en_code
       temp.save
 
       obj = {
@@ -75,11 +75,12 @@ class UsersController < ApplicationController
   def confirm_create
     code = params[:val]
     id = params[:id]
-    temp = TempUser.find(id)
+    temp = Temp.find(id)
     # compare params[:confirmation_code] with what is in temp for this id 
-    if code == temp.validation_code
+    if code == temp.val_code
       user = User.new(:name => temp.name, :password => temp.password, :password_confirmation => temp.password, :avatar_url => temp.avatar_url, :email => temp.email)
       if user.save
+        temp.destroy
         # find member with the email of this user
         if Member.exists?(:email => user.email)
           mem = Member.find_by_email(user.email)
@@ -106,20 +107,21 @@ class UsersController < ApplicationController
   def reset_password 
     email = params[:email]
     user = User.find_by_email(email)
-    temp = Temp.new(:email => user.email)
-    code = gen_code
-    en_code = encrypt_code(code)
-    temp.val_code = code
-    temp.save
+    en_code = gen_code
+    temp = Temp.new(:email => user.email, :val_code => en_code)
+    if temp.save
+      obj = {
+        email: email, 
+        request: request,
+        temp: temp,
+        en_code: encrypt_code(en_code)
+      }
 
-    obj = {
-      email: email, 
-      request: request,
-      temp: temp,
-      en_code: en_code
-    }
-
-    MyMailer.reset_link(obj, 'Your PASSWORD RESET link from SDCC tickets').deliver
+      MyMailer.reset_link(obj, 'Your PASSWORD RESET link from SDCC tickets').deliver
+      render :json => { status: 200, message: "Validation has been sent to your e-mail.  Please find it and follow the instructions."}
+    else
+      render :json => { status: 400, message: temp.errors.full_messages.join(', ')}
+    end
 
   end
 
@@ -134,17 +136,21 @@ class UsersController < ApplicationController
     if val_code != reset_user.val_code || email != reset_user.email
       flash[:error] = 'reset not successful, bad validation.';
       redirect_to :back 
+      return
     end
 
 
     user = User.find_by_email(email)
 
     if user.reset_password(new_password, new_password_confirmation)
+      reset_user.destroy
       flash[:notice] = 'reset successful';
       redirect_to :root 
+      return
     else
       flash[:error] = user.errors.full_messages.join(', ');
       redirect_to :back 
+      return
     end
   end
 
@@ -175,11 +181,13 @@ class UsersController < ApplicationController
   end
 
   def side_menu
+    # TODO lets put this in a concern
     s3 = AWS::S3.new(
       access_key_id: ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
       region: ENV['S3_REGION']
     )
+
     bucket = s3.buckets['matt-lao-s3-development']
     @avatars = bucket.objects.with_prefix('uploads/avatars/').map{|e| e.public_url.to_s}
 

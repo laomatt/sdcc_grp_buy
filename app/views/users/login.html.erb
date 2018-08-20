@@ -223,7 +223,6 @@
 <script>
 	$('body').on('click', '.reset_pw_conf', function(event) {
 		event.preventDefault();
-		// 
 		var em = $("#login_email").val();
 
 		if (em == "" || em == null) {
@@ -237,10 +236,14 @@
 				url: '/users/reset_password',
 				data: {email: em}
 			})
-			.done(function() {
-				console.log("success");
-
-				$('#manual-login-form').html("<p class='note-message'>Validation has been sent to your e-mail.  Please find it and follow the instructions.</p>")
+			.done(function(data) {
+				if (data.status == 200) {
+					$('#manual-login-form').html("<p class='note-message'>"+data.message+"</p>")
+				} else {
+					$('#login_email').css('background-color', 'red');
+					$('#emailHelp').css('color', 'red');
+					$('#emailHelp').text(data.message);
+				}
 			})
 		}
 		
