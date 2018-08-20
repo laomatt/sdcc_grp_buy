@@ -190,7 +190,7 @@
                 
           <div class="row">
             <div class="col-lg-12">
-            <% if current_user.is_admin %>
+            <% if current_user == @event.user %>
                     
               <h1>Create a Line Up Group</h1>
 

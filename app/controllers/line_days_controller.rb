@@ -92,6 +92,10 @@ class LineDaysController < ApplicationController
   def create
     @line_day = LineDay.new(line_day_params)
 
+    if current_user != @event.user
+        render :json => {:status => 403, :message => 'not created.  Not authorizeed.'}
+    end
+
     respond_to do |format|
       if @line_day.save
         format.html { redirect_to :back, notice: { status: 200 ,message: 'Line day was successfully created.'} }
@@ -106,6 +110,12 @@ class LineDaysController < ApplicationController
   # PATCH/PUT /line_days/1
   # PATCH/PUT /line_days/1.json
   def update
+
+      if @line_day.user != current_user
+          render :json => {:status => 403, :message => 'not updated.  Not authorizeed.'}
+          return
+      end
+
       if @line_day.update(line_day_params)
         @line_day.start = line_day_params['start'].to_datetime
         @line_day.save
@@ -160,7 +170,8 @@ class LineDaysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def line_day_params
-      if current_user.is_admin?
+      @event = LineUpEvent.find(params[:line_day][:line_up_event_id])
+      if current_user == @event.user
         params.require(:line_day).permit(:day, :description, :user_limit, :start, :line_up_event_id)
       else
         params.require(:line_day).permit(:description)
