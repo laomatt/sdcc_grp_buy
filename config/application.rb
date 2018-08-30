@@ -15,5 +15,7 @@ module SdccGrpBuy
 		config.generators do |g|
 		  g.test_framework  :rspec, fixture: false
 		end
+
+		config.active_record.observers = :temp_observer, :purchase_observer, :chat_observer
   end
 end

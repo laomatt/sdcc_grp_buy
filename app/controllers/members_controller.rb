@@ -271,15 +271,30 @@ class MembersController < ApplicationController
         purchasing_member_name: purchasing_member_name,
         add_notes: add_notes
       }
-    	email_status = 'succeeded'
 
       begin
 	      MyMailer.send_confirmation(obj, "CONGRATULATIONS!  #{purchasing_member_first_name} has covered you for SDCC 2019!!").deliver
-				# render out
-				render :json => { :success => true, :member_group_id => mem_grp.id, :groups => member.member_groups.map { |e| e.group_id }.join('-'), :group_id => params[:group_id], :member_id => member.id, :message => 'purchased!', :email_status => email_status }
+
+				render status: 200, body: { 
+					success: true, 
+					member_group_id: mem_grp.id, 
+					groups: member.member_groups.map { |e| e.group_id }.join('-'), 
+					group_id: params[:group_id], 
+					member_id: member.id, 
+					message: 'purchased!', 
+					email_status: 'succeeded' 
+				}
       rescue Exception => e
       	email_status = 'failed'
-				render :json => { :success => false, :member_group_id => mem_grp.id, :groups => member.member_groups.map { |e| e.group_id }.join('-'), :group_id => params[:group_id], :member_id => member.id, :message => 'Member was purchased for but the e-mail never went through, please check the user email, or contact this person yourself', :email_status => email_status }
+      	render status: 400, body: {
+      		success: false, 
+      		member_group_id: mem_grp.id, 
+      		groups: member.member_groups.map { |e| e.group_id }.join('-'), 
+      		group_id: params[:group_id], 
+      		member_id: member.id, 
+      		message: 'Member was purchased for but the e-mail never went through, please check the user email, or contact this person yourself', 
+      		email_status: 'failed'
+      	}
       end
 
 		else
@@ -293,7 +308,8 @@ class MembersController < ApplicationController
 				errs << e
 			end
 
-			render :json => { :success => false, :message => errs, :email_status => email_status }
+			# render :json => { :success => false, :message => errs, :email_status => email_status }
+			render status: 400, body: { success: false, message: errs, email_status: email_status } 
 		end
 	end
 

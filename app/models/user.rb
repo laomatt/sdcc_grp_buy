@@ -22,6 +22,7 @@ class User < ApplicationRecord
 
   validate :filter_whitelist
   after_create :transfer_member_self
+  extend Concerns::Filterable
 
 # reset_password(new_password, new_password_confirmation)
 

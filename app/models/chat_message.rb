@@ -17,7 +17,6 @@ class ChatMessage < ApplicationRecord
 					:global_scope => e.global_scope 
 				} 
 			}
-
 	end
 
 end

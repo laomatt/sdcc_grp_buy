@@ -2,6 +2,10 @@ class UsersController < ApplicationController
 	# before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :authorize, :authenticate_user!, except: [:login, :manual_create,:manual_login,:confirm_create, :reset_password, :reset_password_view, :reset_password_work]
   before_action :validate, except: [:login, :update, :manual_create,:manual_login, :side_menu, :confirm_create, :update_user, :reset_password, :reset_password_view, :reset_password_work]
+  
+  self.per_form_csrf_tokens = true
+
+
   include SecurityHelper
 
   def login
@@ -50,7 +54,7 @@ class UsersController < ApplicationController
       # make an entry in the temp with validation code and 
       flash[:error] = "An Email has been sent to #{user_params['email']} with a verification link, please check that e-mail and click the link."
       # temp = Temp.new(:name => user.name, :password => user.password, :avatar_url => user.avatar_url, :email => user.email)
-      temp = Temp.new(:name => user.name, :password => user.password, :avatar_url => user.avatar_url, :email => user.email)
+      temp = UserTemp.new(:name => user.name, :password => user.password, :avatar_url => user.avatar_url, :email => user.email)
       temp.avatar_url = user.avatar_url
       en_code = encrypt_code(gen_code)
       temp.val_code = en_code
@@ -75,7 +79,7 @@ class UsersController < ApplicationController
   def confirm_create
     code = params[:val]
     id = params[:id]
-    temp = Temp.find(id)
+    temp = UserTemp.find(id)
     # compare params[:confirmation_code] with what is in temp for this id 
     if code == temp.val_code
       user = User.new(:name => temp.name, :password => temp.password, :password_confirmation => temp.password, :avatar_url => temp.avatar_url, :email => temp.email)
@@ -108,7 +112,7 @@ class UsersController < ApplicationController
     email = params[:email]
     user = User.find_by_email(email)
     en_code = gen_code
-    temp = Temp.new(:email => user.email, :val_code => en_code)
+    temp = ResetPasswordTemp.new(:email => user.email, :val_code => en_code)
     if temp.save
       obj = {
         email: email, 
@@ -127,7 +131,7 @@ class UsersController < ApplicationController
 
   def reset_password_work
     id = new_password_params[:id]
-    reset_user = Temp.find(id)
+    reset_user = ResetPasswordTemp.find(id)
     val_code = decrypt_code(new_password_params[:val_code])
     new_password = new_password_params[:new_password]
     new_password_confirmation = new_password_params[:new_password_confirmation]

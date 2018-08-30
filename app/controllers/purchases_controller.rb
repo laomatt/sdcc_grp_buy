@@ -105,6 +105,6 @@ class PurchasesController < ApplicationController
 	private 
 
 	def purchase_params
-		params.require(:conf).permit(:confirmation_code,:price,:covering_id,:notes,:member_id,:wensday,:thursday,:friday,:saturday,:sunday)
+		params.require(:conf).permit(:confirmation_code,:price,:covering_id,:notes,:member_id, :group_id,:wensday,:thursday,:friday,:saturday,:sunday)
 	end
 end

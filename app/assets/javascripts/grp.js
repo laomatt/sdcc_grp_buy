@@ -109,57 +109,73 @@
 		$('.add-member-footer .btn').trigger('click');
 	});
 
-	$('body').on('submit', '.member-coverage-form', function(event) {
-		event.preventDefault();
-		var data = $(this).serialize();
+	// $('body').on('submit', '.member-coverage-form', function(event) {
+	// 	event.preventDefault();
+	// 	var data = $(this).serialize();
 
-		$('.conf-modal-footer').fadeOut(500, function() {
-			$('.working-message-conf').fadeIn(500);
-		});
+	// 	$('.conf-modal-footer').fadeOut(500, function() {
+	// 		$('.working-message-conf').fadeIn(500);
+	// 	});
 
-		$.ajax({
-			url: $(this).attr('action'),
-			type: 'POST',
-			data: data,
-		})
-		.done(function(data) {
-			getGroupCount();
-			$('.working-message-conf').fadeOut(500, function() {
-				$('.conf-modal-footer').fadeIn(500);
-			});
-			if (data.success) {
-				dispatcher.trigger('cover_member', { 
-					member_id: data.member_id,
-					member_group_id:data.member_group_id,
-					group_id:data.group_id,
-					groups:data.groups, 
-					connection: connectionID
-				});
-				$('.member-coverage-form').trigger('reset');
-				$('.close-this-modal').trigger('click');
-			} else {
-				if (data.email_status == 'failed') {
-					$('.member-coverage-form').trigger('reset');
+	
+		
 
-					dispatcher.trigger('cover_member', { 
-						member_id: data.member_id,
-						member_group_id:data.member_group_id,
-						group_id:data.group_id,
-						groups:data.groups, 
-						connection: connectionID
-					});
-					$('.close-this-modal').trigger('click');
-				} else {
-					alert(data.message)
-				}
-			}
-		})
-	});
+	// 	$.ajax({
+	// 		url: $(this).attr('action'),
+	// 		type: 'POST',
+	// 		data: data,
+	// 	})
+	// 	.done(function(data) {
+	// 		console.log("success");
+	// 	})
+	// 	.fail(function() {
+	// 		console.log("error");
+	// 	})
+	// 	.always(function() {
+	// 		console.log("complete");
+	// 	});
+		
 
-	$('body').on('click', '#confirm-trigger', function(event) {
-		event.preventDefault();
-		$('.member-coverage-form').trigger('submit');
-	});
+
+
+		// .done(function(data) {
+		// 	getGroupCount();
+		// 	$('.working-message-conf').fadeOut(500, function() {
+		// 		$('.conf-modal-footer').fadeIn(500);
+		// 	});
+		// 	if (data.success) {
+		// 		dispatcher.trigger('cover_member', { 
+		// 			member_id: data.member_id,
+		// 			member_group_id:data.member_group_id,
+		// 			group_id:data.group_id,
+		// 			groups:data.groups, 
+		// 			connection: connectionID
+		// 		});
+		// 		$('.member-coverage-form').trigger('reset');
+		// 		$('.close-this-modal').trigger('click');
+		// 	} else {
+		// 		if (data.email_status == 'failed') {
+		// 			$('.member-coverage-form').trigger('reset');
+
+		// 			dispatcher.trigger('cover_member', { 
+		// 				member_id: data.member_id,
+		// 				member_group_id:data.member_group_id,
+		// 				group_id:data.group_id,
+		// 				groups:data.groups, 
+		// 				connection: connectionID
+		// 			});
+		// 			$('.close-this-modal').trigger('click');
+		// 		} else {
+		// 			alert(data.message)
+		// 		}
+		// 	}
+		// })
+	// });
+
+	// $('body').on('click', '#confirm-trigger', function(event) {
+	// 	event.preventDefault();
+	// 	$('.member-coverage-form').trigger('submit');
+	// });
 
 	function updateCoveredName(){
 		var val = $('input[name="conf[covering_id]"]').val();

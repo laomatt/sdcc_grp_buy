@@ -149,21 +149,14 @@ class BuyGroup extends React.Component {
 		    	}
 		    )
 		    // BINDING EVENTS
-// listen for any covered members across all groups in this group
+				// listen for any covered members across all groups in this group
 		    channel.bind("member_covered",function(mes) {
+		    	debugger
 			    $("#member_row_" + mes.member_group_id).addClass('member_covered');
 			    $('.active-button-' + mes.member_id).hide(500);
 
 			    member_id = mes.member_id
-			    $.ajax({
-			    	url: '/groups/present_day_container',
-			    	data: {member_id: mes.member_id},
-			    })
-			    .done(function(html) {
-			    	$('.day-holder-for' + member_id).html(html);
-			    })
 			    
-
 			    $("#action-holder-for" + mes.member_group_id).html("This member has been covered");
 		    })
 

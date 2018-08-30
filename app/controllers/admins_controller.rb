@@ -3,6 +3,7 @@ class AdminsController < ApplicationController
 	before_action :authenticate_user!, :validate_admin
 	include SecurityHelper
 
+
 	def members_index
 		if params[:page]
 			@members = Member.paginate(:page => params[:page], :per_page => 5)		
@@ -594,7 +595,8 @@ class AdminsController < ApplicationController
 	end
 
 	def search_users
-		users = User.where("lower(name) like ?", "%#{params[:search].downcase}%").first(5)
+		# users = User.where("lower(name) like ?", "%#{params[:search].downcase}%").first(5)
+		users = User.filter_aggregate({name: params[:search], email: params[:search]})
 		render :partial => 'code_results_users', :locals => { :users => users }
 	end
 

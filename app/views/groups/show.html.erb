@@ -90,4 +90,43 @@
 
 
 
+<script>
+	$('body').on('submit', '.member-coverage-form', function(event) {
+		event.preventDefault();
+		var data = $(this).serialize();
+
+		$('.conf-modal-footer').fadeOut(500, function() {
+			$('.working-message-conf').fadeIn(500);
+		});
+
+	
+		
+
+		$.ajax({
+			url: $(this).attr('action'),
+			type: 'POST',
+			data: data,
+		})
+		.done(function(data) {
+			console.log("success");
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+		
+	});
+
+	$('body').on('click', '#confirm-trigger', function(event) {
+		event.preventDefault();
+		$('.member-coverage-form').trigger('submit');
+	});
+
+	
+</script>
+
+
+
 

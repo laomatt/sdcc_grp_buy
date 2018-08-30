@@ -1,6 +1,7 @@
 class Purchase < ApplicationRecord
 	belongs_to :member
 	belongs_to :user
+	belongs_to :group
 
 	def days_string
 		output = []

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180819185758) do
+ActiveRecord::Schema.define(version: 20180830182351) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.string   "message"
@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(version: 20180819185758) do
     t.boolean  "sunday"
     t.boolean  "in_progress"
     t.string   "buyer_email"
+    t.integer  "group_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -219,6 +220,7 @@ ActiveRecord::Schema.define(version: 20180819185758) do
     t.string   "avatar_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "type"
   end
 
   create_table "text_message_records", force: :cascade do |t|
