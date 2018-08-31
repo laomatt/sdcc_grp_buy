@@ -49,6 +49,7 @@ class Group < ApplicationRecord
 			'saturday' => ' SAT ',
 			'sunday' => ' SUN '
 		}
+		# TODOL optimize this query
 		members.includes(:purchases,:member_groups,:user).map do |e| 
 			e.member_list_item(current_user,id,map)
 		end

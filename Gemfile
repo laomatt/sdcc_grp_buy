@@ -30,8 +30,6 @@ gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -51,7 +49,7 @@ gem 'autoprefixer-rails'
 gem 'dotenv-rails'
 gem 'will_paginate', '~> 3.0.6'
 # gem 'redis', '~> 3.0'
-gem 'redis', '~> 3.2.0'
+gem 'redis', '~> 3.3.0'
 # gem 'redis-namespace'
 # Use Unicorn as the app server
 # gem 'unicorn'
@@ -61,8 +59,8 @@ gem 'react-rails'
 gem 'twilio-ruby', '~> 5.10.5'
 # gem 'webpacker'
 gem 'webpacker', '~> 3.5'
-# gem 'websocket-rails', github: 'recurser/websocket-rails', branch: 'bugfix/388-latest-faye-websocket'
-gem 'websocket-rails', github: 'moaa/websocket-rails', branch: 'sync_fixes'
+gem 'websocket-rails', github: 'recurser/websocket-rails', branch: 'bugfix/388-latest-faye-websocket'
+# gem 'websocket-rails', github: 'moaa/websocket-rails', branch: 'sync_fixes'
 # gem 'websocket-rails', '~> 0.7.0'
 # gem 'websocket-rails'
 # gem 'websocket-rails', github: 'moaa/websocket-rails', branch: 'threadsocket-rails'

@@ -18,7 +18,7 @@ class BuyGroup extends React.Component {
     }
 
 		this.startDispatch(dispatcher,props.group_id);
-		console.log('starting dispatch...');
+		// console.log('starting 2dispatch...');
 
 		// $('body').on('click', '#confirm-trigger', function(event) {
 		// 	event.preventDefault();
@@ -128,7 +128,6 @@ class BuyGroup extends React.Component {
   }
 
 	startDispatch(dispatcher,id,scp){
-	  // dispatcher = new WebSocketRails(server_location + "/" + "websocket");
 		console.log('starting dispatch...')
 	  const element = this;
 
@@ -151,7 +150,7 @@ class BuyGroup extends React.Component {
 		    // BINDING EVENTS
 				// listen for any covered members across all groups in this group
 		    channel.bind("member_covered",function(mes) {
-		    	debugger
+		    	// debugger
 			    $("#member_row_" + mes.member_group_id).addClass('member_covered');
 			    $('.active-button-' + mes.member_id).hide(500);
 

@@ -18,7 +18,7 @@ WebsocketRails.setup do |config|
   if Rails.env.development?
     config.standalone = true
     config.standalone_port = 3002
-    config.redis_options = {:host => 'localhost', :port => '6379'}
+    config.redis_options = {:host => 'localhost', :port => 6379}
   else
     config.standalone = false
     config.redis_options = {:host => 'angelfish.redistogo.com', :port => '10657', :user => 'redistogo', :password => ENV["REDIS_PS"]}

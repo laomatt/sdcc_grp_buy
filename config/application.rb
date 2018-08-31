@@ -11,11 +11,11 @@ module SdccGrpBuy
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+		config.active_record.observers = :temp_observer, :purchase_observer, :chat_observer
 
 		config.generators do |g|
 		  g.test_framework  :rspec, fixture: false
 		end
 
-		config.active_record.observers = :temp_observer, :purchase_observer, :chat_observer
   end
 end
