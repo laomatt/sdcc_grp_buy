@@ -39,6 +39,9 @@ class BuyGroup extends React.Component {
 		this.signUpMember = this.signUpMember.bind(this);
 		this.addMemberToDom = this.addMemberToDom.bind(this);
 		this.signNewUpMember = this.signNewUpMember.bind(this);
+		this.showBuying = this.showBuying.bind(this);
+		this.showBuying = this.showBuying.bind(this);
+		this.unShowBuying = this.unShowBuying.bind(this);
   }
 
   closeAll() {
@@ -112,6 +115,15 @@ class BuyGroup extends React.Component {
 
 	}
 
+	showBuying(member){
+		debugger;
+	}
+
+  unShowBuying(member){
+		debugger;
+  }
+
+
 	takeOffline(){
 			this.setState({socket_loaded: false});
 			clearInterval(this.state.interval);
@@ -150,15 +162,33 @@ class BuyGroup extends React.Component {
 		    // BINDING EVENTS
 				// listen for any covered members across all groups in this group
 		    channel.bind("member_covered",function(mes) {
-		    	// debugger
-			    $("#member_row_" + mes.member_group_id).addClass('member_covered');
-			    $('.active-button-' + mes.member_id).hide(500);
+		    	debugger
+			    // $("#member_row_" + mes.member_group_id).addClass('member_covered');
+			    // $('.active-button-' + mes.member_id).hide(500);
 
-			    member_id = mes.member_id
+			    // member_id = mes.member_id
 			    
-			    $("#action-holder-for" + mes.member_group_id).html("This member has been covered");
-		    })
+			    // $("#action-holder-for" + mes.member_group_id).html("This member has been covered");
+		    });
 
+
+				channel.bind("active_member_purchase",function(mes){
+					var toRem = ['not_active','active','covered','full_covered','not_checked_in','checked_in'];
+		    	for (var i = toRem.length - 1; i >= 0; i--) {
+			    	$('.member-item-container_' + mes.member_id).removeClass(toRem[i]);
+		    	}
+
+		    	if (mes.online == 'online') {
+			    	$('.member-item-container_' + mes.member_id + ' .' + mes.dom).css('color', 'red');
+			    	$('.container__actions_' + mes.member_id).css('display', 'inline-block');
+		    	} else {
+			    	$('.member-item-container_' + mes.member_id + ' .' + mes.dom).css('color', 'black');
+			    	$('.container__actions_' + mes.member_id).css('display', 'none');
+		    	}
+
+		    	$('.member-item-container_' + mes.member_id).addClass(mes.status_class)
+		    	$('.status_message_for_' + mes.member_id).text(mes.status_msg)
+				})
 
 
 		    channel.bind("reg_member_to_group",function(mes) {

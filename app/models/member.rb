@@ -172,7 +172,8 @@ class Member < ApplicationRecord
 	end
 
 	def has_purchase
-		Purchase.exists?(:member_id => id)
+		# Purchase.exists?(:member_id => id)
+		false
 	end
 
 	def days_left

@@ -109,6 +109,10 @@
 		})
 		.done(function(data) {
 			console.log("success");
+			$("#purchase-confirmation-pop-up").modal('hide');
+			$('.working-message-conf').fadeOut(500, function() {
+				$('.conf-modal-footer').fadeIn(500);
+			});
 		})
 		.fail(function() {
 			console.log("error");

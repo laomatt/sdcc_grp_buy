@@ -44,6 +44,18 @@ class MembersController < ApplicationController
 	def present_confirmation_partial
 		mem = Member.find(params[:member_id])
 		memgrp = MemberGroup.find(params[:mem_group_id])
+		group = Group.find(memgrp.group_id)
+
+		# create sponsor
+		mem.update(sponsor_id: current_user.id)
+		# send out websocket
+		WebsocketRails["global"].trigger('active_member_purchase', {
+															room: group.id, 
+															member_id: mem.id, 
+															member_group_id: memgrp.id,
+															num_of_ppl: group.member_groups.count
+														})
+
 		render :partial => 'buy_confirm', :locals => {:member => mem, :mem_grp => memgrp}
 	end
 
@@ -272,6 +284,7 @@ class MembersController < ApplicationController
         add_notes: add_notes
       }
 
+
       begin
 	      MyMailer.send_confirmation(obj, "CONGRATULATIONS!  #{purchasing_member_first_name} has covered you for SDCC 2019!!").deliver
 
@@ -369,7 +382,7 @@ class MembersController < ApplicationController
 	end
 
 	def purchase_params
-		params.require(:conf).permit(:confirmation_code,:price,:covering_id,:notes,:member_id, :wensday, :thursday, :friday, :saturday, :sunday)
+		params.require(:conf).permit(:confirmation_code, :price, :covering_id, :notes, :member_id, :group_id, :wensday, :thursday, :friday, :saturday, :sunday)
 	end
 
 	def code_params

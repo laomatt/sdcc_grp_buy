@@ -31,7 +31,6 @@ class BuyGroupMember extends React.Component {
 		}));
   }
 
-
   closeBox(){
   	this.setState((prevState, props) => ({
 				expanded: false
@@ -57,13 +56,13 @@ class BuyGroupMember extends React.Component {
 
 
   buyModal(){
-
   	$.ajax({
 			url: '/members/present_confirmation_partial',
 			data: {member_id: this.props.member.id, mem_group_id: this.props.member_grp_id}
 		})
 		.done(function(data) {
-			console.log(data)
+			// show websocket buying
+			// console.log(data)
 			$('#confirmation-body-for-the-modal').html(data);
 	  	$('#purchase-confirmation-pop-up').modal('show');
 		})
