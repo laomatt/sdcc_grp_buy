@@ -1,4 +1,3 @@
-require 'byebug'
 
 class PurchaseObserver < ActiveRecord::Observer
 	observe :purchase
