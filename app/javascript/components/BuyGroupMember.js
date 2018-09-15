@@ -81,7 +81,7 @@ class BuyGroupMember extends React.Component {
   	var member = this.props.member;
   	var that = this;
     return (
-			<li className={"btn-lg "+(member.status_class)+" member-item-container " + (member.covered ? "covered" : "uncovered") + ' member-item-container_'+ this.props.member_id} order={this.props.idx} member_group_id={that.props.grp_id}>
+			<li className={"btn-lg "+(member.status_class)+" member-item-container " + (member.full_covered ? "covered member_covered" : "uncovered") + ' member-item-container_'+ this.props.member_id} order={this.props.idx} member_group_id={that.props.grp_id}>
 			<div className="row">
 				<div className="col-sm-4">
 							{member.name} <b>({member.sdcc_member_id})</b> 
@@ -109,7 +109,7 @@ class BuyGroupMember extends React.Component {
 						</div>
 				</div>
 
-				<div className="col-sm-2">
+				<div className={"col-sm-2 active-buttons-" + member.id}>
 					{/* status actions */}
 					<i className={"fas check_in_btn fa-check-square action-icon " + (member.checked_in ? 'action-on' : 'action-off')} onClick={that.checkIn}></i>
 					<i className={"container__actions_" + this.props.member_id + " fas fa-shopping-cart action-icon " + (member.in_progress ? 'action-on' : 'action-off')} onClick={that.buyModal} style={{display: (member.checked_in ? 'inline-block' : 'none')}}></i>

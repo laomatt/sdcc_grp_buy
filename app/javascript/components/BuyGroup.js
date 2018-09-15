@@ -153,6 +153,7 @@ class BuyGroup extends React.Component {
 		    const group_room_conn = 'buy_group_'+ id;
 		    var room_create_success = group_room_conn + '_created';
 		    var channel = dispatcher.subscribe(group_room_conn);
+		    var channelGlobal = dispatcher.subscribe('global');
 		    element.setState(
 		    	{
 			    	activeDispatcher: true,
@@ -161,18 +162,16 @@ class BuyGroup extends React.Component {
 		    )
 		    // BINDING EVENTS
 				// listen for any covered members across all groups in this group
-		    channel.bind("member_covered",function(mes) {
-		    	debugger
-			    // $("#member_row_" + mes.member_group_id).addClass('member_covered');
-			    // $('.active-button-' + mes.member_id).hide(500);
-
-			    // member_id = mes.member_id
+		    channelGlobal.bind("member_covered",function(mes) {
+			    $(".member-item-container_" + mes.member_id).addClass('member_covered');
+			    $('.active-buttons-' + mes.member_id).hide(500);
+			    $(".status_message_for_" + mes.member_id).text('COMPLETED!');
 			    
 			    // $("#action-holder-for" + mes.member_group_id).html("This member has been covered");
 		    });
 
 
-				channel.bind("active_member_purchase",function(mes){
+				channelGlobal.bind("active_member_purchase",function(mes){
 					var toRem = ['not_active','active','covered','full_covered','not_checked_in','checked_in'];
 		    	for (var i = toRem.length - 1; i >= 0; i--) {
 			    	$('.member-item-container_' + mes.member_id).removeClass(toRem[i]);

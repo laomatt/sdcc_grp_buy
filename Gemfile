@@ -74,7 +74,8 @@ gem 'rails-observers'
 # gem 'aws-sdk', '2.10.47'
 gem 'aws-sdk-s3'
 # gem 'csv'
- gem 'web-console', group: :development
+# gem "nokogiri", github: "sparklemotion/nokogiri", branch: "libxml2-2.9.1"
+gem 'web-console', group: :development
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-datetimepicker'

@@ -288,6 +288,13 @@ class MembersController < ApplicationController
       begin
 	      MyMailer.send_confirmation(obj, "CONGRATULATIONS!  #{purchasing_member_first_name} has covered you for SDCC 2019!!").deliver
 
+	      # send a websocket
+				WebsocketRails["global"].trigger('member_covered', {
+					member_id: member.id, 
+					member_group_id: mem_grp.id, 
+					group_id: pur.group_id
+				})
+				
 				render status: 200, body: { 
 					success: true, 
 					member_group_id: mem_grp.id, 
