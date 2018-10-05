@@ -10,7 +10,7 @@ Hello, <%= @member.try(:name) %><br>
       <br>
       <br>
       Total: <b><%= number_to_currency(purchase.try(:price)) %></b> <br>
-      Confirmation Code: <b><%= purchase.try(:confirmation_code) %></b> <br>
+      Confirmation: <b><%= purchase.try(:confirmation_code) %></b> <br>
       Days Purchased: <b><%= purchase.try(:days_string) %></b>
 
 </p>

@@ -1,12 +1,12 @@
   <% groups.try(:each).try(:each) do |grp| %>
     <% if grp %>
-      <li id="side-item-group-<%= grp['id'] %>" style="background-color: transparent;">
+      <li id="side-item-group-<%= grp['id'] %>" style="background-color: transparent;list-style: none;">
         <% if (!@grp.nil? && @grp.try(:id) == grp['id'])%>
           <%= grp['name'] %> <br>
           coverage: <span id="side-item-count-for-group-<%= grp['id'] %>"> <%= grp['cached_count_string'] %></span>
         <% else %>
           <a class='btn btn-lg btn-primar ln-wait-grp' href="/groups/<%= grp['id'] %>" style="width: 100%;
-    color: black;"><%= grp['name'] %> <br>
+    color: white;"><%= grp['name'] %> <br>
             coverage: <span id="side-item-count-for-group-<%= grp['id'] %>"> <%= grp['cached_count_string'] %></span>
           </a>
         <% end %>

@@ -87,7 +87,7 @@ class Member < ApplicationRecord
 		elsif covered
 			{:class => 'covered' , :msg => 'COVERED'}
 		elsif active
-			{:class => 'active' , :msg => 'PURCHASE IN PROGRESS'}
+			{:class => 'active' , :msg => 'IN PROGRESS...'}
 		elsif checked_in
 			{:class => 'checked_in' , :msg => 'PRESENT'}
 		else

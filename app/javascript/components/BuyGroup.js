@@ -166,7 +166,8 @@ class BuyGroup extends React.Component {
 			    $(".member-item-container_" + mes.member_id).addClass('member_covered');
 			    $('.active-buttons-' + mes.member_id).hide(500);
 			    $(".status_message_for_" + mes.member_id).text('COMPLETED!');
-			    
+			    $(".days_container_rightr .day_container").removeClass('uncovered_day')
+			    $(".days_container_rightr .day_container").addClass('covered_day')
 			    // $("#action-holder-for" + mes.member_group_id).html("This member has been covered");
 		    });
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180830182351) do
+ActiveRecord::Schema.define(version: 20180916022735) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.string   "message"
@@ -179,7 +179,7 @@ ActiveRecord::Schema.define(version: 20180830182351) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.integer  "member_id"
-    t.integer  "confirmation_code"
+    t.string   "confirmation_code"
     t.integer  "covering_id"
     t.float    "price"
     t.text     "notes"
