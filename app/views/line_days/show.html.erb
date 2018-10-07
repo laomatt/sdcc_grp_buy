@@ -290,6 +290,7 @@
 $('body').on('click', "#update-user-limit", function(event) {
 	event.preventDefault();
 	var that = this;
+	$('#update-user-limit').attr('disabled',true);
 	$.ajax({
 		url: '/line_days/<%= @line_day.id%>',
 		type: 'PUT',
@@ -298,10 +299,12 @@ $('body').on('click', "#update-user-limit", function(event) {
 	.done(function(data) {
 		if (data.status == 200) {
 			$('.success').text(data.message);
-			$('.user_slot_limit').text(data.limit)
-			$('.day_name').text(data.day)
-			$('.description').text(data.description)
-			$('.start').text(data.start)
+			$('.user_slot_limit').text(data.limit);
+			$('.day_name').text(data.day);
+			$('.description').text(data.description);
+			$('.start').text(data.start);
+			$('#adminModal-edit-grp').modal('hide');
+			$('#update-user-limit').attr('disabled',false);
 		} else {
 			$('.error').text(data.message);
 

@@ -1,7 +1,7 @@
 class LineDaysController < ApplicationController
   before_action :authorize, :authenticate_user!
-  before_action :user_owns_day, only: [:update]
   before_action :set_line_day, only: [:show, :edit, :update, :destroy, :update_location, :default_times]
+  before_action :user_owns_day, only: [:update]
 
   # GET /line_days
   # GET /line_days.json
@@ -170,8 +170,7 @@ class LineDaysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def line_day_params
-      @event = LineUpEvent.find(params[:line_day][:line_up_event_id])
-      if current_user == @event.user
+      if @line_day && current_user
         params.require(:line_day).permit(:day, :description, :user_limit, :start, :line_up_event_id)
       else
         params.require(:line_day).permit(:description)
