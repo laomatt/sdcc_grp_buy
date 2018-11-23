@@ -5,7 +5,31 @@ class LineDay::TimeSlot < ApplicationRecord
 		default_scope { order(:time => :asc) }
 		before_save :cover_end_time
 
-		# validate :time_in_order
+		around_save :inform_users
+
+		validate :time_in_order
+
+		def inform_users
+			orig_slot = {}
+
+			orig_slot['day'] = day_was
+			orig_slot['time'] = time_was
+			orig_slot['end_time'] = end_time_was
+			orig_slot['description'] = description_was
+
+			yield
+			
+			slot = attributes.clone
+
+			users.map{|e| e.email}.each do |e|
+        obj = {
+          email: e,
+          orig_slot: orig_slot,
+          slot: slot
+        }
+        MyMailer.inform_of_change(obj, "CHANGE IN YOUR TIME WAIT GROUP for #{line_day.day}").deliver
+      end
+		end
 
 		def time_in_order
 			if time >= end_time

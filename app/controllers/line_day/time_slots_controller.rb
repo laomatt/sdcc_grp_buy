@@ -75,6 +75,7 @@ class LineDay::TimeSlotsController < ApplicationController
   # PATCH/PUT /line_day/time_slots/1
   # PATCH/PUT /line_day/time_slots/1.json
   def update
+    # @orig_slot = @line_day_time_slot.attributes
 
     line_day_time_slot_params = params.require(:line_day_time_slot).permit(:day, :description, :time, :line_day_id, :end_time) if line_day_time_slot_params.nil?
 
@@ -92,7 +93,6 @@ class LineDay::TimeSlotsController < ApplicationController
       send_back['start_for'] = @line_day_time_slot.present_time
       send_back['date_for'] = @line_day_time_slot.present_date
       send_back['status'] = 200
-
     else
       send_back = { :status => 400, :message => @line_day_time_slot.errors.full_messages.join(', ')}
     end

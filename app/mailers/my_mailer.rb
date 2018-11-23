@@ -38,6 +38,11 @@ class MyMailer < ApplicationMailer
     send_it(@email,subject,options)
   end
 
+  def inform_of_change(options, subject='CHANGE IN YOUR TIME WAIT GROUP')
+    @options = options
+    send_it(@email,subject,options)
+  end
+
   def invite_back(options, subject='SDCC Tickets')
     @options = options
 

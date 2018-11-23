@@ -14,21 +14,23 @@ require 'faker'
 # 50.times do 
 # 	Group.create(:name => Faker::Hipster.sentence, :user_id => 3)
 # end
-ld = LineDay.find(8)
-
-ld.time_slots.each do |ts|
-	5.times do 
-		user = User.new(:email => Faker::Internet.safe_email, :name => Faker::Internet.user_name, :avatar_url => nil, :password => 'password', :phone => '4153332222')
-		if user.save
-			h = Holder.new(:user => user, :line_day_time_slot => ts)
-			if !h.save
-				p h.errors.full_messages
-			end
-		else
-			p user.errors.full_messages
-		end
-	end
-end
+# e = LineUpEvent.find(3)
+# # ld = LineDay.find(14)
+# e.line_days.each do |ld|
+# 	ld.time_slots.each do |ts|
+# 		5.times do 
+# 			user = User.new(:email => Faker::Internet.safe_email, :name => Faker::Internet.user_name, :avatar_url => nil, :password => 'password', :phone => '4153332222')
+# 			if user.save
+# 				h = Holder.new(:user => user, :line_day_time_slot => ts)
+# 				if !h.save
+# 					p h.errors.full_messages
+# 				end
+# 			else
+# 				p user.errors.full_messages
+# 			end
+# 		end
+# 	end
+# end
 
 # 40.times do 
 	# user = User.new(:email => Faker::Internet.safe_email, :name => Faker::Internet.user_name, :avatar_url => Faker::Avatar.image("my-own-slug", "50x50"), :password => 'password')
@@ -75,8 +77,7 @@ end
 # end
 
 
-LineDay::TimeSlot.all.each do |ts|
-	ts.end_time = ts.time + 1.hour
-	ts.save
-
-end
+# LineDay::TimeSlot.all.each do |ts|
+# 	ts.end_time = ts.time + 1.hour
+# 	ts.save
+# end

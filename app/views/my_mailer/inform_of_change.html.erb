@@ -1,0 +1,39 @@
+Hello, 
+
+<br>
+
+<p>
+	Your timeslot has been changed by the administrator of the group,  Please see the details below.
+</p>
+<p style="padding: 3%;
+    background-color: #f1e7e7;
+    width: 50%;
+    margin: 0 auto;
+    padding-top: 1%;
+    padding-bottom: 1%;">
+
+  <% if @options[:orig_slot]['day'] != @options[:slot]['day'] %>
+		Event: <span style='color:#b7cad4;'><%= @options[:orig_slot]['day'] %>  --> </span>  <b style="color: red"><%= @options[:slot]['day'] %></b><br>
+	<% else %>
+		Event: <%= @options[:slot]['day'] %><br>
+	<% end %>
+
+	<% if @options[:orig_slot]['time'] != @options[:slot]['time'] %>
+		Start: <span style='color:#b7cad4;'><%= @options[:orig_slot]['time'].try('strftime',"%l:%M %p") %>  --> </span>  <b style="color: red"><%= @options[:slot]['time'].try('strftime',"%l:%M %p") %></b><br>
+	<% else %>
+		Start: <%= @options[:slot]['time'].try('strftime',"%l:%M %p") %><br>
+	<% end %>
+
+	<% if @options[:orig_slot]['end_time'] != @options[:slot]['end_time'] %>
+		End: <span style='color:#b7cad4;'><%= @options[:orig_slot]['end_time'].try('strftime',"%l:%M %p") %>  --> </span>  <b style="color: red"><%= @options[:slot]['end_time'].try('strftime',"%l:%M %p") %></b><br>
+	<% else %>
+		End: <%= @options[:slot]['end_time'].try('strftime',"%l:%M %p") %><br>
+	<% end %>
+
+	<% if @options[:orig_slot]['description'] != @options[:slot]['description'] %>
+		Notes: <span style='color:#b7cad4;'><%= @options[:orig_slot]['description'] %>  --> </span>  <b style="color: red"><%= @options[:slot]['description'] %></b><br>
+	<% else %>
+		Notes: <%= @options[:slot]['description'] %><br>
+	<% end %>
+
+</p>
