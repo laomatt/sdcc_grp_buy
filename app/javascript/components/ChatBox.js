@@ -236,7 +236,6 @@ class ChatBox extends React.Component {
 		    	}
 
 		    	if (typeof message.connection_id != 'undefined' ) {
-		    		console.log('dsfiii');
 			    	element.addCommentToDom(message);
 		    	}
 		    });
