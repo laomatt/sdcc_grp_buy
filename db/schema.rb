@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180916022735) do
+ActiveRecord::Schema.define(version: 20181223182439) do
 
   create_table "chat_messages", force: :cascade do |t|
     t.string   "message"
@@ -19,6 +19,18 @@ ActiveRecord::Schema.define(version: 20180916022735) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.boolean  "global_scope", default: false
+  end
+
+  create_table "convention_events", force: :cascade do |t|
+    t.integer  "line_up_event_id"
+    t.string   "title"
+    t.text     "description"
+    t.string   "location"
+    t.string   "category"
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "direct_messages", force: :cascade do |t|

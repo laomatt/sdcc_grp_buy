@@ -85,6 +85,8 @@ group :development, :test do
   gem 'sqlite3'
   gem 'mailcatcher'
   gem 'byebug'
+  # gem 'pry-bug'
+  gem 'pry-byebug', '~> 3.4'
   
   gem 'listen'
   gem 'database_cleaner'
