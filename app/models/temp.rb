@@ -7,7 +7,7 @@ class Temp < ApplicationRecord
         en_code: en_code
       }
 
-      case temp.type
+      case temp.class.to_s
       when 'UserTemp'
 	      MyMailer.val_link(obj, 'Your validation link from SDCC tickets').deliver
       when 'ResetPasswordTemp'
