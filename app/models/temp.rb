@@ -1,5 +1,5 @@
 class Temp < ApplicationRecord
-	def self.send_email(request,temp)
+	def self.send_email(request,temp,en_code)
 		  obj = {
         email: temp.email, 
         request: request,

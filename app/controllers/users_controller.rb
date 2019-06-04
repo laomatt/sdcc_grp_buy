@@ -59,7 +59,7 @@ class UsersController < ApplicationController
       en_code = encrypt_code(gen_code)
       temp.val_code = en_code
       temp.save
-      Temp.send_email(request,temp)
+      Temp.send_email(request,temp,en_code)
 
       obj = {
         email: user_params['email'], 
