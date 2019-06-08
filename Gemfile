@@ -84,8 +84,9 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'sqlite3'
   gem 'mailcatcher'
-  gem 'byebug'
+  # gem 'byebug'
   # gem 'pry-bug'
+  # gem 'libreadline'
   gem 'pry-byebug', '~> 3.4'
   
   gem 'listen'

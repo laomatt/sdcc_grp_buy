@@ -6,6 +6,6 @@ module Concerns::Filterable
       results << self.where("#{key} like ?", "%#{value}%")
     end
     
-    results
+    results.try(:first).try(:to_a)
   end
 end
