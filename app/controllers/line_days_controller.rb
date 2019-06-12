@@ -2,7 +2,7 @@ class LineDaysController < ApplicationController
   before_action :authorize, :authenticate_user!
   before_action :set_line_day, only: [:show, :edit, :update, :destroy, :update_location, :default_times]
   before_action :user_owns_day, only: [:update]
-  before_action :find_event, only: [:update]
+  before_action :find_event, only: [:update, :create]
 
   # GET /line_days
   # GET /line_days.json
