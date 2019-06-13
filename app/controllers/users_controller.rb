@@ -89,7 +89,7 @@ class UsersController < ApplicationController
 
       # MyMailer.val_link(obj, 'Your validation link from SDCC tickets').deliver
 
-      redirect_to :back
+      # redirect_to :back
     else
       flash[:error] = user.errors.full_messages.join(', ')
       redirect_to :back
