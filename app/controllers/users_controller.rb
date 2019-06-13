@@ -59,16 +59,35 @@ class UsersController < ApplicationController
       en_code = encrypt_code(gen_code)
       temp.val_code = en_code
       temp.save
-      Temp.send_email(request,temp,en_code)
 
-      obj = {
-        email: user_params['email'], 
-        request: request,
-        temp: temp,
-        en_code: en_code
-      }
 
-      MyMailer.val_link(obj, 'Your validation link from SDCC tickets').deliver
+      user = User.new(:name => temp.name, :password => temp.password, :password_confirmation => temp.password, :avatar_url => temp.avatar_url, :email => temp.email)
+      if user.save
+        temp.destroy
+        # find member with the email of this user
+        if Member.exists?(:email => user.email)
+          mem = Member.find_by_email(user.email)
+          mem.user_id = user.id
+          mem.save
+        end
+        sign_in(:user, user)
+        redirect_to :side_menu_users
+      else
+        flash[:error] = user.errors.full_messages.join(', ')
+        redirect_to '/'
+      end
+
+      
+      # Temp.send_email(request,temp,en_code)
+
+      # obj = {
+      #   email: user_params['email'], 
+      #   request: request,
+      #   temp: temp,
+      #   en_code: en_code
+      # }
+
+      # MyMailer.val_link(obj, 'Your validation link from SDCC tickets').deliver
 
       redirect_to :back
     else
