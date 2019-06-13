@@ -11,7 +11,7 @@ class ChatObserver < ActiveRecord::Observer
 				user_id: chat_message[:user_id] 
 			})
 		else
-			WebsocketRails["chat_box_#{room}"].trigger('add_room_message', {
+			WebsocketRails["chat_box_#{chat_message[:group_id]}"].trigger('add_room_message', {
 				room: chat_message[:group_id], 
 				message_id: chat_message[:id], 
 				user_id: chat_message[:user_id]
