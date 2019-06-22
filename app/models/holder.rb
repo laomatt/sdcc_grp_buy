@@ -34,7 +34,7 @@ class Holder < ApplicationRecord
 
     taken = user.find_taken
     while start_hour.hour < end_hour.hour
-      curr_time = taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}"]
+      curr_time = taken["#{start_hour.month}-#{start_hour.day}-#{start_hour.hour}-#{start_hour.year}"]
       if curr_time
         errors.add(:user, "You have a time conflict with: #{curr_time['day']} (#{curr_time['present_time']})")
         break
