@@ -87,6 +87,7 @@ group :development, :test do
   # gem 'byebug'
   # gem 'pry-bug'
   # gem 'libreadline'
+  gem 'rb-readline', '~> 0.5.3'
   gem 'pry-byebug', '~> 3.4'
   
   gem 'listen'

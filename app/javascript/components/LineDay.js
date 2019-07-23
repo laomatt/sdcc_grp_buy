@@ -22,31 +22,32 @@ export default class LineDay extends React.Component {
 
         <div className='line-day'>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-lg-12">
 
               <a href={this.state.link} className="btn btn-primary btn-lg" style={{width: '100%'}}>
-                {that.props.day.day}
+                  <div className="col-md-8" style={{textAlign: 'left'}}>
+                    { that.props.owner ? 
+                      <div className='img-line-day-container'>
+                        {that.props.day.day}
+                      </div>
+                      :
+                      <div></div>
+                    }
+                  </div>
+                  <div className="col-md-4" style={{textAlign: 'left'}}>
+                      <p>
+                        {that.props.day.description}
+                        by: {that.props.owner.name} <br/>
+                      </p>
+                      <p>
+                        starts: {that.props.start}
+                      </p>
+                  </div>
+
               </a>
 
             </div>
             
-            <div className="col-md-8" style={{textAlign: 'left'}}>
-              { that.props.owner ? 
-                <div className='img-line-day-container'>
-                  by: {that.props.owner.name} <br/>
-
-                  <p>
-                    {that.props.day.description}
-                  </p>
-
-                  <p>
-                    starts: {that.props.start}
-                  </p>
-                </div>
-                :
-                <div></div>
-              }
-            </div>
 
 
           </div>

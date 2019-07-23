@@ -772,19 +772,20 @@
         margin-bottom: 15px;
         font-size: 20px;
     }
+    
     .line-day-event-container {
-    position: relative;
-    display: inline-grid;
-    width: 30%;
-    padding: 2%;
-    /* margin: 1px; */
-    height: 350px;
-    overflow: scroll;
-    overflow-wrap: all;
-    background-color: #222d32;
-    border: solid #edf0f6 1px;
-    border-radius: 10px;
-}
+        position: relative;
+        display: inline-grid;
+        width: 90%;
+        /* padding: 2%; */
+        /* margin: 1px; */
+        height: 100px;
+        overflow: auto;
+        overflow-wrap: all;
+        background-color: #222d32;
+        border: solid #edf0f6 1px;
+        border-radius: 10px;
+    }
 
     .code_container .code {
         padding-left: 6%;
@@ -1573,9 +1574,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 
     .line-day {
-        width: 90%;
-        padding: 2%;
-        margin: 1%;
+        width: 100%;
+        /*padding: 2%;*/
+        /*margin: 1%;*/
         font-size: 20px;
         font-weight: bold;
         background-color: #775b5b;
@@ -1744,6 +1745,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .img-line-day-container {
     padding: 2px;
+    font-size: 100px;
 }
 
 .day_container {
