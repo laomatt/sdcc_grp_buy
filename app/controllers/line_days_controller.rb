@@ -2,7 +2,7 @@ class LineDaysController < ApplicationController
   before_action :authorize, :authenticate_user!
   before_action :set_line_day, only: [:show, :edit, :update, :destroy, :update_location, :default_times]
   before_action :user_owns_day, only: [:update]
-  before_action :find_event, only: [:update, :create]
+  before_action :find_event, only: [:create]
 
   # GET /line_days
   # GET /line_days.json
@@ -151,7 +151,6 @@ class LineDaysController < ApplicationController
 
   def find_event
     @event = LineUpEvent.find(params[:line_day][:line_up_event_id])
-    
   end
 
     def user_owns_day

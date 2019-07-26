@@ -1,5 +1,5 @@
 <% if current_user %>
   <% current_user.active_line_days.try(:each) do |grp| %>
-      <li><a href="/line_days/<%= grp.id %>" style="" class='btn btn-lg btn-primar ln-wait-grp <%= group == grp.id ? 'selected_group' : 'not_selected' %>'><%= grp.day %></a></li>
+      <li><a href="/line_days/<%= grp.id %>" style="" class='btn btn-lg btn-primary ln-wait-grp <%= group == grp.id ? 'selected_group' : 'not_selected' %>'><%= grp.day %></a></li>
   <% end %>
 <% end %>

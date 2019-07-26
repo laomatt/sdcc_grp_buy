@@ -92,48 +92,18 @@
                     </li>
                   </div>
                  <% end %>
-
-
-
               <li class="">
                 <a href="#" class='btn btn-lg dropdown-toggle' data-toggle='dropdown'>
-                  TICKET GROUPS
+                        CURRENT SHIFTS
                 </a>
-
                 <ul class="dropdown-menu">
-                  <% if !current_user.try(:is_valid?) && current_user.has_a_val_code? %>
-                    <li class="">
-                      <a href="/" class='btn btn-lg btn-danger'>Enter validation code</a>
-                    </li>
-                  <% end %>
-                  <% if current_user.try(:is_valid?) %>
-                    <li class="">
-                      <a href="/purchases" class='btn btn-lg'>PURCHASES</a>
-                    </li>
-                  <% end %>
-
-                  <% if current_user.try(:is_valid?) %>
-                    <li class="">
-                      <a href="/groups/new" class='btn btn-lg'>+GROUP</a>
-                    </li>
-                  <% end %>
-                  <li class="">
-                    <a href="/groups" class='btn btn-lg'>GROUPS</a>
-                  </li>
-                  <% if current_user.try(:is_valid?) %>
-                    <li class="">
-                      <a href="/members/new" class='btn btn-lg'>+MEMBER</a>
-                    </li>
-                  <% end %>
-                  <li class="">
-                    <a href="/members" class='btn btn-lg'>MEMBERS</a>
-                  </li>
+                  <%= render :partial => 'line_days/line_day_list', :locals => { :group => @grp_id } %>
                 </ul>
               </li>
 
 
               <li class="">
-                <a href="/line_up_events" class='btn btn-lg dropdown-toggle' data-toggle='dropdown'>LINE UP EVENT</a>
+                <a href="/line_up_events" class='btn btn-lg dropdown-toggle' data-toggle='dropdown'>QUICK GUIDE</a>
                 <ul class="dropdown-menu">
                   <li>
                       <a href="<%= new_line_up_event_path %>" class='btn btn-lg btn-primary'>
@@ -153,7 +123,7 @@
                       </a>
                   </li>
 
-
+                  <li><a href="/line_days/my_schedule" style="" class='btn btn-lg btn-primar ln-wait-grp'><i class="far fa-calendar-alt"></i> My Schedule</a></li>
 
                 </ul>
               </li>
