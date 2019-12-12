@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   def authorize
     if !current_user
-  		redirect_to root_path
+  		redirect_to '/'
     end
   end
 

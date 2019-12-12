@@ -144,8 +144,8 @@ Rails.application.routes.draw do
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  # root 'users#login'
-  root 'line_up_events#index'
+  root 'users#login'
+  # root 'line_up_events#index'
   get '/under_construction', to: 'application#under_construction'
 
   # match 'auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
